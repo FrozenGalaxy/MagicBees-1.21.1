@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "magicbees.mixin",
+  "package": "eu.dsix.magicbees.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BeeSpeciesManagerMixin"

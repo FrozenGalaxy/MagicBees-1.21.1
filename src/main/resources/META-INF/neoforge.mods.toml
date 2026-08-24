@@ -7,7 +7,8 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 authors="Elec332, MysteriousAges"
-credits="SirSengir, Azanor, Binnie, the Forestry developers, and the maintainers of the modern compatibility targets"
+credits="Port by dsix. Original Magic Bees 1.12.2 by MysteriousAges and contributors, specifically MagicBees-1.12.2-3.2.25.jar on CurseForge: https://www.curseforge.com/minecraft/mc-mods/magic-bees. Additional thanks to SirSengir, Azanor, Binnie, the Forestry developers, and the maintainers of the modern compatibility targets"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/magic-bees"
 description='''
 A faithful modern continuation of Magic Bees: a magical bee expansion and cross-mod addon for ForestryCE.
 '''
