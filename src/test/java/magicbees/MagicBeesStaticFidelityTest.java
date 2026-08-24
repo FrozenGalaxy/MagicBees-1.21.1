@@ -44,11 +44,13 @@ class MagicBeesStaticFidelityTest {
             "mutable", "transmuting", "crumbling",
             "gold", "copper", "tin", "silver", "lead", "aluminium", "ardite", "cobalt", "manyullyn", "osmium",
             "electrum", "platinum", "nickel", "invar", "bronze", "diamond", "emerald", "apatite", "silicon", "certus", "fluix",
-            "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
-            "te_coal", "te_destabilized", "te_lux",
             "bot_rooted", "bot_botanic", "bot_blossom", "bot_floral", "bot_vazbee", "bot_somnolent", "bot_dreaming", "bot_alfheim",
             "ae_skystone"
         );
+    private static final List<String> THERMAL_SPECIES = List.of(
+            "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
+            "te_coal", "te_destabilized", "te_lux"
+    );
         private static final List<String> THAUMIC_SPECIES = List.of(
             "tc_air", "tc_fire", "tc_water", "tc_earth", "tc_order", "tc_entropy",
             "tc_vis", "tc_rejuvenating", "tc_empowering", "tc_nexus", "tc_taint", "tc_pure",
@@ -205,6 +207,13 @@ class MagicBeesStaticFidelityTest {
                     "data/magicbees/bee_species/" + species + ".json") != null,
                     "Missing live bee species definition: " + species);
         }
+        if (thermalAvailable()) {
+            for (String species : THERMAL_SPECIES) {
+                assertTrue(getClass().getClassLoader().getResource(
+                                "data/magicbees/bee_species/" + species + ".json") != null,
+                        "Missing Thermal live bee species definition: " + species);
+            }
+        }
         for (String mutation : List.of("aware", "spirit_from_ethereal", "soul", "skulking", "bigbad")) {
             assertTrue(getClass().getClassLoader().getResource(
                     "data/magicbees/recipe/bee_mutation/" + mutation + ".json") != null,
@@ -322,6 +331,7 @@ class MagicBeesStaticFidelityTest {
         @Test
         void everySpeciesHasACompleteReachableLegacyAcquisitionDefinition() throws IOException {
             Set<String> expected = new HashSet<>(NATIVE_SPECIES);
+            expected.addAll(THERMAL_SPECIES);
             expected.addAll(THAUMIC_SPECIES);
             Map<String, List<MutationEdge>> mutations = new HashMap<>();
             Path mutationDirectory = Path.of("src/main/resources/data/magicbees/recipe/bee_mutation");
@@ -597,6 +607,15 @@ class MagicBeesStaticFidelityTest {
                             "Native species " + species + " bakes an optional-mod item specialty: " + namespace);
                 }
             }
+            if (thermalAvailable()) {
+                for (String species : THERMAL_SPECIES) {
+                    String json = resource("data/magicbees/bee_species/" + species + ".json");
+                    for (String namespace : List.of("thermal:", "ae2:", "botania:", "railcraft:", "thaumaturge:")) {
+                        assertTrue(!json.contains("\"item\": \"" + namespace),
+                                "Thermal species " + species + " bakes an optional-mod item specialty: " + namespace);
+                    }
+                }
+            }
             for (String disabled : List.of(
                     "data/magicbees/bee_species/te_winsome.json",
                     "data/magicbees/bee_species/te_endearing.json",
@@ -627,6 +646,37 @@ class MagicBeesStaticFidelityTest {
 
     private static boolean hasModGuard(String json, String modId) {
         return json.contains("\"modid\": \"" + modId + "\"") || json.contains("\"modid\":\"" + modId + "\"");
+    }
+
+    private static boolean thermalAvailable() {
+        return List.of("cofh_core", "thermal_core", "thermal_foundation", "thermal_expansion").stream()
+                .allMatch(artifact -> localMavenArtifactExists("com.teamcofh", artifact));
+    }
+
+    private static boolean localMavenArtifactExists(String artifactGroup, String artifactName) {
+        Path artifactRoot = Path.of(System.getProperty("maven.repo.local",
+                        Path.of(System.getProperty("user.home"), ".m2", "repository").toString()))
+                .resolve(artifactGroup.replace('.', '/'))
+                .resolve(artifactName);
+        if (!Files.isDirectory(artifactRoot)) {
+            return false;
+        }
+        try (var versions = Files.list(artifactRoot)) {
+            return versions.anyMatch(version -> Files.isDirectory(version) && containsJar(version));
+        } catch (IOException exception) {
+            return false;
+        }
+    }
+
+    private static boolean containsJar(Path versionDirectory) {
+        try (var files = Files.list(versionDirectory)) {
+            return files.anyMatch(file -> Files.isRegularFile(file)
+                    && file.getFileName().toString().endsWith(".jar")
+                    && !file.getFileName().toString().endsWith("-sources.jar")
+                    && !file.getFileName().toString().endsWith("-javadoc.jar"));
+        } catch (IOException exception) {
+            return false;
+        }
     }
 
     private static Set<String> magicBeesFlowerTypesUsedBySpecies() throws IOException {
