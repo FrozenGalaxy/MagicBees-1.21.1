@@ -16,10 +16,9 @@ import net.minecraft.world.item.ItemStack;
 public final class EffectJarRenderer implements BlockEntityRenderer<EffectJarBlockEntity> {
     public EffectJarRenderer(BlockEntityRendererProvider.Context context) {}
     @Override public void render(EffectJarBlockEntity jar, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
-        if (!MagicBeesConfig.CLIENT.fancyJarRenderer.get() || !Minecraft.useFancyGraphics()) return;
-        if (!(IIndividualHandlerItem.getIndividual(jar.getQueenStack()) instanceof IBee bee)) return;
-        ItemStack drone = bee.createStack(BeeLifeStage.DRONE);
-        if (drone.isEmpty() || jar.getLevel() == null) return;
+        if (!MagicBeesConfig.CLIENT.fancyJarRenderer.get()) return;
+        ItemStack display = displayStack(jar);
+        if (display.isEmpty() || jar.getLevel() == null) return;
         double time = jar.getLevel().getGameTime() + partialTick;
         float angle = (float) (time % 360.0D);
         pose.pushPose();
@@ -27,7 +26,16 @@ public final class EffectJarRenderer implements BlockEntityRenderer<EffectJarBlo
         pose.scale(0.625F, 0.625F, 0.625F);
         pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(angle * 3F));
         pose.translate(0D, Math.cos(Math.toRadians(angle)) * 0.1D, 0D);
-        Minecraft.getInstance().getItemRenderer().renderStatic(drone, ItemDisplayContext.GROUND, light, overlay, pose, buffers, jar.getLevel(), 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(display, ItemDisplayContext.GROUND, light, overlay, pose, buffers, jar.getLevel(), 0);
         pose.popPose();
+    }
+
+    private static ItemStack displayStack(EffectJarBlockEntity jar) {
+        if (IIndividualHandlerItem.getIndividual(jar.getQueenStack()) instanceof IBee bee) {
+            return bee.createStack(BeeLifeStage.QUEEN);
+        }
+        ItemStack visible = jar.getVisibleStack();
+        if (!visible.isEmpty()) return visible.copyWithCount(1);
+        return ItemStack.EMPTY;
     }
 }

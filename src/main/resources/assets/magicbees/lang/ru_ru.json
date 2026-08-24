@@ -130,6 +130,7 @@
   "moon.crescentitem.magicbees.wax.ng": "Бальзамическая луна",
   "moon.new": "Новолуние",
   "backpack.thaumaturge": "Рюкзак тауматурга",
+  "item.magicbees.backpack_thaumaturge": "Рюкзак тауматурга",
   "item.magicbees.roup.magicBees": "Magic Bees",
   "misc.level": "Уровень %s",
   "misc.magnetActive": "%s - активирован",
