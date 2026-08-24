@@ -167,6 +167,12 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 //minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 //minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
 
+// Run-only compatibility/runtime mods. Keep this defined before runs so NeoGradle can wire
+// individual launch configs without leaking these dependencies into runClientMinimal.
+configurations {
+    fullAddonRuntime
+}
+
 // Default run configurations.
 // These can be tweaked, removed, or duplicated as needed.
 runs {
@@ -190,11 +196,24 @@ runs {
     }
 
     client {
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.fullAddonRuntime
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
+    clientMinimal {
+        runType 'client'
+        // Lean client for checking Magic Bees against Forestry without optional addon integrations.
+        configureFromTypeWithName false
+        configureFromDependencies false
+        runtimeClasspath configurations.runtimeClasspath
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+
     server {
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.fullAddonRuntime
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         argument '--nogui'
     }
@@ -203,10 +222,14 @@ runs {
     // By default, the server will crash when no gametests are provided.
     // The gametest system is also enabled by default for other run configs under the /test command.
     gameTestServer {
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.fullAddonRuntime
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
     data {
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.fullAddonRuntime
         // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
         // workingDirectory project.file('run-data')
 
@@ -220,16 +243,7 @@ runs {
 // a dependency that will be present for runtime testing but that is
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
-    localRuntime.extendsFrom clientRuntime
-    runtimeClasspath.extendsFrom localRuntime
-    testRuntimeClasspath.extendsFrom localRuntime
-    clientRuntime
-}
-
-tasks.withType(JavaExec).configureEach {
-    if (name == 'runClient') {
-        classpath += configurations.clientRuntime
-    }
+    testRuntimeClasspath.extendsFrom localRuntime, fullAddonRuntime
 }
 
 def projectEClientDependency = localMavenArtifactVersion('moze_intel.projecte', 'ProjectE') == projecte_version
@@ -249,17 +263,10 @@ dependencies {
     implementation("thedarkcolour.forestry:forestry-1.21.1:${forestry_version}") {
         transitive = false
     }
-    localRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
+    fullAddonRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
 
-    // Match the supplied Binnie ForestryCE development setup: consume Forestry itself
-    // non-transitively, then add Forestry's runtime prerequisites explicitly.
-    implementation "dev.architectury:architectury-neoforge:${architectury_version}"
-    implementation "dev.latvian.mods:rhino:${rhino_version}"
-    implementation "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
-    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
-
-    // Forestry requires Patchouli at runtime; as in Binnie, keep it on the dev
-    // runtime without making Magic Bees compile against Patchouli unnecessarily.
+    // Forestry requires Patchouli at runtime; keep it available for every dev run,
+    // including the minimal client, without making Magic Bees compile against it.
     localRuntime "vazkii.patchouli:Patchouli:${patchouli_version}"
     localRuntime "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
     compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
@@ -267,11 +274,15 @@ dependencies {
 
     // The development client always carries every publicly resolvable supported addon. Repository order keeps
     // local publications authoritative; public Maven repositories are fallbacks.
-    clientRuntime("vazkii.botania:botania-neoforge-1.21.1:${botania_version}") { transitive = false }
-    clientRuntime("org.appliedenergistics:appliedenergistics2:${ae2_version}")
-    clientRuntime(projectEClientDependency) { transitive = false }
-    clientRuntime("maven.modrinth:railcraft-reborn:${railcraft_version}") { transitive = false }
-    clientRuntime("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_nouveau_version}") {
+    fullAddonRuntime "dev.architectury:architectury-neoforge:${architectury_version}"
+    fullAddonRuntime "dev.latvian.mods:rhino:${rhino_version}"
+    fullAddonRuntime "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
+    fullAddonRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    fullAddonRuntime("vazkii.botania:botania-neoforge-1.21.1:${botania_version}") { transitive = false }
+    fullAddonRuntime("org.appliedenergistics:appliedenergistics2:${ae2_version}")
+    fullAddonRuntime(projectEClientDependency) { transitive = false }
+    fullAddonRuntime("maven.modrinth:railcraft-reborn:${railcraft_version}") { transitive = false }
+    fullAddonRuntime("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_nouveau_version}") {
         // These are already present on the shared development runtime. Excluding Ars' older declarations avoids
         // loading two versions of the same mod when the client-only configuration is added to runClient.
         exclude group: 'vazkii.patchouli'
@@ -286,12 +297,12 @@ dependencies {
         compileOnly("com.leclowndu93150:thaumaturge:${thaumaturge_version}") {
             transitive = false
         }
-        localRuntime("com.leclowndu93150:thaumaturge:${thaumaturge_version}") {
+        fullAddonRuntime("com.leclowndu93150:thaumaturge:${thaumaturge_version}") {
             transitive = false
         }
     }
 
-	localRuntime "curse.maven:terrablender-neoforge-940057:6054947"
+	fullAddonRuntime "curse.maven:terrablender-neoforge-940057:6054947"
 
     // Optional Thermal compatibility. Consume each locally published CoFH/Thermal artifact
     // non-transitively as well. We explicitly provide the CoFH/Thermal module chain below, so their local
@@ -302,10 +313,10 @@ dependencies {
         compileOnly("com.teamcofh:thermal_foundation:${thermal_foundation_version}") { transitive = false }
         compileOnly("com.teamcofh:thermal_expansion:${thermal_expansion_version}") { transitive = false }
 
-        localRuntime("com.teamcofh:cofh_core:${cofh_core_version}") { transitive = false }
-        localRuntime("com.teamcofh:thermal_core:${thermal_core_version}") { transitive = false }
-        localRuntime("com.teamcofh:thermal_foundation:${thermal_foundation_version}") { transitive = false }
-        localRuntime("com.teamcofh:thermal_expansion:${thermal_expansion_version}") { transitive = false }
+        fullAddonRuntime("com.teamcofh:cofh_core:${cofh_core_version}") { transitive = false }
+        fullAddonRuntime("com.teamcofh:thermal_core:${thermal_core_version}") { transitive = false }
+        fullAddonRuntime("com.teamcofh:thermal_foundation:${thermal_foundation_version}") { transitive = false }
+        fullAddonRuntime("com.teamcofh:thermal_expansion:${thermal_expansion_version}") { transitive = false }
     }
 }
 
