@@ -20,6 +20,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.fml.ModList;
 
 /**
  * Code registrations for the first complete Magic Bees breeding families.
@@ -119,8 +120,6 @@ public final class MagicBeeSpecies {
         public static final ResourceLocation TE_COAL = MagicBees.id("te_coal");
         public static final ResourceLocation TE_DESTABILIZED = MagicBees.id("te_destabilized");
         public static final ResourceLocation TE_LUX = MagicBees.id("te_lux");
-        public static final ResourceLocation TE_WINSOME = MagicBees.id("te_winsome");
-        public static final ResourceLocation TE_ENDEARING = MagicBees.id("te_endearing");
 
         public static final ResourceLocation BOT_ROOTED = MagicBees.id("bot_rooted");
         public static final ResourceLocation BOT_BOTANIC = MagicBees.id("bot_botanic");
@@ -497,23 +496,27 @@ public final class MagicBeeSpecies {
         addOreProduct(register(apiculture, CERTUS, MagicBeeTaxa.GEM, "alia cristallum", true, 0x93C7FF, 0xA6B8C7).setGenome(g -> g.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER)), 0.08f, ItemStack.EMPTY);
         addOreProduct(register(apiculture, FLUIX, MagicBeeTaxa.GEM, "alia cristallum", true, 0xFC639E, 0x534797).setGenome(g -> g.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST)), 0.06f, ItemStack.EMPTY);
 
-        // #14A - Applied Energistics 2 / Sky Stone progression.
-        IBeeSpeciesBuilder skyStone = register(apiculture, AE_SKYSTONE, MagicBeeTaxa.TRANSMUTING, "terra astris", true, 0x4B8381, 0x252929)
-                .setTemperature(TemperatureType.HOT).setHumidity(HumidityType.ARID)
-                .setGenome(g -> {
-                    g.set(BeeChromosomes.CAVE_DWELLING, ForestryAlleles.TRUE_RECESSIVE);
-                    g.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2);
-                    g.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
-                    g.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE);
-                    g.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE);
-                    g.set(BeeChromosomes.EFFECT, ForestryBeeEffects.IGNITION);
-                })
-                .addProduct(stack(MagicBeesItems.comb("earthy")), 0.19f);
-        // Forestry's bee_species JSON cannot condition an individual specialty on AE2 being present.
-        // Include the exact legacy Sky Stone specialty when AE2 is actually in the active registry; otherwise omit it safely.
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with AE2.
+        if (modLoaded("ae2")) {
+            // #14A - Applied Energistics 2 / Sky Stone progression.
+            IBeeSpeciesBuilder skyStone = register(apiculture, AE_SKYSTONE, MagicBeeTaxa.TRANSMUTING, "terra astris", true, 0x4B8381, 0x252929)
+                    .setTemperature(TemperatureType.HOT).setHumidity(HumidityType.ARID)
+                    .setGenome(g -> {
+                        g.set(BeeChromosomes.CAVE_DWELLING, ForestryAlleles.TRUE_RECESSIVE);
+                        g.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_2);
+                        g.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_SHORTER);
+                        g.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE);
+                        g.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_NONE);
+                        g.set(BeeChromosomes.EFFECT, ForestryBeeEffects.IGNITION);
+                    })
+                    .addProduct(stack(MagicBeesItems.comb("earthy")), 0.19f);
+            // Forestry's bee_species JSON cannot condition an individual specialty on AE2 being present.
+            // Include the exact legacy Sky Stone specialty when AE2 is actually in the active registry; otherwise omit it safely.
+            // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with AE2.
+        }
 
-        // #12 - Thermal integration. These definitions retain their old branch/binomial/colors and use current Thermal IDs.
+        if (modLoaded("thermal_foundation")) {
+
+            // #12 - Thermal integration. These definitions retain their old branch/binomial/colors and use current Thermal IDs.
         IBeeSpeciesBuilder blizzy = register(apiculture, TE_BLIZZY, MagicBeeTaxa.ABOMINABLE, "blizzard", false, 0x0073C4, 0xFF7C26)
                 .setTemperature(TemperatureType.COLD).setHumidity(HumidityType.NORMAL);
         applyTEEnd(blizzy);
@@ -585,20 +588,17 @@ public final class MagicBeeSpecies {
         lux.addProduct(stack(MagicBeesItems.comb("occult")), 0.10f)
                 .addProduct(stack(MagicBeesItems.comb("te_lux")), 0.10f)
                 .addSpecialty(new ItemStack(net.minecraft.world.item.Items.GLOWSTONE_DUST), 0.05f);
-        IBeeSpeciesBuilder winsome = register(apiculture, TE_WINSOME, MagicBeeTaxa.THERMAL, "cuniculus", false, 0x096B67)
-                .addProduct(stack(MagicBeesItems.comb("furtive")), 0.10f)
-                .addProduct(stack(MagicBeesItems.comb("te_endearing")), 0.10f);
-        // Platinum dust has no exact item in the supplied Thermal 11.0.x target.
-        IBeeSpeciesBuilder endearing = register(apiculture, TE_ENDEARING, MagicBeeTaxa.THERMAL, "cognito", true, 0x069E97).setGlint(true);
-        applyTEEnd(endearing);
-        endearing.addProduct(forestryComb("mysterious"), 0.10f)
-                .addProduct(stack(MagicBeesItems.comb("te_endearing")), 0.05f)
-                .addSpecialty(new ItemStack(net.minecraft.world.item.Items.ENDER_PEARL), 0.05f);
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
+            // TODO: Re-enable Winsome/Endearing when the modern Thermal line has a registry-time-safe platinum source.
+            // Their legacy route depends on Platinum, whose current target availability is tag/datapack-driven, while the
+            // Endearing comb/drop would need to be item-registered before those tags exist.
+        }
 
         // #13 Botanical branch. Botania item specialties are intentionally not serialized here: ForestryCE alpha7's
         // bee_species loader has no per-product NeoForge condition support, so embedding optional Botania items would
         // make the entire species definition fail when Botania is absent. The runtime patcher restores them when safe.
+        if (!modLoaded("botania")) {
+            return;
+        }
         registerSecret(apiculture, BOT_ROOTED, MagicBeeTaxa.BOTANICAL, "truncus", true, 0x00A800)
                 .addProduct(stack(MagicBeesItems.comb("mundane")), 0.10f);
 
@@ -673,6 +673,10 @@ public final class MagicBeeSpecies {
                     g.set(BeeChromosomes.EFFECT, MagicBees.id("effect_dreaming"));
                 })
                 .addProduct(stack(MagicBeesItems.comb("otherworldly")), 0.28f);
+    }
+
+    private static boolean modLoaded(String modId) {
+        return ModList.get().isLoaded(modId);
     }
 
     private static IBeeSpeciesBuilder register(IApicultureRegistration apiculture, ResourceLocation id, String genus,

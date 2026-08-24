@@ -13,6 +13,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -27,16 +28,18 @@ public final class MagicBeesItems {
     public static final Map<String, DeferredItem<Item>> COMBS = variants("bee_comb",
             "mundane", "molten", "occult", "otherworldly", "transmuted", "papery", "soul", "furtive",
             "intellect", "temporal", "forgotten", "airy", "firey", "watery", "earthy",
-            "te_destabilized", "te_carbon", "te_lux", "te_endearing",
-            "tc_air", "tc_fire", "tc_water", "tc_earth", "tc_order", "tc_entropy");
+            loadedVariants("thermal_foundation", "te_destabilized", "te_carbon", "te_lux"),
+            loadedVariants("thaumaturge", "tc_air", "tc_fire", "tc_water", "tc_earth", "tc_order", "tc_entropy"));
 
     public static final Map<String, DeferredItem<Item>> DROPS = variants("drop",
-            "enchanted", "intellect", "destabilized", "carbon", "lux", "endearing");
+            "enchanted", "intellect",
+            loadedVariants("thermal_foundation", "destabilized", "carbon", "lux"));
 
     public static final Map<String, DeferredItem<Item>> POLLEN = variants("pollen", "unusual", "phased");
 
     public static final Map<String, DeferredItem<Item>> PROPOLIS = variants("propolis",
-            "unstable", "air", "fire", "water", "earth", "order", "entropy");
+            "unstable",
+            loadedVariants("thaumaturge", "air", "fire", "water", "earth", "order", "entropy"));
 
     public static final Map<String, DeferredItem<Item>> WAX = variants("wax", "magic", "soul", "amnesic");
 
@@ -44,21 +47,24 @@ public final class MagicBeesItems {
             "diamond", "emerald", "apatite", "copper", "tin", "bronze", "iron");
 
     public static final Map<String, DeferredItem<Item>> RESOURCES = variants("resource",
-            "lore_fragment", "aromatic_lump", "extended_fertilizer", "skull_chip", "skull_fragment",
+            "lore_fragment", "aromatic_lump", "skull_chip", "skull_fragment",
             "dragon_dust", "dragon_chunk", "essence_false_life", "essence_shallow_grave", "essence_lost_time",
             "essence_everlasting_durability", "essence_scornful_oblivion", "essence_fickle_permanence",
-            "dimensional_singularity", "tc_dust_air", "tc_dust_fire", "tc_dust_water", "tc_dust_earth",
-            "tc_dust_order", "tc_dust_entropy");
+            "dimensional_singularity",
+            loadedVariants("thaumaturge", "tc_dust_air", "tc_dust_fire", "tc_dust_water", "tc_dust_earth",
+                    "tc_dust_order", "tc_dust_entropy"));
 
     public static final Map<MagicBeesFrameType, DeferredItem<MagicBeesFrameItem>> FRAMES;
 
     public static final DeferredItem<MoonDialItem> MOON_DIAL = ITEMS.registerItem("moondial", MoonDialItem::new);
     public static final DeferredItem<MysteriousMagnetItem> MYSTERIOUS_MAGNET = ITEMS.registerItem("mysteriousmagnet", MysteriousMagnetItem::new);
 
-    public static final DeferredItem<ManasteelScoopItem> MANASTEEL_SCOOP =
-            ITEMS.register("manasteelscoop", ManasteelScoopItem::new);
-    public static final DeferredItem<ManasteelGrafterItem> MANASTEEL_GRAFTER =
-            ITEMS.register("manasteelgrafter", ManasteelGrafterItem::new);
+    public static final DeferredItem<ManasteelScoopItem> MANASTEEL_SCOOP = modLoaded("botania")
+            ? ITEMS.register("manasteelscoop", ManasteelScoopItem::new)
+            : null;
+    public static final DeferredItem<ManasteelGrafterItem> MANASTEEL_GRAFTER = modLoaded("botania")
+            ? ITEMS.register("manasteelgrafter", ManasteelGrafterItem::new)
+            : null;
 
     public static final DeferredItem<Item> JELLY_BABIES = ITEMS.registerItem(
             "jelly_babies",
@@ -119,12 +125,28 @@ public final class MagicBeesItems {
         return required(NUGGETS, name);
     }
 
-    private static Map<String, DeferredItem<Item>> variants(String prefix, String... names) {
+    private static Map<String, DeferredItem<Item>> variants(String prefix, Object... namesOrGroups) {
         Map<String, DeferredItem<Item>> result = new LinkedHashMap<>();
-        for (String name : names) {
-            result.put(name, ITEMS.registerSimpleItem(prefix + "_" + name));
+        for (Object namesOrGroup : namesOrGroups) {
+            if (namesOrGroup instanceof String name) {
+                result.put(name, ITEMS.registerSimpleItem(prefix + "_" + name));
+            } else if (namesOrGroup instanceof String[] group) {
+                for (String name : group) {
+                    result.put(name, ITEMS.registerSimpleItem(prefix + "_" + name));
+                }
+            } else {
+                throw new IllegalArgumentException("Unexpected Magic Bees item variant declaration: " + namesOrGroup);
+            }
         }
         return Collections.unmodifiableMap(result);
+    }
+
+    private static String[] loadedVariants(String modId, String... names) {
+        return modLoaded(modId) ? names : new String[0];
+    }
+
+    private static boolean modLoaded(String modId) {
+        return ModList.get().isLoaded(modId);
     }
 
     private static DeferredItem<Item> required(Map<String, DeferredItem<Item>> map, String name) {

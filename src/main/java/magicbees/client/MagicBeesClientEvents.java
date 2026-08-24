@@ -45,7 +45,6 @@ public final class MagicBeesClientEvents {
             Map.entry("te_destabilized", new int[]{0xCC002C, 0x6B0118}),
             Map.entry("te_carbon", new int[]{0x454545, 0x0F0F0F}),
             Map.entry("te_lux", new int[]{0xF5F3A4, 0xC9C87D}),
-            Map.entry("te_endearing", new int[]{0x12E3D9, 0x069E97}),
             Map.entry("tc_air", new int[]{0xFFDF14, 0x707019}),
             Map.entry("tc_fire", new int[]{0xE21802, 0x3F0E12}),
             Map.entry("tc_water", new int[]{0x00B6FF, 0x0F373D}),

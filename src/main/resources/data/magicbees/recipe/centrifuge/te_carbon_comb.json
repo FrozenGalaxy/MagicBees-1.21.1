@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_foundation"
+    }
+  ],
   "type": "forestry:centrifuge",
   "id": "magicbees:centrifuge/te_carbon_comb",
   "input": {

@@ -54,7 +54,7 @@ class BeeSpeciesRuntimePatcherTest {
     }
 
     @Test
-    void platinumDependentThermalLineIsRemovedWhenItsGatewayMaterialIsUnavailable() {
+    void platinumDependentThermalLineIsRemovedUntilItHasARegistrySafeModernSource() {
         Map<ResourceLocation, JsonElement> definitions = Map.of(
                 id("te_winsome"), species("Detestabilapis"),
                 id("te_endearing"), species("Detestabilapis"));
@@ -68,7 +68,7 @@ class BeeSpeciesRuntimePatcherTest {
                 item -> false,
                 tag -> tag.equals(ResourceLocation.parse("c:nuggets/platinum"))
                         ? Optional.of(platinum) : Optional.empty());
-        assertEquals(definitions.keySet(), available.keySet());
+        assertTrue(available.isEmpty());
     }
 
     @Test

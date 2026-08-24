@@ -21,9 +21,9 @@ import java.util.function.Predicate;
 public final class BeeSpeciesRuntimePatcher {
     private static final Set<String> THERMAL_SPECIES = Set.of(
             "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
-            "te_coal", "te_destabilized", "te_lux", "te_winsome", "te_endearing"
+            "te_coal", "te_destabilized", "te_lux"
     );
-    private static final Set<String> PLATINUM_DEPENDENT_THERMAL_LINE = Set.of("te_winsome", "te_endearing");
+    private static final Set<String> DISABLED_THERMAL_LINE = Set.of("te_winsome", "te_endearing");
     private static final Set<String> BOTANIA_CONFIGURABLE_SECRET = Set.of(
             "bot_rooted", "bot_botanic", "bot_blossom", "bot_floral", "bot_vazbee", "bot_alfheim"
     );
@@ -68,8 +68,7 @@ public final class BeeSpeciesRuntimePatcher {
             if (inactiveOptional(path, loadout)) {
                 return;
             }
-            if (PLATINUM_DEPENDENT_THERMAL_LINE.contains(path)
-                    && ORE_OUTPUTS.get("platinum").resolve(itemExists, tagItem).isEmpty()) {
+            if (DISABLED_THERMAL_LINE.contains(path)) {
                 return;
             }
 
@@ -124,7 +123,6 @@ public final class BeeSpeciesRuntimePatcher {
                 case "te_dante" -> addExistingSpecialty(species, "thermal:sulfur_dust", 0.09f, itemExists);
                 case "te_shocking" -> addExistingSpecialty(species, "thermal:blitz_powder", 0.09f, itemExists);
                 case "te_grounded" -> addExistingSpecialty(species, "thermal:basalz_powder", 0.09f, itemExists);
-                case "te_endearing" -> addExistingSpecialty(species, "thermal:enderium_nugget", 0.09f, itemExists);
             }
         }
         if (loadout.botania()) {
@@ -175,9 +173,7 @@ public final class BeeSpeciesRuntimePatcher {
     }
 
     public static boolean resourceSpeciesAvailable(String path) {
-        if (PLATINUM_DEPENDENT_THERMAL_LINE.contains(path)
-                && ORE_OUTPUTS.get("platinum").resolve(BuiltInRegistries.ITEM::containsKey,
-                BeeSpeciesRuntimePatcher::firstItemInTag).isEmpty()) {
+        if (DISABLED_THERMAL_LINE.contains(path)) {
             return false;
         }
         OreOutput output = ORE_OUTPUTS.get(path);
@@ -187,7 +183,7 @@ public final class BeeSpeciesRuntimePatcher {
 
     public static boolean hasRuntimeSpecialties(String path) {
         return ORE_OUTPUTS.containsKey(path) || path.equals("batty") || path.equals("scholarly") || path.equals("savant")
-                || path.equals("ae_skystone") || Set.of("te_blizzy", "te_dante", "te_shocking", "te_grounded", "te_endearing",
+                || path.equals("ae_skystone") || Set.of("te_blizzy", "te_dante", "te_shocking", "te_grounded",
                 "bot_botanic", "bot_blossom", "bot_floral", "bot_vazbee").contains(path);
     }
 

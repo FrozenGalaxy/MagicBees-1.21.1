@@ -67,7 +67,6 @@ public final class LegacyBeeParityData {
             comb("te_destabilized", products("magicbees:wax_magic", .55f, "magicbees:drop_destabilized", .22f)),
             comb("te_carbon", products("magicbees:wax_magic", .55f, "magicbees:drop_carbon", .22f)),
             comb("te_lux", products("magicbees:wax_magic", .55f, "magicbees:drop_lux", .22f)),
-            comb("te_endearing", products("magicbees:wax_magic", .55f, "magicbees:drop_endearing", .22f)),
             thaumComb("tc_air", products("magicbees:wax_magic", 1f, "minecraft:feather", .60f, "magicbees:propolis_air", .80f)),
             thaumComb("tc_fire", products("magicbees:wax_magic", 1f, "minecraft:blaze_powder", .60f, "magicbees:propolis_fire", .80f)),
             thaumComb("tc_water", products("magicbees:wax_magic", 1f, "minecraft:light_blue_dye", .60f, "magicbees:propolis_water", .80f)),
