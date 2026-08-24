@@ -74,11 +74,11 @@ jobs:
       - name: Resolve pinned addon artifacts
         run: ./gradlew dependencies --configuration clientRuntime --no-daemon
 
-      - name: Run unit tests
-        run: ./gradlew test --no-daemon
-
       - name: Run data generators
         run: ./gradlew runData --no-daemon
+
+      - name: Run unit tests
+        run: ./gradlew test --no-daemon
 
       - name: Build finished mod JAR
         run: ./gradlew build --no-daemon
