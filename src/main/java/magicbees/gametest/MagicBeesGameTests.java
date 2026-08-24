@@ -1188,7 +1188,8 @@ public final class MagicBeesGameTests {
             return;
         }
         var flower = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("thaumaturge", "shimmerleaf"));
-        if (flower.isEmpty()) {
+        var wispType = BuiltInRegistries.ENTITY_TYPE.getOptional(ResourceLocation.fromNamespaceAndPath("thaumaturge", "wisp"));
+        if (flower.isEmpty() || wispType.isEmpty()) {
             helper.succeed();
             return;
         }
@@ -1206,7 +1207,7 @@ public final class MagicBeesGameTests {
 
         AABB bounds = new AABB(helper.absolutePos(jarPos)).inflate(12.0D);
         int wisps = helper.getLevel()
-                .getEntitiesOfClass(com.leclowndu93150.thaumaturge.content.entity.WispEntity.class, bounds)
+                .getEntities((net.minecraft.world.entity.Entity) null, bounds, entity -> entity.getType() == wispType.get())
                 .size();
         helper.assertTrue(wisps <= 2, "Wispy Effect Jar must cap nearby Wisps instead of flooding the area, found " + wisps);
         helper.succeed();
