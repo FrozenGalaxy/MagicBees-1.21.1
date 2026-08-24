@@ -1,0 +1,15 @@
+{
+  "authority": "Elec332",
+  "body": 5876463,
+  "genus": "Metalliapis",
+  "humidity": "arid",
+  "outline": 206431,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "caeruleo",
+  "temperature": "hot"
+}

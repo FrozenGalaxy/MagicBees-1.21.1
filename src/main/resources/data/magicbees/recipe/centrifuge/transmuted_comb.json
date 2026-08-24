@@ -1,0 +1,11 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/transmuted_comb",
+  "input": {"item": "magicbees:bee_comb_transmuted"},
+  "products": [
+    {"chance": 0.80, "item": "forestry:beeswax"},
+    {"chance": 0.80, "item": "magicbees:wax_magic"},
+    {"chance": 0.15, "item": "magicbees:propolis_unstable"}
+  ],
+  "time": 20
+}

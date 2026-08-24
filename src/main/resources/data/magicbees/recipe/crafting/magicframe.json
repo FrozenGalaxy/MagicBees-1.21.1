@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "wfw",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "magicbees:wax_magic"
+    },
+    "f": {
+      "item": "forestry:untreated_frame"
+    }
+  },
+  "result": {
+    "id": "magicbees:frame_magic"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.13,
+  "first": "magicbees:pork",
+  "id": "magicbees:bee_mutation/sheepish",
+  "result": "magicbees:sheepish",
+  "second": "magicbees:skulking",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "c:is_plains"
+    }
+  ]
+}

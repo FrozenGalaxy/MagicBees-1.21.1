@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:attuned",
+  "id": "magicbees:bee_mutation/spirit_from_attuned",
+  "result": "magicbees:spirit",
+  "second": "magicbees:aware"
+}

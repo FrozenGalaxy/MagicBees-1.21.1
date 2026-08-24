@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "magicbees:sorcerous",
+  "id": "magicbees:bee_mutation/sorcerous_to_common_with_modest",
+  "result": "forestry:common",
+  "second": "forestry:modest"
+}

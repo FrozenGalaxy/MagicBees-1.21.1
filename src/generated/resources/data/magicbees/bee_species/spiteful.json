@@ -1,0 +1,34 @@
+{
+  "authority": "Elec332",
+  "body": 9834240,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_misanthrope"
+    },
+    "forestry:lifespan": {
+      "value": 50
+    },
+    "forestry:speed": {
+      "value": 1.0
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    }
+  },
+  "genus": "Detestabilapis",
+  "glint": true,
+  "humidity": "arid",
+  "outline": 6278144,
+  "products": [
+    {
+      "chance": 0.23,
+      "item": "magicbees:bee_comb_molten"
+    }
+  ],
+  "species": "maligna",
+  "temperature": "hellish"
+}

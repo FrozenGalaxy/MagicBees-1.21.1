@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:transmuting",
+  "id": "magicbees:bee_mutation/tc_pure",
+  "result": "magicbees:tc_pure",
+  "second": "magicbees:tc_rejuvenating",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "thaumaturge:is_magical"
+    },
+    {
+      "type": "magicbees:moon_phase",
+      "start": 4,
+      "end": 4,
+      "inside_multiplier": 1.0,
+      "outside_multiplier": 0.0
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:not","value":{"type":"neoforge:tag_empty","tag":"c:nuggets/ardite"}}],"type":"forestry:bee_mutation","chance":0.09,"first":"forestry:industrious","id":"magicbees:bee_mutation/ardite","result":"magicbees:ardite","second":"forestry:infernal","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/ardite"}]}

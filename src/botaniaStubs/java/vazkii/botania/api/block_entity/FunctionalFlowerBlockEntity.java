@@ -1,0 +1,3 @@
+package vazkii.botania.api.block_entity;
+import net.minecraft.core.BlockPos; import net.minecraft.world.level.block.entity.BlockEntityType; import net.minecraft.world.level.block.state.BlockState;
+public abstract class FunctionalFlowerBlockEntity extends SpecialFlowerBlockEntity { private int mana; public FunctionalFlowerBlockEntity(BlockEntityType<?> t,BlockPos p,BlockState s){super(t,p,s);} @Override public void tickFlower(){} public int getMana(){return mana;} public void addMana(int x){mana=Math.max(0,Math.min(getMaxMana(),mana+x));} public abstract int getMaxMana(); public abstract int getColor(); }

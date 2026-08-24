@@ -1,0 +1,13 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genus": "Metalliapis",
+  "outline": 11848073,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "nickel"
+}

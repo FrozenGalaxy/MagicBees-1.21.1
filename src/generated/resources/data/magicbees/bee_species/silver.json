@@ -1,0 +1,13 @@
+{
+  "authority": "Elec332",
+  "body": 9879492,
+  "genus": "Metalliapis",
+  "outline": 7634049,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "argenteus"
+}

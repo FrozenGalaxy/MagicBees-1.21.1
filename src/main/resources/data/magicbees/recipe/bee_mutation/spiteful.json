@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.07,
+  "first": "magicbees:infernal",
+  "id": "magicbees:bee_mutation/spiteful",
+  "result": "magicbees:spiteful",
+  "second": "magicbees:hateful",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_nether"
+    }
+  ]
+}

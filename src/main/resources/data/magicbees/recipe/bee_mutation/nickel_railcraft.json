@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:not","value":{"type":"neoforge:tag_empty","tag":"c:nuggets/nickel"}}],"type":"forestry:bee_mutation","chance":0.14,"first":"magicbees:iron","id":"magicbees:bee_mutation/nickel_railcraft","result":"magicbees:nickel","second":"magicbees:esoteric","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/nickel"}]}

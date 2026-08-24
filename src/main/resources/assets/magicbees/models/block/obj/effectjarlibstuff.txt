@@ -1,0 +1,8 @@
+# Custom writtem lib obj file thing
+#	By Elec332, using notepad...
+
+newmtl Stuffz
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+d 1
+map_Kd magicbees:model/jartexture

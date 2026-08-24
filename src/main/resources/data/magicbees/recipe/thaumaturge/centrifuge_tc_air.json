@@ -1,0 +1,12 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:centrifuge",
+  "id": "magicbees:thaumaturge/centrifuge_tc_air",
+  "input": {"item": "magicbees:bee_comb_tc_air"},
+  "products": [
+    {"chance": 1.0, "item": "magicbees:wax_magic"},
+    {"chance": 0.6, "item": "minecraft:feather"},
+    {"chance": 0.8, "item": "magicbees:propolis_air"}
+  ],
+  "time": 20
+}

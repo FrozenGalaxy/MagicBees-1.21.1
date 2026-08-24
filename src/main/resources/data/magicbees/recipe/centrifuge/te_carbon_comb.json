@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/te_carbon_comb",
+  "input": {
+    "item": "magicbees:bee_comb_te_carbon"
+  },
+  "products": [
+    {
+      "chance": 0.55,
+      "item": "magicbees:wax_magic"
+    },
+    {
+      "chance": 0.22,
+      "item": "magicbees:drop_carbon"
+    }
+  ],
+  "time": 20
+}

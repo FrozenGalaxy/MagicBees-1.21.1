@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.07,
+  "first": "magicbees:timely",
+  "id": "magicbees:bee_mutation/doctoral",
+  "result": "magicbees:doctoral",
+  "second": "magicbees:lordly"
+}

@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 8080923,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_horse"
+    },
+    "forestry:speed": {
+      "value": 1.7
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 9462576,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.24,
+      "item": "minecraft:leather"
+    },
+    {
+      "chance": 0.38,
+      "item": "minecraft:apple"
+    }
+  ],
+  "species": "equus"
+}

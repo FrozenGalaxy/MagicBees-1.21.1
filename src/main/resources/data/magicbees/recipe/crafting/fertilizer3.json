@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "aaa",
+    "aFa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "item": "forestry:ash"
+    },
+    "F": {
+      "item": "magicbees:resource_extended_fertilizer"
+    }
+  },
+  "result": {
+    "id": "forestry:fertilizer",
+    "count": 12
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 35
+    }
+  },
+  "genus": "Animapis",
+  "outline": 11703883,
+  "products": [
+    {
+      "chance": 0.22,
+      "item": "magicbees:bee_comb_intellect"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.16,
+      "item": "magicbees:bee_comb_soul"
+    }
+  ],
+  "species": "larva"
+}

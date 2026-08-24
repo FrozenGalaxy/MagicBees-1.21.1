@@ -1,0 +1,18 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.07,
+  "first": "forestry:austere",
+  "id": "magicbees:bee_mutation/diamond",
+  "result": "magicbees:diamond",
+  "second": "magicbees:gold",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "minecraft:diamond_block"
+        }
+      ]
+    }
+  ]
+}

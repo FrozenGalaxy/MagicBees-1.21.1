@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:common",
+  "id": "magicbees:bee_mutation/chicken",
+  "result": "magicbees:chicken",
+  "second": "magicbees:skulking",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_forest"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "magicbees:resource_essence_fickle_permanence"
+    },
+    {
+      "item": "magicbees:frame_magic"
+    }
+  ],
+  "result": {
+    "id": "magicbees:frame_metabolic"
+  }
+}

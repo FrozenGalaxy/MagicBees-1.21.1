@@ -1,0 +1,18 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:industrious",
+  "id": "magicbees:bee_mutation/copper",
+  "result": "magicbees:copper",
+  "second": "forestry:meadows",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "minecraft:copper_block"
+        }
+      ]
+    }
+  ]
+}

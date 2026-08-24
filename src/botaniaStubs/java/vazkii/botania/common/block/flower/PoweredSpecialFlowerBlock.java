@@ -1,0 +1,3 @@
+package vazkii.botania.common.block.flower;
+import java.util.function.Supplier; import net.minecraft.core.Holder; import net.minecraft.world.effect.MobEffect; import net.minecraft.world.level.block.entity.BlockEntityType; import vazkii.botania.api.block.RedstoneSensitiveBlock; import vazkii.botania.api.block_entity.SpecialFlowerBlockEntity;
+public class PoweredSpecialFlowerBlock extends SpecialFlowerBlock implements RedstoneSensitiveBlock { public PoweredSpecialFlowerBlock(Holder<MobEffect> e,int d,Properties p,Supplier<BlockEntityType<? extends SpecialFlowerBlockEntity>> t){super(e,d,p,t);} }

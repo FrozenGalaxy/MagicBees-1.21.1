@@ -1,0 +1,22 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/intellect_comb",
+  "input": {
+    "item": "magicbees:bee_comb_intellect"
+  },
+  "products": [
+    {
+      "chance": 0.9,
+      "item": "magicbees:wax_magic"
+    },
+    {
+      "chance": 0.4,
+      "item": "forestry:honeydew"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:drop_intellect"
+    }
+  ],
+  "time": 20
+}

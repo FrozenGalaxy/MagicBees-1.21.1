@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "first": "forestry:imperial",
+  "id": "magicbees:bee_mutation/draconic",
+  "result": "magicbees:draconic",
+  "second": "magicbees:abandoned",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_end"
+    }
+  ]
+}

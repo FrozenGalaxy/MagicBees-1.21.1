@@ -1,0 +1,36 @@
+{
+  "authority": "Elec332",
+  "body": 16160511,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_repulsion"
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 2
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 45
+    },
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    }
+  },
+  "genus": "Extrarapis",
+  "outline": 12962700,
+  "products": [
+    {
+      "chance": 0.24,
+      "item": "magicbees:bee_comb_forgotten"
+    }
+  ],
+  "species": "reliquit",
+  "temperature": "cold"
+}

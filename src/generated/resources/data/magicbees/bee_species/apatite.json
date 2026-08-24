@@ -1,0 +1,27 @@
+{
+  "authority": "Elec332",
+  "body": 7505,
+  "genome": {
+    "forestry:lifespan": {
+      "value": 40
+    },
+    "forestry:speed": {
+      "value": 1.0
+    }
+  },
+  "genus": "Lapidapis",
+  "outline": 3057644,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:ore_part_apatite"
+    }
+  ],
+  "species": "apatite"
+}

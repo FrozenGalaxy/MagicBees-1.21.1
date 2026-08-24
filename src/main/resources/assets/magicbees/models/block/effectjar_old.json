@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "neoforge:composite",
+  "textures": {
+    "particle": "magicbees:model/jartexture"
+  },
+  "children": {
+    "base": {
+      "loader": "neoforge:obj",
+      "model": "magicbees:models/block/obj/effectjar.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "flip_v": false,
+      "visibility": {
+        "jarBase": true,
+        "jarLid": false
+      },
+      "render_type": "minecraft:translucent"
+    },
+    "lid": {
+      "loader": "neoforge:obj",
+      "model": "magicbees:models/block/obj/effectjar.obj",
+      "automatic_culling": false,
+      "shade_quads": true,
+      "flip_v": false,
+      "visibility": {
+        "jarBase": false,
+        "jarLid": true
+      },
+      "render_type": "minecraft:solid"
+    }
+  },
+  "item_render_order": ["base", "lid"]
+}

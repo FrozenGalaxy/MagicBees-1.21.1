@@ -1,0 +1,23 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "dominant": true,
+  "genome": {
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    }
+  },
+  "genus": "Botanica",
+  "outline": 9750113,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_mundane"
+    },
+    {
+      "chance": 0.05,
+      "item": "magicbees:bee_comb_transmuted"
+    }
+  ],
+  "species": "botanica"
+}

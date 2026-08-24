@@ -1,0 +1,34 @@
+{
+  "genus": "Thaumiapis",
+  "species": "tractus",
+  "dominant": true,
+  "body": 6774481,
+  "outline": 9895868,
+  "products": [
+    {
+      "chance": 0.14,
+      "item": "magicbees:bee_comb_intellect"
+    },
+    {
+      "chance": 0.2,
+      "item": "forestry:crystalline_pollen_cluster"
+    }
+  ],
+  "authority": "Elec332",
+  "genome": {
+    "forestry:humidity_tolerance": {
+      "value": "BOTH_1",
+      "dominant": true
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_1",
+      "dominant": true
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:aura_node_flowers"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:thaumaturge_empowering"
+    }
+  }
+}

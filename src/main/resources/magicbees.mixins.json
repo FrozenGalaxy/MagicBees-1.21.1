@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "magicbees.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BeeSpeciesManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

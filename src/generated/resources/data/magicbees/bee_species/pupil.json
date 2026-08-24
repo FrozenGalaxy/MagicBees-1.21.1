@@ -1,0 +1,21 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.6
+    }
+  },
+  "genus": "Doctapis",
+  "humidity": "arid",
+  "outline": 16776960,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_papery"
+    }
+  ],
+  "species": "disciplina"
+}

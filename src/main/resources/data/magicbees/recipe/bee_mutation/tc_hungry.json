@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumaturge"
+    }
+  ],
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "magicbees:bigbad",
+  "id": "magicbees:bee_mutation/tc_hungry",
+  "result": "magicbees:tc_hungry",
+  "second": "magicbees:tc_taint"
+}

@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/thaumaturge_propolis_order",
+  "input": {"item": "magicbees:propolis_order"},
+  "products": [
+    {"chance": 1.0, "item": "forestry:propolis"},
+    {"chance": 0.8, "item": "magicbees:resource_tc_dust_order"}
+  ],
+  "time": 8
+}

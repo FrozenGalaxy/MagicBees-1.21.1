@@ -1,0 +1,24 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genome": {
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:speed": {
+      "value": 1.0
+    }
+  },
+  "genus": "Doctapis",
+  "glint": true,
+  "humidity": "arid",
+  "outline": 16752706,
+  "products": [
+    {
+      "chance": 0.4,
+      "item": "magicbees:bee_comb_papery"
+    }
+  ],
+  "species": "philologus"
+}

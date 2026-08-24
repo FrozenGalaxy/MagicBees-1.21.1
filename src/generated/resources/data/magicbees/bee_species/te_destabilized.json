@@ -1,0 +1,23 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genus": "Thermametallic",
+  "outline": 6160899,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_occult"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_te_destabilized"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.05,
+      "item": "minecraft:redstone"
+    }
+  ],
+  "species": "electric"
+}

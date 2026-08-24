@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_expansion"
+    }
+  ],
+  "type": "thermal:crucible",
+  "ingredient": {
+    "item": "magicbees:drop_endearing"
+  },
+  "result": [
+    {
+      "fluid": "thermal:ender",
+      "amount": 100
+    }
+  ],
+  "energy": 4000
+}

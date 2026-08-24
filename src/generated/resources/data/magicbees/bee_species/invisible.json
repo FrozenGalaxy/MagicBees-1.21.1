@@ -1,0 +1,29 @@
+{
+  "authority": "Elec332",
+  "body": 16764159,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_invisibility"
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "UP_1"
+    },
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 10
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_2"
+    }
+  },
+  "genus": "Velatapis",
+  "outline": 16764159,
+  "products": [
+    {
+      "chance": 0.35,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "invisible"
+}

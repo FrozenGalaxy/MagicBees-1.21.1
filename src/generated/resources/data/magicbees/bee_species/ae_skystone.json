@@ -1,0 +1,38 @@
+{
+  "authority": "Elec332",
+  "body": 2435369,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_ignition"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 2
+    },
+    "forestry:humidity_tolerance": {
+      "value": "NONE"
+    },
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 20
+    },
+    "forestry:temperature_tolerance": {
+      "value": "NONE"
+    }
+  },
+  "genus": "Transmutapis",
+  "humidity": "arid",
+  "outline": 4948865,
+  "products": [
+    {
+      "chance": 0.19,
+      "item": "magicbees:bee_comb_earthy"
+    }
+  ],
+  "species": "terra astris",
+  "temperature": "hot"
+}

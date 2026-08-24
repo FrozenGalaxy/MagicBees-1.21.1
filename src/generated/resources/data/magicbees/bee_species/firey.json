@@ -1,0 +1,26 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:flower_type": {
+      "value": "forestry:flower_type_cacti"
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "DOWN_1"
+    },
+    "forestry:temperature_tolerance": {
+      "value": "UP_2"
+    }
+  },
+  "genus": "Magicapis",
+  "outline": 13848857,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_firey"
+    }
+  ],
+  "species": "ardens"
+}

@@ -1,0 +1,18 @@
+{
+  "authority": "Elec332",
+  "body": 7109513,
+  "genome": {
+    "forestry:lifespan": {
+      "value": 60
+    }
+  },
+  "genus": "Metalliapis",
+  "outline": 3623771,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "hyacintho"
+}

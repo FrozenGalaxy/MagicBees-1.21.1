@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 2562831,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_bat"
+    },
+    "forestry:territory": {
+      "value": [
+        11,
+        8,
+        11
+      ]
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 5982251,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 1.0E-5,
+      "item": "minecraft:string"
+    }
+  ],
+  "species": "chiroptera"
+}

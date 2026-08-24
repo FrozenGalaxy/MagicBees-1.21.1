@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 16762906,
+  "dominant": true,
+  "genus": "Metalliapis",
+  "outline": 6834945,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:ore_part_copper"
+    }
+  ],
+  "species": "aercus"
+}

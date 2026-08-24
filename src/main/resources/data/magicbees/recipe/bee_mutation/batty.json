@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:skulking",
+  "id": "magicbees:bee_mutation/batty",
+  "result": "magicbees:batty",
+  "second": "magicbees:windy"
+}

@@ -1,0 +1,23 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:lifespan": {
+      "value": 50
+    }
+  },
+  "genus": "Magicapis",
+  "outline": 7897645,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_earthy"
+    }
+  ],
+  "species": "fictili"
+}

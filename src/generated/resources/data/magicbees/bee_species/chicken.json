@@ -1,0 +1,29 @@
+{
+  "authority": "Elec332",
+  "body": 13882323,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_chicken"
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 16711680,
+  "products": [
+    {
+      "chance": 0.23,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.08,
+      "item": "minecraft:egg"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.08,
+      "item": "minecraft:feather"
+    }
+  ],
+  "species": "pullus"
+}

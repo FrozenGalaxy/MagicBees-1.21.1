@@ -1,0 +1,22 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/otherworldly_comb",
+  "input": {
+    "item": "magicbees:bee_comb_otherworldly"
+  },
+  "products": [
+    {
+      "chance": 0.5,
+      "item": "forestry:beeswax"
+    },
+    {
+      "chance": 0.22,
+      "item": "magicbees:wax_magic"
+    },
+    {
+      "chance": 1.0,
+      "item": "forestry:honey_drop"
+    }
+  ],
+  "time": 20
+}

@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 15329769,
+  "dominant": true,
+  "genus": "Metalliapis",
+  "outline": 6842472,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:ore_part_iron"
+    }
+  ],
+  "species": "ferrus"
+}

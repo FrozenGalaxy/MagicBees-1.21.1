@@ -1,0 +1,33 @@
+{
+  "authority": "Elec332",
+  "body": 16751968,
+  "dominant": true,
+  "genome": {
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 2
+    },
+    "forestry:pollination": {
+      "value": 20
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    }
+  },
+  "genus": "Arcanapis",
+  "glint": true,
+  "outline": 13779679,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_occult"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.09,
+      "item": "magicbees:drop_enchanted"
+    }
+  ],
+  "species": "arcanus"
+}

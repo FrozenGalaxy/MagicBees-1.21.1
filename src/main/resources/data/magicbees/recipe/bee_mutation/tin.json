@@ -1,0 +1,18 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:industrious",
+  "id": "magicbees:bee_mutation/tin",
+  "result": "magicbees:tin",
+  "second": "forestry:forest",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "forestry:tin_block"
+        }
+      ]
+    }
+  ]
+}

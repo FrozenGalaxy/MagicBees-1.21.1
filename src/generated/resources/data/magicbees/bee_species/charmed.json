@@ -1,0 +1,14 @@
+{
+  "authority": "Elec332",
+  "body": 16751968,
+  "dominant": true,
+  "genus": "Occultapis",
+  "outline": 4779756,
+  "products": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:bee_comb_otherworldly"
+    }
+  ],
+  "species": "larvatus"
+}

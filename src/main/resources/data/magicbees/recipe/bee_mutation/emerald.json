@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:tag_empty","tag":"c:nuggets/silver"}],"type":"forestry:bee_mutation","chance":0.06,"first":"forestry:austere","id":"magicbees:bee_mutation/emerald","result":"magicbees:emerald","second":"forestry:imperial","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/emerald"}]}

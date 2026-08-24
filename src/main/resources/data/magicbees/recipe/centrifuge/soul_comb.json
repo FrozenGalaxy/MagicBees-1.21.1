@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/soul_comb",
+  "input": {
+    "item": "magicbees:bee_comb_soul"
+  },
+  "products": [
+    {
+      "chance": 0.95,
+      "item": "magicbees:wax_soul"
+    },
+    {
+      "chance": 0.26,
+      "item": "forestry:honeydew"
+    }
+  ],
+  "time": 20
+}

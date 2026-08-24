@@ -1,0 +1,16 @@
+{
+  "authority": "Elec332",
+  "body": 12423921,
+  "genus": "Metalliapis",
+  "glint": true,
+  "humidity": "arid",
+  "outline": 4726125,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "manahmanah",
+  "temperature": "hot"
+}

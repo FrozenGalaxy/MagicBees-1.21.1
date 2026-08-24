@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:not","value":{"type":"neoforge:tag_empty","tag":"c:nuggets/lead"}}],"type":"forestry:bee_mutation","chance":0.1,"first":"forestry:common","id":"magicbees:bee_mutation/lead_railcraft","result":"magicbees:lead","second":"magicbees:tin","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/lead"}]}

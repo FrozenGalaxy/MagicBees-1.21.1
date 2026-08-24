@@ -1,0 +1,17 @@
+{
+  "authority": "Elec332",
+  "body": 14734758,
+  "genus": "Transmutapis",
+  "outline": 14398028,
+  "products": [
+    {
+      "chance": 0.3,
+      "item": "forestry:parched_comb"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_transmuted"
+    }
+  ],
+  "species": "mutable"
+}

@@ -1,0 +1,31 @@
+{
+  "authority": "Elec332",
+  "body": 5913442,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_misanthrope"
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:lifespan": {
+      "value": 70
+    }
+  },
+  "genus": "Extrarapis",
+  "glint": true,
+  "outline": 10442413,
+  "products": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:resource_dragon_dust"
+    }
+  ],
+  "species": "draconic",
+  "temperature": "cold"
+}

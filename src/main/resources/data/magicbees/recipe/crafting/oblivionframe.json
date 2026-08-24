@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "magicbees:resource_essence_scornful_oblivion"
+    },
+    {
+      "item": "forestry:proven_frame"
+    }
+  ],
+  "result": {
+    "id": "magicbees:frame_oblivion"
+  }
+}

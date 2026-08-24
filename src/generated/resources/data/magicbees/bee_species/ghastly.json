@@ -1,0 +1,39 @@
+{
+  "authority": "Elec332",
+  "body": 12552060,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_ghast"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:temperature_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:tolerates_rain": {
+      "value": true
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 13421806,
+  "products": [
+    {
+      "chance": 0.08,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "secret": true,
+  "specialties": [
+    {
+      "chance": 0.099,
+      "item": "minecraft:ghast_tear"
+    }
+  ],
+  "species": "pallens"
+}

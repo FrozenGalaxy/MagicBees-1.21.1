@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thermal_foundation"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "magicbees:smouldering",
+  "id": "magicbees:bee_mutation/te_lux",
+  "result": "magicbees:te_lux",
+  "second": "magicbees:infernal",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "minecraft:glowstone"
+        }
+      ]
+    }
+  ]
+}

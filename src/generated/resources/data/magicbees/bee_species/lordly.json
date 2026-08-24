@@ -1,0 +1,24 @@
+{
+  "authority": "Elec332",
+  "body": 9306643,
+  "genome": {
+    "forestry:activity": {
+      "value": "magicbees:activity_never_sleeps"
+    },
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_drunkard"
+    },
+    "forestry:lifespan": {
+      "value": 50
+    }
+  },
+  "genus": "Tempestivapis",
+  "outline": 13021062,
+  "products": [
+    {
+      "chance": 0.19,
+      "item": "magicbees:bee_comb_temporal"
+    }
+  ],
+  "species": "rassilonis"
+}

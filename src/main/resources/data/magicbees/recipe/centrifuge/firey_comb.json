@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/firey_comb",
+  "input": {
+    "item": "magicbees:bee_comb_firey"
+  },
+  "products": [
+    {
+      "chance": 1.0,
+      "item": "magicbees:wax_magic"
+    },
+    {
+      "chance": 0.6,
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "time": 20
+}

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "magicbees:attuned",
+  "id": "magicbees:bee_mutation/attuned_to_common_with_marshy",
+  "result": "forestry:common",
+  "second": "forestry:marshy"
+}

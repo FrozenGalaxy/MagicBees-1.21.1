@@ -1,0 +1,33 @@
+{
+  "authority": "Elec332",
+  "body": 4535606,
+  "dominant": true,
+  "genome": {
+    "forestry:activity": {
+      "value": "forestry:activity_nocturnal"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_wolf"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 11088971,
+  "products": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.12,
+      "item": "minecraft:beef"
+    },
+    {
+      "chance": 0.12,
+      "item": "minecraft:chicken"
+    }
+  ],
+  "species": "magnumalum"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ccc",
+    "cec",
+    "ccc"
+  ],
+  "key": {
+    "c": {
+      "item": "magicbees:resource_dragon_chunk"
+    },
+    "e": {
+      "item": "magicbees:resource_essence_false_life"
+    }
+  },
+  "result": {
+    "id": "minecraft:dragon_egg"
+  }
+}

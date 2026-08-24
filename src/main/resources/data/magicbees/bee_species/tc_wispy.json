@@ -1,0 +1,41 @@
+{
+  "genus": "Thaumiapis",
+  "species": "umbrabilis",
+  "dominant": false,
+  "body": 14766646,
+  "outline": 10270933,
+  "products": [
+    {
+      "chance": 0.22,
+      "item": "forestry:silky_comb"
+    }
+  ],
+  "authority": "Elec332",
+  "specialties": [
+    {
+      "chance": 0.4,
+      "item": "forestry:silk_wisp"
+    }
+  ],
+  "genome": {
+    "forestry:speed": {
+      "value": 1.2,
+      "dominant": true
+    },
+    "forestry:pollination": {
+      "value": 30
+    },
+    "forestry:activity": {
+      "value": "magicbees:activity_never_sleeps"
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:thaumic_flowers"
+    },
+    "forestry:tolerates_rain": {
+      "value": true
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:thaumaturge_wispy"
+    }
+  }
+}

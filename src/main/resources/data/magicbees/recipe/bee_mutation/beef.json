@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:common",
+  "id": "magicbees:bee_mutation/beef",
+  "result": "magicbees:beef",
+  "second": "magicbees:skulking",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "c:is_plains"
+    }
+  ]
+}

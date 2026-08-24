@@ -1,0 +1,23 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_slow_speed"
+    },
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 45
+    }
+  },
+  "genus": "Tempestivapis",
+  "outline": 13021062,
+  "products": [
+    {
+      "chance": 0.16,
+      "item": "magicbees:bee_comb_temporal"
+    }
+  ],
+  "species": "gallifreis"
+}

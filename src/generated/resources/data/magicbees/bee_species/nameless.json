@@ -1,0 +1,24 @@
+{
+  "authority": "Elec332",
+  "body": 16160511,
+  "dominant": true,
+  "genome": {
+    "forestry:fertility": {
+      "value": 3
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    }
+  },
+  "genus": "Extrarapis",
+  "outline": 9217995,
+  "products": [
+    {
+      "chance": 0.19,
+      "item": "magicbees:bee_comb_forgotten"
+    }
+  ],
+  "species": "sine nomine",
+  "temperature": "cold"
+}

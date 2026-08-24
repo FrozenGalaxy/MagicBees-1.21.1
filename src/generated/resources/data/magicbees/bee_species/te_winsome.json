@@ -1,0 +1,17 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genus": "Thermametallic",
+  "outline": 617319,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_te_endearing"
+    }
+  ],
+  "species": "cuniculus"
+}

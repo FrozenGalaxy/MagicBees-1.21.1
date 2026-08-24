@@ -1,0 +1,23 @@
+{
+	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"texture": "magicbees:block/collector_jar",
+		"particle": "magicbees:block/collector_jar"
+	},
+	"elements": [
+		{
+			"__comment": "Box9",
+			"from": [ 5, 13.9995, 5 ],
+			"to": [ 11, 16, 11 ],
+			"faces": {
+				"down": { "uv": [ 1, 9, 7, 15 ], "texture": "#texture" },
+				"up": { "uv": [ 1, 9, 7, 15 ], "texture": "#texture" },
+				"north": { "uv": [ 9, 0, 15, 2 ], "texture": "#texture" },
+				"south": { "uv": [ 9, 0, 15, 2 ], "texture": "#texture" },
+				"west": { "uv": [ 9, 0, 15, 2 ], "texture": "#texture" },
+				"east": { "uv": [ 9, 0, 15, 2 ], "texture": "#texture" }
+			}
+		}
+	]
+}

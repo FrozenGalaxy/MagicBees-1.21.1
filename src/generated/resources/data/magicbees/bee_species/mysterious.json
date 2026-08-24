@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 16751968,
+  "dominant": true,
+  "genome": {
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    }
+  },
+  "genus": "Arcanapis",
+  "outline": 7744450,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_occult"
+    }
+  ],
+  "species": "mysticus"
+}

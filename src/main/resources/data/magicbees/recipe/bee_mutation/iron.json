@@ -1,0 +1,18 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:common",
+  "id": "magicbees:bee_mutation/iron",
+  "result": "magicbees:iron",
+  "second": "forestry:industrious",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "minecraft:iron_block"
+        }
+      ]
+    }
+  ]
+}

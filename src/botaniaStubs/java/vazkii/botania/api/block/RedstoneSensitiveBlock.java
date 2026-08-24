@@ -1,0 +1,3 @@
+package vazkii.botania.api.block;
+import net.minecraft.core.BlockPos; import net.minecraft.util.RandomSource; import net.minecraft.world.item.context.BlockPlaceContext; import net.minecraft.world.level.Level; import net.minecraft.world.level.block.state.BlockState;
+public interface RedstoneSensitiveBlock { static void redstoneParticlesInShape(BlockState s,Level l,BlockPos p,RandomSource r){} static void updateRedstonePower(BlockState s,Level l,BlockPos p){} static BlockState getPoweredStateForPlacement(BlockState s,BlockPlaceContext c){return s;} default boolean isPowered(BlockState s){return false;} }

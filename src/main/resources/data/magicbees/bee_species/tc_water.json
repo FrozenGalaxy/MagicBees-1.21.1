@@ -1,0 +1,50 @@
+{
+  "genus": "Thaumiapis",
+  "species": "umidus",
+  "dominant": true,
+  "humidity": "damp",
+  "body": 10066329,
+  "outline": 3592153,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_tc_water"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:propolis_water"
+    }
+  ],
+  "authority": "Elec332",
+  "glint": true,
+  "genome": {
+    "forestry:speed": {
+      "value": 1.2,
+      "dominant": true
+    },
+    "forestry:lifespan": {
+      "value": 50
+    },
+    "forestry:humidity_tolerance": {
+      "value": "DOWN_2"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:territory": {
+      "value": [
+        11,
+        8,
+        11
+      ]
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:thaumic_flowers"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:thaumaturge_water_cleansing"
+    }
+  }
+}

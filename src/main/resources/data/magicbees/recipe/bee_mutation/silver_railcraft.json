@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:not","value":{"type":"neoforge:tag_empty","tag":"c:nuggets/silver"}}],"type":"forestry:bee_mutation","chance":0.08,"first":"forestry:imperial","id":"magicbees:bee_mutation/silver_railcraft","result":"magicbees:silver","second":"forestry:modest","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/silver"}]}

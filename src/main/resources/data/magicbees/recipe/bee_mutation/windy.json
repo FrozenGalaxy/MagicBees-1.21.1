@@ -1,0 +1,23 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.14,
+  "first": "magicbees:supernatural",
+  "id": "magicbees:bee_mutation/windy",
+  "result": "magicbees:windy",
+  "second": "magicbees:ethereal",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {"Name": "minecraft:oak_leaves"},
+        {"Name": "minecraft:spruce_leaves"},
+        {"Name": "minecraft:birch_leaves"},
+        {"Name": "minecraft:jungle_leaves"},
+        {"Name": "minecraft:acacia_leaves"},
+        {"Name": "minecraft:dark_oak_leaves"},
+        {"Name": "minecraft:mangrove_leaves"},
+        {"Name": "minecraft:cherry_leaves"}
+      ]
+    }
+  ]
+}

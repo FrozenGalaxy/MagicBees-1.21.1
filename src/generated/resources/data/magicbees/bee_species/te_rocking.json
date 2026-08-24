@@ -1,0 +1,60 @@
+{
+  "authority": "Elec332",
+  "body": 11247003,
+  "dominant": true,
+  "genome": {
+    "forestry:activity": {
+      "value": "magicbees:activity_never_sleeps"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_basalz"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:fertility": {
+      "value": 3
+    },
+    "forestry:flower_type": {
+      "value": "forestry:flower_type_vanilla"
+    },
+    "forestry:humidity_tolerance": {
+      "value": "BOTH_2"
+    },
+    "forestry:lifespan": {
+      "value": 70
+    },
+    "forestry:pollination": {
+      "dominant": true,
+      "value": 5
+    },
+    "forestry:speed": {
+      "value": 1.4
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    },
+    "forestry:territory": {
+      "value": [
+        9,
+        6,
+        9
+      ]
+    },
+    "forestry:tolerates_rain": {
+      "value": true
+    }
+  },
+  "genus": "Detestabilapis",
+  "glint": true,
+  "humidity": "arid",
+  "outline": 9961472,
+  "products": [
+    {
+      "chance": 0.29,
+      "item": "magicbees:bee_comb_earthy"
+    }
+  ],
+  "species": "saxsous",
+  "temperature": "hot"
+}

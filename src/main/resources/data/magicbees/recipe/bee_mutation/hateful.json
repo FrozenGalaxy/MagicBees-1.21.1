@@ -1,0 +1,9 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:infernal",
+  "id": "magicbees:bee_mutation/hateful",
+  "result": "magicbees:hateful",
+  "second": "magicbees:eldritch",
+  "conditions": [{"type": "forestry:biome", "biome": "minecraft:is_nether"}]
+}

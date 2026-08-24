@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["WXW", "WTW", "WWW"],
+  "key": {
+    "W": {"tag": "c:woven_silk"},
+    "X": {"item": "minecraft:diamond"},
+    "T": {"item": "magicbees:backpack_thaumaturge_t1"}
+  },
+  "result": {"id": "magicbees:backpack_thaumaturge_t2"}
+}

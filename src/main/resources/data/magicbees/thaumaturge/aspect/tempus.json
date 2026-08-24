@@ -1,0 +1,10 @@
+{
+  "tag": "tempus",
+  "color": 11970815,
+  "components": [
+    "thaumaturge:vacuos",
+    "thaumaturge:ordo"
+  ],
+  "texture": "magicbees:textures/aspects/tempus.png",
+  "blend": 1
+}

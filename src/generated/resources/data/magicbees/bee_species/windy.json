@@ -1,0 +1,25 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:pollination": {
+      "value": 30
+    },
+    "forestry:speed": {
+      "value": 1.4
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    }
+  },
+  "genus": "Magicapis",
+  "outline": 16776634,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_airy"
+    }
+  ],
+  "species": "ventosum"
+}

@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.6
+    }
+  },
+  "genus": "Velatapis",
+  "outline": 9270688,
+  "products": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "prodigiosus"
+}

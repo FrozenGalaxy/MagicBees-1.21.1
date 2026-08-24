@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "magicbees:block/beehive.3.top",
+    "side": "magicbees:block/beehive.3.side"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "neoforge:composite",
+  "textures": {
+    "particle": "magicbees:block/collector_jar"
+  },
+  "children": {
+    "glass": {
+      "parent": "magicbees:block/collector_jar_glass"
+    },
+    "lid": {
+      "parent": "magicbees:block/collector_jar_lid"
+    }
+  },
+  "item_render_order": ["glass", "lid"]
+}

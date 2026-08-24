@@ -1,0 +1,22 @@
+{
+  "authority": "Elec332",
+  "body": 9834240,
+  "dominant": true,
+  "genome": {
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    }
+  },
+  "genus": "Detestabilapis",
+  "humidity": "arid",
+  "outline": 16718876,
+  "products": [
+    {
+      "chance": 0.12,
+      "item": "magicbees:bee_comb_molten"
+    }
+  ],
+  "species": "infernales",
+  "temperature": "hellish"
+}

@@ -1,0 +1,25 @@
+{
+  "authority": "Elec332",
+  "body": 14648443,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_pig"
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 15838892,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.165,
+      "item": "minecraft:carrot"
+    }
+  ],
+  "species": "porcina"
+}

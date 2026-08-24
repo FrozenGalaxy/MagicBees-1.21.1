@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thermal_foundation"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "magicbees:spiteful",
+  "id": "magicbees:bee_mutation/te_coal",
+  "result": "magicbees:te_coal",
+  "second": "magicbees:tin",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "minecraft:coal_ore"
+        }
+      ]
+    }
+  ]
+}

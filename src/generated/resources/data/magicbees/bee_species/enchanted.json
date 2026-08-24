@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 16751968,
+  "dominant": true,
+  "genome": {
+    "forestry:temperature_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    }
+  },
+  "genus": "Occultapis",
+  "outline": 1632038,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_otherworldly"
+    }
+  ],
+  "species": "cantatus"
+}

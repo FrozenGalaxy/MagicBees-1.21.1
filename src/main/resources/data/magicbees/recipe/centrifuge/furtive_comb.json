@@ -1,0 +1,22 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/furtive_comb",
+  "input": {
+    "item": "magicbees:bee_comb_furtive"
+  },
+  "products": [
+    {
+      "chance": 0.9,
+      "item": "forestry:beeswax"
+    },
+    {
+      "chance": 0.2,
+      "item": "forestry:propolis"
+    },
+    {
+      "chance": 0.35,
+      "item": "forestry:honeydew"
+    }
+  ],
+  "time": 20
+}

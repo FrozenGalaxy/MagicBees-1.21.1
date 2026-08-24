@@ -1,0 +1,6 @@
+# Normalize text files in the repository while preserving platform-native working-tree endings.
+* text=auto
+
+# Generated resources always use LF.
+src/generated/**/.cache/* text eol=lf
+src/generated/**/*.json text eol=lf

@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 9303523,
+  "genus": "Lapidapis",
+  "outline": 2135425,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.06,
+      "item": "magicbees:ore_part_diamond"
+    }
+  ],
+  "species": "diamond"
+}

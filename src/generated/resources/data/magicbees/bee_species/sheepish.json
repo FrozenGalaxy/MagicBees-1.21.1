@@ -1,0 +1,35 @@
+{
+  "authority": "Elec332",
+  "body": 13290186,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_sheep"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_2"
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 16250871,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.16,
+      "item": "minecraft:white_wool"
+    },
+    {
+      "chance": 0.24,
+      "item": "minecraft:wheat"
+    }
+  ],
+  "species": "balans"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "magicbees:beef",
+  "id": "magicbees:bee_mutation/horse",
+  "result": "magicbees:horse",
+  "second": "magicbees:sheepish",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "c:is_plains"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "authority": "Elec332",
+  "body": 4943500,
+  "genome": {
+    "forestry:activity": {
+      "value": "magicbees:activity_never_sleeps"
+    },
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_heroic"
+    },
+    "forestry:lifespan": {
+      "value": 70
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_3"
+    },
+    "forestry:territory": {
+      "value": [
+        11,
+        8,
+        11
+      ]
+    }
+  },
+  "genus": "Tempestivapis",
+  "outline": 14542332,
+  "products": [
+    {
+      "chance": 0.24,
+      "item": "magicbees:bee_comb_temporal"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.078,
+      "item": "magicbees:jelly_babies"
+    }
+  ],
+  "species": "medicus qui"
+}

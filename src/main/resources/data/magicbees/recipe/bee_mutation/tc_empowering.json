@@ -1,0 +1,10 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.05,
+  "first": "magicbees:tc_vis",
+  "id": "magicbees:bee_mutation/tc_empowering",
+  "result": "magicbees:tc_empowering",
+  "second": "magicbees:tc_rejuvenating",
+  "conditions": [{"type": "magicbees:moon_phase", "start": 0, "end": 0, "inside_multiplier": 1.322, "outside_multiplier": 1.0}]
+}

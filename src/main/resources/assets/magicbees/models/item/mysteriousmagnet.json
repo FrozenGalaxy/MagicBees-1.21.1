@@ -1,0 +1,11 @@
+{
+  "parent": "magicbees:item/mysteriousmagnet_off",
+  "overrides": [
+    {
+      "predicate": {
+        "magicbees:active": 1.0
+      },
+      "model": "magicbees:item/mysteriousmagnet_on"
+    }
+  ]
+}

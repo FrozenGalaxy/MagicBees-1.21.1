@@ -1,0 +1,33 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "magicbees:carpenter/aromatic_lump_2",
+  "liquid": {
+    "amount": 1000,
+    "id": "forestry:honey"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "P": {
+        "item": "forestry:pollen_cluster"
+      },
+      "J": {
+        "item": "forestry:royal_jelly"
+      },
+      "D": {
+        "item": "magicbees:drop_enchanted"
+      }
+    },
+    "pattern": [
+      " J ",
+      "PDP",
+      " J "
+    ],
+    "result": {
+      "count": 2,
+      "id": "magicbees:resource_aromatic_lump"
+    }
+  },
+  "time": 30
+}

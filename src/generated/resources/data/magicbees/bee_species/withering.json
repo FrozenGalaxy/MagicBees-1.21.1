@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 9834240,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_withering"
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:territory": {
+      "value": [
+        15,
+        13,
+        15
+      ]
+    }
+  },
+  "genus": "Detestabilapis",
+  "glint": true,
+  "humidity": "arid",
+  "outline": 5987163,
+  "specialties": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:resource_skull_chip"
+    }
+  ],
+  "species": "vietus",
+  "temperature": "hellish"
+}

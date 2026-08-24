@@ -1,0 +1,35 @@
+{
+  "authority": "Elec332",
+  "body": 16160511,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_repulsion"
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:lifespan": {
+      "value": 70
+    },
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    }
+  },
+  "genus": "Extrarapis",
+  "glint": true,
+  "outline": 13346956,
+  "products": [
+    {
+      "chance": 0.3,
+      "item": "magicbees:bee_comb_forgotten"
+    }
+  ],
+  "species": "perditus",
+  "temperature": "cold"
+}

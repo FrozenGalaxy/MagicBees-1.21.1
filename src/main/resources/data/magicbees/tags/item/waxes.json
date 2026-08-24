@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "magicbees:wax_magic",
+    "magicbees:wax_soul",
+    "magicbees:wax_amnesic"
+  ]
+}

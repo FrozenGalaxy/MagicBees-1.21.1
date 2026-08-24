@@ -1,0 +1,28 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "magicbees:carpenter/candles_silk_wisp",
+  "liquid": {
+    "amount": 600,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "W": {
+        "tag": "magicbees:waxes"
+      },
+      "S": {
+        "item": "forestry:silk_wisp"
+      }
+    },
+    "pattern": [
+      "WSW"
+    ],
+    "result": {
+      "count": 6,
+      "id": "minecraft:candle"
+    }
+  },
+  "time": 30
+}

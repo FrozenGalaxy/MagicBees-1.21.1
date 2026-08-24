@@ -1,0 +1,11 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/temporal_comb",
+  "input": {"item": "magicbees:bee_comb_temporal"},
+  "products": [
+    {"chance": 1.0, "item": "magicbees:wax_magic"},
+    {"chance": 0.055, "item": "magicbees:pollen_phased"},
+    {"chance": 0.60, "item": "forestry:honeydew"}
+  ],
+  "time": 20
+}

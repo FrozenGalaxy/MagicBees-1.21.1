@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.07,
+  "first": "magicbees:skulking",
+  "id": "magicbees:bee_mutation/bigbad",
+  "result": "magicbees:bigbad",
+  "second": "magicbees:mysterious",
+  "conditions": [
+    {
+      "type": "magicbees:moon_phase",
+      "start": 0,
+      "end": 0,
+      "inside_multiplier": 1.0,
+      "outside_multiplier": 0.0
+    }
+  ]
+}

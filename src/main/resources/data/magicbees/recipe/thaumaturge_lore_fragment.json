@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"},
+    {"item": "magicbees:resource_lore_fragment"}
+  ],
+  "result": {"id": "thaumaturge:amber"}
+}

@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:common",
+  "id": "magicbees:bee_mutation/pork",
+  "result": "magicbees:pork",
+  "second": "magicbees:skulking",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "magicbees:is_mountain_or_hills"
+    }
+  ]
+}

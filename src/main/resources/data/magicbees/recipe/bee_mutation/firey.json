@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.14,
+  "first": "magicbees:supernatural",
+  "id": "magicbees:bee_mutation/firey",
+  "result": "magicbees:firey",
+  "second": "magicbees:ethereal",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [{"Name": "minecraft:lava"}]
+    }
+  ]
+}

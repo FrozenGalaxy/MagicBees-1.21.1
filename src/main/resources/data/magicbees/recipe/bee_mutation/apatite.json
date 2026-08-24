@@ -1,0 +1,18 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:rural",
+  "id": "magicbees:bee_mutation/apatite",
+  "result": "magicbees:apatite",
+  "second": "magicbees:copper",
+  "conditions": [
+    {
+      "type": "forestry:requires_resource",
+      "blocks": [
+        {
+          "Name": "forestry:apatite_ore"
+        }
+      ]
+    }
+  ]
+}

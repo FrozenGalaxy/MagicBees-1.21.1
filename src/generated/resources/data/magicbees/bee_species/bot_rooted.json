@@ -1,0 +1,14 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "dominant": true,
+  "genus": "Botanica",
+  "outline": 43008,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "truncus"
+}

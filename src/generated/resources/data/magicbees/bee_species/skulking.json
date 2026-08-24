@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 14766646,
+  "dominant": true,
+  "genome": {
+    "forestry:cave_dwelling": {
+      "value": true
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 5392423,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "secret": true,
+  "species": "malevolens"
+}

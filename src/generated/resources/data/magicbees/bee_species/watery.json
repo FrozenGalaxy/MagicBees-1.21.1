@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:flower_type": {
+      "value": "forestry:flower_type_snow"
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "UP_1"
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_2"
+    }
+  },
+  "genus": "Magicapis",
+  "outline": 3226718,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_watery"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.025,
+      "item": "minecraft:ice"
+    }
+  ],
+  "species": "aquatilis"
+}

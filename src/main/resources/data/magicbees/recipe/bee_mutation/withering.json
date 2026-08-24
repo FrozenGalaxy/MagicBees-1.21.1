@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "first": "forestry:demonic",
+  "id": "magicbees:bee_mutation/withering",
+  "result": "magicbees:withering",
+  "second": "magicbees:spiteful",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_nether"
+    }
+  ]
+}

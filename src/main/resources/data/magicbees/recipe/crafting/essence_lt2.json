@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gwg",
+    "wcw",
+    "gwg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "w": {
+      "item": "magicbees:wax_soul"
+    },
+    "c": {
+      "item": "minecraft:clock"
+    }
+  },
+  "result": {
+    "id": "magicbees:resource_essence_lost_time"
+  }
+}

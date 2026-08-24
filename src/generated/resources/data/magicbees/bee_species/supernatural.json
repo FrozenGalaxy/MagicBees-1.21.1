@@ -1,0 +1,30 @@
+{
+  "authority": "Elec332",
+  "body": 16751968,
+  "dominant": true,
+  "genome": {
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "BOTH_1"
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    }
+  },
+  "genus": "Occultapis",
+  "glint": true,
+  "outline": 22036,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_otherworldly"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.08,
+      "item": "magicbees:pollen_unusual"
+    }
+  ],
+  "species": "coeleste"
+}

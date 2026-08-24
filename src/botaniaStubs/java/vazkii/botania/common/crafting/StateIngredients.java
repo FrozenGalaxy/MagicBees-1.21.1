@@ -1,0 +1,1 @@
+package vazkii.botania.common.crafting; import net.minecraft.world.level.block.Block; import vazkii.botania.api.recipe.StateIngredient; public final class StateIngredients { public static final StateIngredient NONE=new StateIngredient(){}; public static StateIngredient of(Block block){return NONE;} }

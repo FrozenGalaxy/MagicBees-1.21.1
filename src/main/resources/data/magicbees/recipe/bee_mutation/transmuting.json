@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:unusual",
+  "id": "magicbees:bee_mutation/transmuting",
+  "result": "magicbees:transmuting",
+  "second": "magicbees:mutable"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "first": "magicbees:nameless",
+  "id": "magicbees:bee_mutation/forlorn",
+  "result": "magicbees:forlorn",
+  "second": "magicbees:abandoned"
+}

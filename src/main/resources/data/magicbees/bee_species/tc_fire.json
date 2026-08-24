@@ -1,0 +1,46 @@
+{
+  "genus": "Thaumiapis",
+  "species": "praefervidus",
+  "dominant": true,
+  "temperature": "hot",
+  "humidity": "arid",
+  "body": 10066329,
+  "outline": 15010571,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_tc_fire"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:propolis_fire"
+    }
+  ],
+  "authority": "Elec332",
+  "glint": true,
+  "genome": {
+    "forestry:speed": {
+      "value": 1.4
+    },
+    "forestry:lifespan": {
+      "value": 40
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_3"
+    },
+    "forestry:humidity_tolerance": {
+      "value": "UP_2"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:thaumic_flowers"
+    },
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_ignition"
+    }
+  }
+}

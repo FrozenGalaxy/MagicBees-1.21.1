@@ -1,0 +1,10 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:earthy",
+  "id": "magicbees:bee_mutation/tc_earth",
+  "result": "magicbees:tc_earth",
+  "second": "magicbees:earthy",
+  "conditions": [{"type": "forestry:requires_resource", "blocks": [{"Name": "thaumaturge:crystal_terra"}] }]
+}

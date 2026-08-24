@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.10,
+  "first": "magicbees:ethereal",
+  "id": "magicbees:bee_mutation/aware",
+  "result": "magicbees:aware",
+  "second": "magicbees:attuned"
+}

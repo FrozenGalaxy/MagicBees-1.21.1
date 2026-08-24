@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "magicbees:item/moondial.0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "magicbees:moon_phase": 1.0
+      },
+      "model": "magicbees:item/moondial_1"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 2.0
+      },
+      "model": "magicbees:item/moondial_2"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 3.0
+      },
+      "model": "magicbees:item/moondial_3"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 4.0
+      },
+      "model": "magicbees:item/moondial_4"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 5.0
+      },
+      "model": "magicbees:item/moondial_5"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 6.0
+      },
+      "model": "magicbees:item/moondial_6"
+    },
+    {
+      "predicate": {
+        "magicbees:moon_phase": 7.0
+      },
+      "model": "magicbees:item/moondial_7"
+    }
+  ]
+}

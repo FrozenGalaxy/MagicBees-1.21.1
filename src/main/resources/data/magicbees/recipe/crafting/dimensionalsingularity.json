@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "QEQ",
+    " W "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "Q": {
+      "item": "minecraft:quartz_block"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "W": {
+      "item": "minecraft:end_stone"
+    }
+  },
+  "result": {
+    "id": "magicbees:resource_dimensional_singularity"
+  }
+}

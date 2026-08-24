@@ -1,0 +1,28 @@
+{
+  "authority": "Elec332",
+  "body": 14766646,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_zombie"
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 8650608,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.06,
+      "item": "minecraft:rotten_flesh"
+    }
+  ],
+  "secret": true,
+  "species": "cerebrum"
+}

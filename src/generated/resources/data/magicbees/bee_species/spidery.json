@@ -1,0 +1,40 @@
+{
+  "authority": "Elec332",
+  "body": 2236962,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_spider"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 8947848,
+  "products": [
+    {
+      "chance": 0.13,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.08,
+      "item": "minecraft:string"
+    }
+  ],
+  "secret": true,
+  "specialties": [
+    {
+      "chance": 0.08,
+      "item": "minecraft:spider_eye"
+    }
+  ],
+  "species": "araneolus"
+}

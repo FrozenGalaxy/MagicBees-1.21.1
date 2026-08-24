@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:oblivion",
+  "id": "magicbees:bee_mutation/abandoned",
+  "result": "magicbees:abandoned",
+  "second": "magicbees:nameless"
+}

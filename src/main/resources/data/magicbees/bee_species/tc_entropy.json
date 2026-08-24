@@ -1,0 +1,27 @@
+{
+  "genus": "Thaumiapis",
+  "species": "tenebrarum",
+  "dominant": false,
+  "body": 10066329,
+  "outline": 13421772,
+  "products": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_tc_entropy"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:propolis_entropy"
+    }
+  ],
+  "authority": "Elec332",
+  "glint": true,
+  "genome": {
+    "forestry:fertility": {
+      "value": 2,
+      "dominant": true
+    }
+  }
+}

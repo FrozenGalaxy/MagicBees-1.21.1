@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.04,
+  "first": "magicbees:iron",
+  "id": "magicbees:bee_mutation/tc_void",
+  "result": "magicbees:tc_void",
+  "second": "magicbees:tc_taint",
+  "conditions": [
+    {"type": "forestry:biome", "biome": "thaumaturge:is_magical"},
+    {"type": "forestry:daytime", "day": false}
+  ]
+}

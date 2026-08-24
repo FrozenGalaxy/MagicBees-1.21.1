@@ -1,0 +1,30 @@
+{
+  "authority": "Elec332",
+  "body": 10670808,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_transmuting"
+    }
+  },
+  "genus": "Transmutapis",
+  "outline": 14398028,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:parched_comb"
+    },
+    {
+      "chance": 0.3,
+      "item": "magicbees:bee_comb_transmuted"
+    },
+    {
+      "chance": 0.05,
+      "item": "forestry:silky_comb"
+    },
+    {
+      "chance": 0.05,
+      "item": "forestry:simmering_comb"
+    }
+  ],
+  "species": "transmuting"
+}

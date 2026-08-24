@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.1,
+  "first": "forestry:cultivated",
+  "id": "magicbees:bee_mutation/esoteric",
+  "result": "magicbees:esoteric",
+  "second": "magicbees:eldritch"
+}

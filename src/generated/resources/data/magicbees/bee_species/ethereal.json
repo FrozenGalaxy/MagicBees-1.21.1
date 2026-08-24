@@ -1,0 +1,27 @@
+{
+  "authority": "Elec332",
+  "body": 15726847,
+  "dominant": true,
+  "genome": {
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 35
+    },
+    "forestry:pollination": {
+      "value": 20
+    }
+  },
+  "genus": "Magicapis",
+  "outline": 12204859,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_occult"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_otherworldly"
+    }
+  ],
+  "species": "diaphanum"
+}

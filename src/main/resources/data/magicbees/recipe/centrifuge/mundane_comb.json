@@ -1,0 +1,22 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/mundane_comb",
+  "input": {
+    "item": "magicbees:bee_comb_mundane"
+  },
+  "products": [
+    {
+      "chance": 0.9,
+      "item": "forestry:beeswax"
+    },
+    {
+      "chance": 0.6,
+      "item": "forestry:honey_drop"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:wax_magic"
+    }
+  ],
+  "time": 20
+}

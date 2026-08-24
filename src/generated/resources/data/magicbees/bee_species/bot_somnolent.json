@@ -1,0 +1,39 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "dominant": true,
+  "genome": {
+    "forestry:activity": {
+      "value": "forestry:activity_nocturnal"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_slow_speed"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    },
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.3
+    },
+    "forestry:temperature_tolerance": {
+      "value": "UP_2"
+    }
+  },
+  "genus": "Botanica",
+  "outline": 2717894,
+  "products": [
+    {
+      "chance": 0.08,
+      "item": "magicbees:bee_comb_watery"
+    },
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_soul"
+    }
+  ],
+  "species": "soporatus"
+}

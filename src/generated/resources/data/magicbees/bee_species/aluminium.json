@@ -1,0 +1,14 @@
+{
+  "authority": "Elec332",
+  "body": 7763574,
+  "dominant": true,
+  "genus": "Metalliapis",
+  "outline": 15592941,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "aluminium"
+}

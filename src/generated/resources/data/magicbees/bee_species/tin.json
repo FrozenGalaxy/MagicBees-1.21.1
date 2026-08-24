@@ -1,0 +1,20 @@
+{
+  "authority": "Elec332",
+  "body": 10926795,
+  "dominant": true,
+  "genus": "Metalliapis",
+  "outline": 4086125,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:ore_part_tin"
+    }
+  ],
+  "species": "stannum"
+}

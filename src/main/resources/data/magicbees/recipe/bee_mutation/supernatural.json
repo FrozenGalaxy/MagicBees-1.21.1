@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:charmed",
+  "id": "magicbees:bee_mutation/supernatural",
+  "result": "magicbees:supernatural",
+  "second": "magicbees:enchanted",
+  "conditions": [
+    {
+      "type": "magicbees:moon_phase",
+      "start": 1,
+      "end": 3,
+      "inside_multiplier": 1.2,
+      "outside_multiplier": 1.0
+    }
+  ]
+}

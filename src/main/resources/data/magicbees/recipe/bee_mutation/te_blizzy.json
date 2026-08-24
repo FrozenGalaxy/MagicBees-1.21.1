@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_foundation"
+    }
+  ],
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:wintry",
+  "id": "magicbees:bee_mutation/te_blizzy",
+  "result": "magicbees:te_blizzy",
+  "second": "magicbees:skulking"
+}

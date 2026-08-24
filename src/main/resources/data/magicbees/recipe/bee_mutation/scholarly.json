@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:arcane",
+  "id": "magicbees:bee_mutation/scholarly",
+  "result": "magicbees:scholarly",
+  "second": "magicbees:pupil"
+}

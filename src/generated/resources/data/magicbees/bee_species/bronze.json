@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genus": "Metalliapis",
+  "outline": 11889927,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:ore_part_bronze"
+    }
+  ],
+  "species": "bronze"
+}

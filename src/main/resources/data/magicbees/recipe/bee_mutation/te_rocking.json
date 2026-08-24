@@ -1,0 +1,14 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_foundation"
+    }
+  ],
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:te_grounded",
+  "id": "magicbees:bee_mutation/te_rocking",
+  "result": "magicbees:te_rocking",
+  "second": "magicbees:earthy"
+}

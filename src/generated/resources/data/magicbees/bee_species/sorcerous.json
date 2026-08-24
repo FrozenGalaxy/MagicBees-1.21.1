@@ -1,0 +1,28 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:fertility": {
+      "value": 3
+    },
+    "forestry:humidity_tolerance": {
+      "dominant": true,
+      "value": "UP_1"
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_2"
+    }
+  },
+  "genus": "Velatapis",
+  "humidity": "arid",
+  "outline": 15375002,
+  "products": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "fascinatio",
+  "temperature": "hot"
+}

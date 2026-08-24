@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:tc_rejuvenating",
+  "id": "magicbees:bee_mutation/tc_nexus",
+  "result": "magicbees:tc_nexus",
+  "second": "magicbees:tc_empowering",
+  "conditions": [
+    {"type": "forestry:biome", "biome": "thaumaturge:is_magical"},
+    {"type": "magicbees:aura_vis", "minimum": 350}
+  ]
+}

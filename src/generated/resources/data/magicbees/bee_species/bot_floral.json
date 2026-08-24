@@ -1,0 +1,30 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "dominant": true,
+  "genome": {
+    "forestry:fertility": {
+      "value": 3
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    },
+    "forestry:pollination": {
+      "dominant": true,
+      "value": 99
+    }
+  },
+  "genus": "Botanica",
+  "outline": 2742298,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_mundane"
+    },
+    {
+      "chance": 0.05,
+      "item": "magicbees:bee_comb_transmuted"
+    }
+  ],
+  "species": "florens"
+}

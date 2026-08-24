@@ -1,0 +1,22 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/forgotten_comb",
+  "input": {
+    "item": "magicbees:bee_comb_forgotten"
+  },
+  "products": [
+    {
+      "chance": 0.5,
+      "item": "magicbees:wax_amnesic"
+    },
+    {
+      "chance": 0.5,
+      "item": "forestry:pulsating_propolis"
+    },
+    {
+      "chance": 0.4,
+      "item": "forestry:honey_drop"
+    }
+  ],
+  "time": 20
+}

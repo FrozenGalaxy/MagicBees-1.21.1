@@ -1,0 +1,35 @@
+{
+  "authority": "Elec332",
+  "body": 9834240,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_misanthrope"
+    },
+    "forestry:lifespan": {
+      "dominant": true,
+      "value": 45
+    },
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    }
+  },
+  "genus": "Detestabilapis",
+  "humidity": "arid",
+  "outline": 14352603,
+  "products": [
+    {
+      "chance": 0.18,
+      "item": "magicbees:bee_comb_molten"
+    }
+  ],
+  "species": "odibilis",
+  "temperature": "hellish"
+}

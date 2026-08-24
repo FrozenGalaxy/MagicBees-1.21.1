@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 5651492,
+  "dominant": true,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_cat"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_3"
+    }
+  },
+  "genus": "Carnosapis",
+  "outline": 15525508,
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "magicbees:bee_comb_furtive"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.24,
+      "item": "minecraft:cod"
+    }
+  ],
+  "species": "feline",
+  "temperature": "hot"
+}

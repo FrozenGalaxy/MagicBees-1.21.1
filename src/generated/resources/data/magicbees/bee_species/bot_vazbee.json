@@ -1,0 +1,42 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "genome": {
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 1
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    },
+    "forestry:pollination": {
+      "dominant": true,
+      "value": 99
+    }
+  },
+  "genus": "Botanica",
+  "outline": 16739228,
+  "products": [
+    {
+      "chance": 0.05,
+      "item": "magicbees:bee_comb_soul"
+    },
+    {
+      "chance": 0.2,
+      "item": "minecraft:pink_dye"
+    },
+    {
+      "chance": 0.02,
+      "item": "minecraft:pink_wool"
+    },
+    {
+      "chance": 0.06,
+      "item": "minecraft:poppy"
+    },
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_transmuted"
+    }
+  ],
+  "species": "vazbii"
+}

@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "thaumaturge"
+      }
+    }
+  ],
+  "type": "forestry:bee_mutation",
+  "chance": 0.14,
+  "first": "magicbees:skulking",
+  "id": "magicbees:bee_mutation/brainy_fallback",
+  "result": "magicbees:brainy",
+  "second": "magicbees:mutable"
+}

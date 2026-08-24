@@ -1,0 +1,70 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genome": {
+    "forestry:activity": {
+      "value": "magicbees:activity_never_sleeps"
+    },
+    "forestry:bee_effect": {
+      "value": "forestry:bee_effect_ignition"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:fertility": {
+      "dominant": true,
+      "value": 2
+    },
+    "forestry:flower_type": {
+      "value": "forestry:flower_type_nether"
+    },
+    "forestry:humidity_tolerance": {
+      "value": "NONE"
+    },
+    "forestry:lifespan": {
+      "value": 60
+    },
+    "forestry:pollination": {
+      "dominant": true,
+      "value": 5
+    },
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    },
+    "forestry:temperature_tolerance": {
+      "value": "NONE"
+    },
+    "forestry:territory": {
+      "value": [
+        9,
+        6,
+        9
+      ]
+    },
+    "forestry:tolerates_rain": {
+      "value": true
+    }
+  },
+  "genus": "Detestabilapis",
+  "humidity": "arid",
+  "outline": 16231498,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_molten"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.05,
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "species": "inferno",
+  "temperature": "hellish"
+}

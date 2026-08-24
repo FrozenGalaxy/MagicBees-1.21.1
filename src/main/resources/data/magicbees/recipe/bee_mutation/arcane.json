@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "magicbees:esoteric",
+  "id": "magicbees:bee_mutation/arcane",
+  "result": "magicbees:arcane",
+  "second": "magicbees:mysterious",
+  "conditions": [
+    {
+      "type": "magicbees:moon_phase",
+      "start": 5,
+      "end": 7,
+      "inside_multiplier": 1.2,
+      "outside_multiplier": 1.0
+    }
+  ]
+}

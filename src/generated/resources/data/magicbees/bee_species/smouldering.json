@@ -1,0 +1,33 @@
+{
+  "authority": "Elec332",
+  "body": 15369028,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:spawn_blaze"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    }
+  },
+  "genus": "Malevolenapis",
+  "outline": 16762695,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_furtive"
+    },
+    {
+      "chance": 0.1,
+      "item": "magicbees:bee_comb_molten"
+    }
+  ],
+  "secret": true,
+  "specialties": [
+    {
+      "chance": 0.05,
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "species": "flagrantia",
+  "temperature": "hellish"
+}

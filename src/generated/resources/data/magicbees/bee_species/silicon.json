@@ -1,0 +1,29 @@
+{
+  "authority": "Elec332",
+  "body": 7562869,
+  "genome": {
+    "forestry:speed": {
+      "dominant": true,
+      "value": 0.8
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    },
+    "forestry:tolerates_rain": {
+      "value": true
+    }
+  },
+  "genus": "Lapidapis",
+  "outline": 11379367,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "siliconisque"
+}

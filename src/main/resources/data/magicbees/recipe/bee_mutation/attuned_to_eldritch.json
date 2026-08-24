@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "magicbees:attuned",
+  "id": "magicbees:bee_mutation/attuned_to_eldritch",
+  "result": "magicbees:eldritch",
+  "second": "forestry:cultivated"
+}

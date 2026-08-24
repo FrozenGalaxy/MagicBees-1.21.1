@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:batty",
+  "id": "magicbees:bee_mutation/ghastly",
+  "result": "magicbees:ghastly",
+  "second": "magicbees:ethereal"
+}

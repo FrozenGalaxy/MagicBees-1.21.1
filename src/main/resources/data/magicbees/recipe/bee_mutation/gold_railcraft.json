@@ -1,0 +1,1 @@
+{"neoforge:conditions":[{"type":"neoforge:not","value":{"type":"neoforge:tag_empty","tag":"c:nuggets/lead"}}],"type":"forestry:bee_mutation","chance":0.08,"first":"forestry:imperial","id":"magicbees:bee_mutation/gold_railcraft","result":"magicbees:gold","second":"magicbees:lead","conditions":[{"type":"magicbees:required_block_tag","tag":"c:storage_blocks/gold"}]}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gwg",
+    "wfw",
+    "gwg"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "w": {
+      "item": "magicbees:wax_soul"
+    },
+    "f": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "result": {
+    "id": "magicbees:resource_essence_shallow_grave"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genome": {
+    "forestry:lifespan": {
+      "value": 40
+    },
+    "forestry:temperature_tolerance": {
+      "value": "DOWN_2"
+    }
+  },
+  "genus": "Animapis",
+  "glint": true,
+  "outline": 8214811,
+  "products": [
+    {
+      "chance": 0.28,
+      "item": "magicbees:bee_comb_intellect"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.2,
+      "item": "magicbees:bee_comb_soul"
+    }
+  ],
+  "species": "anima"
+}

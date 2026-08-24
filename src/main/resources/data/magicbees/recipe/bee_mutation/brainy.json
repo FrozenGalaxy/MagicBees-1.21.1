@@ -1,0 +1,9 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "first": "magicbees:skulking",
+  "id": "magicbees:bee_mutation/brainy",
+  "result": "magicbees:brainy",
+  "second": "magicbees:pupil"
+}

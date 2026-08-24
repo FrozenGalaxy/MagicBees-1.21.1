@@ -1,0 +1,33 @@
+{
+  "genus": "Thaumiapis",
+  "species": "omnique",
+  "dominant": false,
+  "body": 6774481,
+  "outline": 14460386,
+  "products": [
+    {
+      "chance": 0.28,
+      "item": "magicbees:bee_comb_intellect"
+    },
+    {
+      "chance": 0.195,
+      "item": "magicbees:bee_comb_temporal"
+    }
+  ],
+  "authority": "Elec332",
+  "genome": {
+    "forestry:flower_type": {
+      "value": "magicbees:aura_node_flowers"
+    },
+    "forestry:territory": {
+      "value": [
+        15,
+        13,
+        15
+      ]
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:thaumaturge_hungry"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 1564002,
+  "genus": "Lapidapis",
+  "outline": 21248,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.04,
+      "item": "magicbees:ore_part_emerald"
+    }
+  ],
+  "species": "prasinus"
+}

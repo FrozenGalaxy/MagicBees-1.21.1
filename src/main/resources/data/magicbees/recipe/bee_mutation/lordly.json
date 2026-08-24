@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:imperial",
+  "id": "magicbees:bee_mutation/lordly",
+  "result": "magicbees:lordly",
+  "second": "magicbees:timely"
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "d d",
+    " e ",
+    "d d"
+  ],
+  "key": {
+    "d": {
+      "tag": "minecraft:dirt"
+    },
+    "e": {
+      "item": "magicbees:resource_essence_false_life"
+    }
+  },
+  "result": {
+    "id": "magicbees:enchanted_earth"
+  }
+}

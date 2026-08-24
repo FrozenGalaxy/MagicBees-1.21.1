@@ -1,0 +1,18 @@
+{
+  "type": "forestry:centrifuge",
+  "id": "magicbees:centrifuge/molten_comb",
+  "input": {
+    "item": "magicbees:bee_comb_molten"
+  },
+  "products": [
+    {
+      "chance": 0.86,
+      "item": "forestry:refractory_wax"
+    },
+    {
+      "chance": 0.087,
+      "item": "forestry:honey_drop"
+    }
+  ],
+  "time": 20
+}

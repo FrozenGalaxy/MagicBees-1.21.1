@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "magicbees:chicken",
+  "id": "magicbees:bee_mutation/catty",
+  "result": "magicbees:catty",
+  "second": "magicbees:spidery",
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_jungle"
+    }
+  ]
+}

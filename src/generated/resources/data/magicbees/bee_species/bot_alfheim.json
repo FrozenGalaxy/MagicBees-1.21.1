@@ -1,0 +1,40 @@
+{
+  "authority": "Elec332",
+  "body": 16777215,
+  "genome": {
+    "forestry:activity": {
+      "value": "forestry:activity_nocturnal"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_dreaming"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    },
+    "forestry:speed": {
+      "value": 1.0
+    },
+    "forestry:temperature_tolerance": {
+      "value": "UP_2"
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    }
+  },
+  "genus": "Botanica",
+  "outline": 16777215,
+  "products": [
+    {
+      "chance": 0.28,
+      "item": "magicbees:bee_comb_otherworldly"
+    }
+  ],
+  "species": "alfheimis"
+}

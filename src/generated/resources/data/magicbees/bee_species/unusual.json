@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genome": {
+    "forestry:temperature_tolerance": {
+      "value": "BOTH_2"
+    }
+  },
+  "genus": "Velatapis",
+  "outline": 7525217,
+  "products": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "inusitatus"
+}

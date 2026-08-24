@@ -1,0 +1,19 @@
+{
+  "authority": "Elec332",
+  "body": 16160511,
+  "genome": {
+    "forestry:fertility": {
+      "value": 4
+    }
+  },
+  "genus": "Extrarapis",
+  "outline": 14009317,
+  "products": [
+    {
+      "chance": 0.14,
+      "item": "magicbees:bee_comb_forgotten"
+    }
+  ],
+  "species": "oblivioni",
+  "temperature": "cold"
+}

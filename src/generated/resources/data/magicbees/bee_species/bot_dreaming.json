@@ -1,0 +1,45 @@
+{
+  "authority": "Elec332",
+  "body": 16757435,
+  "dominant": true,
+  "genome": {
+    "forestry:activity": {
+      "value": "forestry:activity_nocturnal"
+    },
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_slow_speed"
+    },
+    "forestry:cave_dwelling": {
+      "value": true
+    },
+    "forestry:flower_type": {
+      "value": "magicbees:botanical_flowers"
+    },
+    "forestry:speed": {
+      "value": 1.0
+    },
+    "forestry:temperature_tolerance": {
+      "value": "UP_2"
+    },
+    "forestry:territory": {
+      "value": [
+        13,
+        12,
+        13
+      ]
+    }
+  },
+  "genus": "Botanica",
+  "outline": 1193046,
+  "products": [
+    {
+      "chance": 0.16,
+      "item": "magicbees:bee_comb_watery"
+    },
+    {
+      "chance": 0.33,
+      "item": "magicbees:bee_comb_soul"
+    }
+  ],
+  "species": "somnior"
+}

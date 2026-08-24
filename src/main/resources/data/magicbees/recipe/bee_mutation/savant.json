@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "first": "magicbees:pupil",
+  "id": "magicbees:bee_mutation/savant",
+  "result": "magicbees:savant",
+  "second": "magicbees:scholarly"
+}

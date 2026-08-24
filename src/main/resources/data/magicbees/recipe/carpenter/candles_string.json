@@ -1,0 +1,30 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "id": "magicbees:carpenter/candles_string",
+  "liquid": {
+    "amount": 600,
+    "id": "minecraft:water"
+  },
+  "recipe": {
+    "category": "misc",
+    "key": {
+      "W": {
+        "tag": "magicbees:waxes"
+      },
+      "S": {
+        "item": "minecraft:string"
+      }
+    },
+    "pattern": [
+      " S ",
+      "WWW",
+      "WWW"
+    ],
+    "result": {
+      "count": 24,
+      "id": "minecraft:candle"
+    }
+  },
+  "time": 30
+}

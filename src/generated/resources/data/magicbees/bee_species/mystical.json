@@ -1,0 +1,14 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "dominant": true,
+  "genus": "Velatapis",
+  "outline": 11534263,
+  "products": [
+    {
+      "chance": 0.15,
+      "item": "magicbees:bee_comb_mundane"
+    }
+  ],
+  "species": "mysticum"
+}

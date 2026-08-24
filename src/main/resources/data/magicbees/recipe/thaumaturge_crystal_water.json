@@ -1,0 +1,6 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{"item": "magicbees:resource_tc_dust_water"}, {"item": "magicbees:resource_tc_dust_water"}, {"item": "magicbees:resource_tc_dust_water"}, {"item": "magicbees:resource_tc_dust_water"}],
+  "result": {"id": "thaumaturge:essentia_crystal", "components": {"thaumaturge:crystal_aspect": {"aspect": "thaumaturge:aqua"}}}
+}

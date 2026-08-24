@@ -1,0 +1,32 @@
+{
+  "authority": "Elec332",
+  "body": 14394532,
+  "genome": {
+    "forestry:bee_effect": {
+      "value": "magicbees:effect_crumbling"
+    }
+  },
+  "genus": "Transmutapis",
+  "humidity": "arid",
+  "outline": 14398028,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:parched_comb"
+    },
+    {
+      "chance": 0.3,
+      "item": "magicbees:bee_comb_transmuted"
+    },
+    {
+      "chance": 0.1,
+      "item": "forestry:powdery_comb"
+    },
+    {
+      "chance": 0.15,
+      "item": "forestry:cocoa_comb"
+    }
+  ],
+  "species": "crumbling",
+  "temperature": "hot"
+}

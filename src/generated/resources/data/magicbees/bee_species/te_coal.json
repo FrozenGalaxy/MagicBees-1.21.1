@@ -1,0 +1,23 @@
+{
+  "authority": "Elec332",
+  "body": 16743462,
+  "genus": "Thermametallic",
+  "outline": 3026221,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    },
+    {
+      "chance": 0.5,
+      "item": "magicbees:bee_comb_te_carbon"
+    }
+  ],
+  "specialties": [
+    {
+      "chance": 0.05,
+      "item": "minecraft:coal"
+    }
+  ],
+  "species": "carbonis"
+}

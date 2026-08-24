@@ -1,0 +1,15 @@
+{
+  "authority": "Elec332",
+  "body": 16752128,
+  "genus": "Metalliapis",
+  "humidity": "arid",
+  "outline": 7471104,
+  "products": [
+    {
+      "chance": 0.1,
+      "item": "forestry:honey_comb"
+    }
+  ],
+  "species": "aurantiaco",
+  "temperature": "hot"
+}
