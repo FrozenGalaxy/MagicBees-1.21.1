@@ -16,10 +16,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MagicBeesStaticFidelityTest {
+    private static final Pattern JAVA_STRING_LITERAL = Pattern.compile("\"((?:\\\\.|[^\"\\\\])*)\"");
+    private static final Pattern TRANSLATION_KEY_SHAPE = Pattern.compile("[a-z][a-z0-9_]*(?:\\.[a-z0-9_]+)+");
+
     private record MutationEdge(String first, String second) {
     }
 
@@ -62,7 +68,8 @@ class MagicBeesStaticFidelityTest {
             assertTrue(language.contains("\"allele.forestry.bee_species.magicbees." + species + "\""),
                     "Missing species translation: " + species);
         }
-        for (String item : List.of("bee_comb_te_destabilized", "bee_comb_te_carbon", "drop_enchanted")) {
+        for (String item : List.of("bee_comb_te_destabilized", "bee_comb_te_carbon", "drop_enchanted",
+                "backpack_thaumaturge", "backpack_thaumaturge_t1", "backpack_thaumaturge_t2")) {
             assertTrue(language.contains("\"item.magicbees." + item + "\""),
                     "Missing item translation: " + item);
         }
@@ -70,6 +77,125 @@ class MagicBeesStaticFidelityTest {
             assertTrue(language.contains("\"allele.forestry.bee_species.magicbees." + species + "\""),
                 "Missing Thaumic species translation: " + species);
         }
+    }
+
+    @Test
+    void everyRawTranslatableKeyUsedByCodeHasEnglishTranslation() throws IOException {
+        JsonObject language = JsonParser.parseString(resource("assets/magicbees/lang/en_us.json")).getAsJsonObject();
+        Set<String> required = new TreeSet<>();
+        try (var files = Files.walk(Path.of("src/main/java"))) {
+            for (Path file : files.filter(path -> path.toString().endsWith(".java")).toList()) {
+                String source = Files.readString(file);
+                int searchFrom = 0;
+                while (true) {
+                    int call = source.indexOf("Component.translatable(", searchFrom);
+                    if (call < 0) {
+                        break;
+                    }
+                    int statementEnd = source.indexOf(';', call);
+                    if (statementEnd < 0) {
+                        statementEnd = Math.min(source.length(), call + 500);
+                    }
+                    Matcher literals = JAVA_STRING_LITERAL.matcher(source.substring(call, statementEnd));
+                    while (literals.find()) {
+                        String key = literals.group(1);
+                        if (TRANSLATION_KEY_SHAPE.matcher(key).matches()) {
+                            required.add(key);
+                        }
+                    }
+                    searchFrom = call + "Component.translatable(".length();
+                }
+            }
+        }
+
+        for (int phase = 0; phase < 8; phase++) {
+            required.add("magicbees.moon_phase." + phase);
+        }
+        for (String modifier : List.of("production", "genetic_decay", "mutation", "lifespan", "territory", "flowering")) {
+            required.add("magicbees.frame.modifier." + modifier);
+        }
+        for (String key : List.of("hive.curious", "hive.unusual", "hive.resonant", "hive.deep",
+                "hive.infernal", "hive.oblivion", "aromatic_lump")) {
+            required.add("magicbees.jei.description." + key);
+        }
+        for (Path speciesRoot : List.of(
+                Path.of("src/main/resources/data/magicbees/bee_species"),
+                Path.of("src/generated/resources/data/magicbees/bee_species"))) {
+            if (!Files.isDirectory(speciesRoot)) {
+                continue;
+            }
+            try (var files = Files.list(speciesRoot)) {
+                for (Path file : files.filter(path -> path.toString().endsWith(".json")).toList()) {
+                JsonObject json = JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+                if (!json.has("genome")) {
+                    continue;
+                }
+                JsonObject genome = json.getAsJsonObject("genome");
+                if (genome.has("forestry:flower_type")) {
+                    String flowerType = genome.getAsJsonObject("forestry:flower_type").get("value").getAsString();
+                    if (flowerType.startsWith("magicbees:")) {
+                        String path = flowerType.substring("magicbees:".length());
+                        required.add("allele.forestry.flower_type.magicbees." + path);
+                        required.add("allele.forestry.flower_type." + path);
+                        required.add("magicbees." + path);
+                    }
+                }
+                if (genome.has("forestry:bee_effect")) {
+                    String effect = genome.getAsJsonObject("forestry:bee_effect").get("value").getAsString();
+                    if (effect.startsWith("magicbees:")) {
+                        String path = effect.substring("magicbees:".length());
+                        required.add("allele.forestry.bee_effect.magicbees." + path);
+                        required.add("magicbees." + path);
+                    }
+                }
+            }
+            }
+        }
+
+        Set<String> missing = new TreeSet<>();
+        for (String key : required) {
+            if (!language.has(key)) {
+                missing.add(key);
+            }
+        }
+        assertTrue(missing.isEmpty(), "Missing English translations for raw code keys: " + missing);
+    }
+
+    @Test
+    void customFlowerTypesUsedBySpeciesUseAnalyzerVisibleTags() throws IOException {
+        Set<String> flowerTypes = magicBeesFlowerTypesUsedBySpecies();
+        assertTrue(!flowerTypes.isEmpty(), "No custom Magic Bees flower types were found in species data");
+
+        String taxonomy = Files.readString(Path.of("src/main/java/magicbees/forestry/MagicBeeTaxa.java"));
+        String thaumaturge = Files.readString(Path.of("src/main/java/magicbees/integration/thaumaturge/ThaumaturgeIntegration.java"));
+        String combinedSource = taxonomy + "\n" + thaumaturge;
+        assertTrue(!combinedSource.contains("BlockFlowerType") && combinedSource.contains("TagFlowerType"),
+                "Custom Magic Bees flower alleles must be Forestry TagFlowerType-compatible so analyzer hover can show accepted flowers");
+
+        for (String flowerType : flowerTypes) {
+            Path tag = Path.of("src/main/resources/data/magicbees/tags/block/" + flowerType + ".json");
+            assertTrue(Files.isRegularFile(tag), "Missing analyzer-visible block tag for flower type magicbees:" + flowerType);
+            JsonObject json = JsonParser.parseString(Files.readString(tag)).getAsJsonObject();
+            assertTrue(json.has("values") && json.getAsJsonArray("values").size() > 0,
+                    "Flower type tag must list accepted flowers: " + tag);
+        }
+
+        assertTrue(Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/bookshelf_flowers.json"))
+                        .contains("\"minecraft:bookshelf\""),
+                "Bookshelf flowers tag must expose vanilla bookshelves");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/botanical_flowers.json"))
+                        .contains("\"#botania:small_mystical_flowers\"")
+                        && Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/botanical_flowers.json"))
+                        .contains("\"#botania:tall_mystical_flowers\""),
+                "Botanical flowers tag must expose Botania mystical flower tags");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/thaumic_flowers.json"))
+                        .contains("\"thaumaturge:shimmerleaf\"")
+                        && Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/thaumic_flowers.json"))
+                        .contains("\"thaumaturge:cinderpearl\""),
+                "Thaumic flower tag must expose Thaumaturge Shimmerleaf and Cinderpearl blocks");
+        assertTrue(Files.readString(Path.of("src/main/resources/data/magicbees/tags/block/aura_node_flowers.json"))
+                        .contains("\"thaumaturge:vishroom\""),
+                "Aura node flower tag must expose the Thaumaturge Vishroom block");
     }
 
     @Test
@@ -346,11 +472,81 @@ class MagicBeesStaticFidelityTest {
                     "Legacy Effect Jar screen texture is missing");
 
             String language = resource("assets/magicbees/lang/en_us.json");
+            assertTrue(language.contains("\"gui.magicbees.effectjar.health_bar\"")
+                            && language.contains("\"gui.magicbees.effectjar.health_bar.value\"")
+                            && language.contains("\"gui.magicbees.effectjar.health_bar.time_left\"")
+                            && language.contains("\"gui.magicbees.effectjar.status.paused\"")
+                            && language.contains("\"gui.magicbees.effectjar.inserted\"")
+                            && language.contains("\"gui.magicbees.effectjar.showing_effect\"")
+                            && language.contains("\"gui.magicbees.effectjar.ledger\"")
+                            && language.contains("\"gui.magicbees.effectjar.ledger.effect\"")
+                            && language.contains("\"tooltip.magicbees.effectjar\"")
+                            && language.contains("\"gui.magicbees.effectjar.info\"")
+                            && language.contains("\"gui.magicbees.effectjar.info.text\"")
+                            && language.contains("\"gui.magicbees.effectjar.status.paused_short\"")
+                            && language.contains("\"allele.forestry.bee_effect.magicbees.spawn_bat\"")
+                            && language.contains("\"allele.forestry.bee_effect.magicbees.effect_dreaming\""),
+                    "Effect Jar explanatory GUI translations are missing");
             for (String key : List.of("hive.curious", "hive.unusual", "hive.resonant", "hive.deep",
                     "hive.infernal", "hive.oblivion", "aromatic_lump")) {
                 assertTrue(language.contains("\"magicbees.jei.description." + key + "\""),
                         "Missing legacy JEI description translation: " + key);
             }
+            String jarScreen = Files.readString(Path.of("src/main/java/magicbees/client/screen/EffectJarScreen.java"));
+            assertTrue(jarScreen.contains("extends GuiForestry<EffectJarMenu>")
+                            && jarScreen.contains("addErrorLedger(menu.jar())")
+                            && jarScreen.contains("addClimateLedger(menu.jar())")
+                            && jarScreen.contains("ContainedBeeLedger")
+                            && jarScreen.contains("EffectJarInfoLedger")
+                            && jarScreen.contains("MagicBeesBlocks.EFFECT_JAR")
+                            && jarScreen.contains("drawDimmedEmptyBeeIcon")
+                            && jarScreen.contains("ForestryBeeSpecies.FOREST")
+                            && jarScreen.contains("0xAA808080")
+                            && jarScreen.contains("RenderSystem.enableBlend()")
+                            && jarScreen.contains("BACKGROUND")
+                            && jarScreen.contains("BAR_U = 178")
+                            && jarScreen.contains("gui.magicbees.effectjar.health_bar.time_left")
+                            && jarScreen.contains("displayBee() == null")
+                            && jarScreen.contains("gui.magicbees.effectjar.info.text")
+                            && jarScreen.contains("gui.magicbees.effectjar.status.paused")
+                            && jarScreen.contains("gui.magicbees.effectjar.ledger.effect"),
+                    "Effect Jar screen must preserve the legacy texture and expose Forestry ledgers for jar state");
+            assertTrue(!jarScreen.contains("effectjar_bg.png"),
+                    "Effect Jar screen must use the single jarscreen.png texture atlas, not a separate placeholder background");
+            assertTrue(!jarScreen.contains("markerY") && !jarScreen.contains("0xAA000000"),
+                    "Effect Jar health bar must not draw a separate moving age marker over the health fill");
+            assertTrue(!jarScreen.contains("drawVanillaPanel"),
+                    "Effect Jar screen must not inflate the compact legacy GUI with an oversized custom panel");
+            String jarRenderer = Files.readString(Path.of("src/main/java/magicbees/client/renderer/EffectJarRenderer.java"));
+            assertTrue(!jarRenderer.contains("Minecraft.useFancyGraphics()"),
+                    "Effect Jar bee rendering must not disappear when global fancy graphics is disabled");
+            assertTrue(jarRenderer.indexOf("getQueenStack()") < jarRenderer.indexOf("getVisibleStack()"),
+                    "Effect Jar renderer must display the active hidden Queen before queued visible Drones");
+            assertTrue(jarRenderer.contains("BeeLifeStage.QUEEN") && !jarRenderer.contains("bee.createStack(BeeLifeStage.DRONE)"),
+                    "Effect Jar in-world renderer must display the active hidden Queen with a Queen sprite, not a Drone sprite");
+            assertTrue(jarScreen.contains("BeeLifeStage.QUEEN") && !jarScreen.contains("createStack(queen, forestry.api.apiculture.genetics.BeeLifeStage.DRONE)"),
+                    "Effect Jar GUI ledger must display the active hidden Queen with a Queen sprite, not a Drone sprite");
+            assertTrue(!jarScreen.contains("gui.magicbees.effectjar.health_bar.time_left\", formatTicks(menu.ticksUntilDeath()))\n            ), mouseX, mouseY)"),
+                    "Effect Jar health-bar tooltip must not show time left when no bee is contained");
+            String jarBlockSource = Files.readString(Path.of("src/main/java/magicbees/block/EffectJarBlock.java"));
+            assertTrue(jarBlockSource.contains("tooltip.magicbees.effectjar"),
+                    "Effect Jar item tooltip must explain that drones are inserted to run bee effects");
+            String thaumaturgeSource = Files.readString(Path.of("src/main/java/magicbees/integration/thaumaturge/ThaumaturgeIntegration.java"));
+            assertTrue(thaumaturgeSource.contains("MAX_NEARBY_WISPS = 2")
+                            && thaumaturgeSource.contains("ThrottledBeeEffect.getBounding(housing, genome)"),
+                    "Wispy Effect Jar must preserve its legacy throttle/chance while capping nearby spawned Wisps");
+            String spawnMobSource = Files.readString(Path.of("src/main/java/magicbees/forestry/effect/SpawnMobBeeEffect.java"));
+            assertTrue(spawnMobSource.contains("mob.getClass()") && !spawnMobSource.contains("getBaseClass()")
+                            && spawnMobSource.contains("angryOnPlayers") && spawnMobSource.contains("mob::setTarget")
+                            && spawnMobSource.contains("spawnsAboveHousing") && spawnMobSource.contains("random.nextInt(3) - 1")
+                            && spawnMobSource.contains("level.noCollision(mob)") && spawnMobSource.contains("attempt < 12"),
+                    "Spawn-mob effects must cap against the concrete spawned entity class, use jar-local spawn positions, and require collision space");
+            String hiveacynthSource = Files.readString(Path.of("src/main/java/magicbees/integration/botania/blockentity/HiveacynthBlockEntity.java"));
+            assertTrue(hiveacynthSource.contains("p.getX()-RANGE+level.random.nextInt(RANGE*2+1),p.getY()+1,p.getZ()-RANGE+level.random.nextInt(RANGE*2+1)"),
+                    "Hiveacynth output item spawn position must match the 1.12 random range");
+            String hibeescusSource = Files.readString(Path.of("src/main/java/magicbees/integration/botania/blockentity/HibeescusBlockEntity.java"));
+            assertTrue(hibeescusSource.contains("p.getX()-RANGE+level.random.nextInt((int)(RANGE*2+1))"),
+                    "Hibeescus output item spawn position must match the 1.12 random range");
         }
 
         @Test
@@ -379,6 +575,34 @@ class MagicBeesStaticFidelityTest {
                 assertTrue(!commonFields.contains(dead), "Dead legacy config knob is still exposed: " + dead);
             }
         }
+
+    private static Set<String> magicBeesFlowerTypesUsedBySpecies() throws IOException {
+        Set<String> flowerTypes = new TreeSet<>();
+        for (Path speciesRoot : List.of(
+                Path.of("src/main/resources/data/magicbees/bee_species"),
+                Path.of("src/generated/resources/data/magicbees/bee_species"))) {
+            if (!Files.isDirectory(speciesRoot)) {
+                continue;
+            }
+            try (var files = Files.list(speciesRoot)) {
+                for (Path file : files.filter(path -> path.toString().endsWith(".json")).toList()) {
+                    JsonObject json = JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+                    if (!json.has("genome")) {
+                        continue;
+                    }
+                    JsonObject genome = json.getAsJsonObject("genome");
+                    if (!genome.has("forestry:flower_type")) {
+                        continue;
+                    }
+                    String flowerType = genome.getAsJsonObject("forestry:flower_type").get("value").getAsString();
+                    if (flowerType.startsWith("magicbees:")) {
+                        flowerTypes.add(flowerType.substring("magicbees:".length()));
+                    }
+                }
+            }
+        }
+        return flowerTypes;
+    }
 
     private static boolean staticallyReachableParent(Set<String> reachable, String parent) {
         return !parent.startsWith("magicbees:") || reachable.contains(parent.substring("magicbees:".length()));

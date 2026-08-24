@@ -20,6 +20,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.IMutation;
 import forestry.api.core.genetics.alleles.AllelePair;
 import forestry.apiculture.plugin.ApicultureRegistration;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.platform.util.SpeciesUtil;
 import magicbees.MagicBees;
 import magicbees.registry.MagicBeesBlocks;
@@ -43,6 +44,7 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -500,6 +502,34 @@ public final class MagicBeesGameTests {
     }
 
     @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
+    public static void customFlowerTypesUsedByMagicBeesAreAnalyzerVisible(GameTestHelper helper) {
+        Set<ResourceLocation> flowerTypes = new HashSet<>();
+        for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
+            if (!MagicBees.MOD_ID.equals(species.id().getNamespace())) {
+                continue;
+            }
+            AllelePair<ResourceLocation> flowers = species.getDefaultGenome().getAllelePair(BeeChromosomes.FLOWER_TYPE);
+            if (MagicBees.MOD_ID.equals(flowers.active().value().getNamespace())) {
+                flowerTypes.add(flowers.active().value());
+            }
+            if (MagicBees.MOD_ID.equals(flowers.inactive().value().getNamespace())) {
+                flowerTypes.add(flowers.inactive().value());
+            }
+        }
+
+        helper.assertTrue(!flowerTypes.isEmpty(), "No custom Magic Bees flower types were exercised");
+        for (ResourceLocation flowerType : flowerTypes) {
+            var resolved = IForestryApi.INSTANCE.getFlowerTypeManager().getFlowerType(flowerType);
+            helper.assertTrue(resolved instanceof TagFlowerType,
+                    flowerType + " must resolve to Forestry TagFlowerType so analyzer hover can show accepted flowers");
+            TagFlowerType tagFlowerType = (TagFlowerType) resolved;
+            helper.assertTrue(tagFlowerType.acceptableFlowers().location().equals(flowerType),
+                    flowerType + " analyzer tag should match its flower type id, got #" + tagFlowerType.acceptableFlowers().location());
+        }
+        helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
     public static void liveBranchDefaultsSurviveDatapackReload(GameTestHelper helper) {
         var infernal = SpeciesUtil.getBeeSpecies(MagicBees.id("infernal"));
         helper.assertTrue(infernal != null, "Infernal species is not live");
@@ -744,12 +774,36 @@ public final class MagicBeesGameTests {
 
     @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
     public static void expandedBeeEffectsPreserveLegacyParametersAndTransforms(GameTestHelper helper) {
-        SpawnMobBeeEffect horse = new SpawnMobBeeEffect(EntityType.HORSE, 450, 59, 2);
-        SpawnMobBeeEffect cat = new SpawnMobBeeEffect(EntityType.CAT, 702, 60, 2);
-        helper.assertTrue(horse.throttle() == 450 && horse.chance() == 59 && horse.maxMobs() == 2,
-                "Horse spawning effect lost legacy parameters");
-        helper.assertTrue(cat.throttle() == 702 && cat.chance() == 60 && cat.maxMobs() == 2,
-                "Cat spawning effect lost legacy parameters");
+        for (var effect : List.of(
+                new Object[]{"spawn_wolf", new SpawnMobBeeEffect(EntityType.WOLF, 650, 40, 2)},
+                new Object[]{"spawn_bat", new SpawnMobBeeEffect(EntityType.BAT, 150, 100, 5)},
+                new Object[]{"spawn_cow", new SpawnMobBeeEffect(EntityType.COW, 640, 100, 3)},
+                new Object[]{"spawn_chicken", new SpawnMobBeeEffect(EntityType.CHICKEN, 20, 100, 20)},
+                new Object[]{"spawn_pig", new SpawnMobBeeEffect(EntityType.PIG, 350, 100, 4)},
+                new Object[]{"spawn_sheep", new SpawnMobBeeEffect(EntityType.SHEEP, 450, 100, 5)},
+                new Object[]{"spawn_cat", new SpawnMobBeeEffect(EntityType.CAT, 702, 60, 2)},
+                new Object[]{"spawn_horse", new SpawnMobBeeEffect(EntityType.HORSE, 450, 59, 2)},
+                new Object[]{"spawn_ghast", new SpawnMobBeeEffect(EntityType.GHAST, 2060, 10, 1)},
+                new Object[]{"spawn_spider", new SpawnMobBeeEffect(EntityType.SPIDER, 400, 70, 4)},
+                new Object[]{"spawn_blaze", new SpawnMobBeeEffect(EntityType.BLAZE, 800, 60, 2)},
+                new Object[]{"spawn_zombie", new SpawnMobBeeEffect(EntityType.ZOMBIE, 800, 100, 2, true)}
+        )) {
+            SpawnMobBeeEffect spawn = (SpawnMobBeeEffect) effect[1];
+            helper.assertTrue(spawn.throttle() > 0 && spawn.chance() > 0 && spawn.maxMobs() > 0,
+                    effect[0] + " lost valid legacy spawning parameters");
+        }
+
+        helper.assertTrue(new SpawnMobBeeEffect(EntityType.WOLF, 650, 40, 2).chance() == 40,
+                "Canine spawn chance drifted from 1.12");
+        helper.assertTrue(new SpawnMobBeeEffect(EntityType.CHICKEN, 20, 100, 20).maxMobs() == 20,
+                "Chicken spawn cap drifted from 1.12");
+        helper.assertTrue(new SpawnMobBeeEffect(EntityType.GHAST, 2060, 10, 1).throttle() == 2060,
+                "Ghast spawn throttle drifted from 1.12");
+        helper.assertTrue(new SpawnMobBeeEffect(EntityType.HORSE, 450, 59, 2).chance() == 59
+                        && new SpawnMobBeeEffect(EntityType.CAT, 702, 60, 2).chance() == 60,
+                "Horse/Cat spawning chance drifted from 1.12");
+        helper.assertTrue(new SpawnMobBeeEffect(EntityType.ZOMBIE, 800, 100, 2, true).angryOnPlayers(),
+                "Brainy spawn effect lost the 1.12 angry-on-player flag");
 
         helper.assertTrue(WorldTransformBeeEffect.replacementForState(Blocks.SAND.defaultBlockState(), WorldTransformBeeEffect.Mode.TRANSMUTING, true).is(Blocks.SANDSTONE),
                 "Transmuting must turn sand into sandstone in sandy biomes");
@@ -1024,10 +1078,19 @@ public final class MagicBeesGameTests {
         ItemStack drones = timely.createStack(BeeLifeStage.DRONE);
         drones.setCount(2);
         jar.setVisibleStack(drones);
+        helper.assertTrue(jar.getCurrentBeeHealth() > 0,
+                "Effect Jar GUI health bar must update as soon as a bee is placed in the slot");
+        helper.assertTrue(jar.getCurrentBeeColour() == timely.getBody(),
+                "Effect Jar GUI health bar colour must match the inserted bee species");
         EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(jarPos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), jar);
-        helper.assertTrue(jar.getVisibleStack().getCount() == 1, "Effect Jar must consume exactly one Drone from a stack");
+        helper.assertTrue(jar.getVisibleStack().getCount() == 1, "Effect Jar must instantly consume one inserted Drone as its hidden running Queen");
         helper.assertTrue(IIndividualHandlerItem.getLifeStage(jar.getQueenStack()) == BeeLifeStage.QUEEN, "Effect Jar did not convert inserted Drone into internal Queen");
         helper.assertTrue(jar.getCurrentBeeHealth() > 0, "Effect Jar Queen presentation health was not initialized");
+        helper.assertTrue(jar.getTicksUntilDeath() > 0, "Effect Jar did not expose time left until the contained Queen dies");
+        IBee originalQueen = (IBee) IIndividualHandlerItem.getIndividual(jar.getQueenStack());
+        jar.setVisibleStack(requireSpecies(helper, "batty").createStack(BeeLifeStage.DRONE));
+        helper.assertTrue(((IBee) IIndividualHandlerItem.getIndividual(jar.getQueenStack())).getSpecies() == originalQueen.getSpecies(),
+                "Queued replacement Drones must not change the currently displayed/running hidden Queen");
         EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(jarPos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), jar);
         helper.assertTrue(jar.isActive(), "Effect Jar housing cannot work with a valid nearby vanilla flower");
 
@@ -1042,18 +1105,110 @@ public final class MagicBeesGameTests {
         EffectJarBlockEntity restored = new EffectJarBlockEntity(helper.absolutePos(jarPos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState());
         restored.setLevel(helper.getLevel());
         restored.loadWithComponents(saved, helper.getLevel().registryAccess());
-        helper.assertTrue(restored.getVisibleStack().getCount() == 1, "Effect Jar visible input did not survive NBT round-trip");
+        helper.assertTrue(restored.getVisibleStack().getCount() == 1, "Effect Jar remaining Drone input did not survive NBT round-trip");
         helper.assertTrue(IIndividualHandlerItem.getLifeStage(restored.getQueenStack()) == BeeLifeStage.QUEEN, "Effect Jar internal Queen did not survive NBT round-trip");
         helper.assertTrue(restored.getThrottle() == 123, "Effect Jar aging throttle did not survive NBT round-trip");
+        helper.assertTrue(restored.getTicksUntilDeath() > 0, "Effect Jar time-left menu data did not survive NBT round-trip");
         helper.assertTrue(!restored.isActive(), "Effect Jar transient active state must reset after reload");
 
+        ItemStack removed = restored.removeItemNoUpdate(0);
+        helper.assertTrue(removed.getCount() == 1, "Effect Jar slot removal must return only unconsumed Drones");
+        helper.assertTrue(IIndividualHandlerItem.getLifeStage(restored.getQueenStack()) == BeeLifeStage.QUEEN,
+                "Removing unconsumed Drones must not stop the hidden Effect Jar Queen");
+        restored.setVisibleStack(removed);
+        EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(jarPos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), restored);
+
         AABB dropsArea = new AABB(helper.absolutePos(jarPos)).inflate(2.0D);
+        jar.setVisibleStack(restored.getVisibleStack());
+        jar.setQueenStack(restored.getQueenStack());
         helper.setBlock(jarPos, Blocks.AIR);
         List<ItemEntity> drops = helper.getLevel().getEntitiesOfClass(ItemEntity.class, dropsArea);
-        long dronesDropped = drops.stream().filter(e -> IIndividualHandlerItem.getLifeStage(e.getItem()) == BeeLifeStage.DRONE).count();
+        long dronesDropped = drops.stream()
+                .filter(e -> IIndividualHandlerItem.getLifeStage(e.getItem()) == BeeLifeStage.DRONE)
+                .mapToLong(e -> e.getItem().getCount()).sum();
         long queensDropped = drops.stream().filter(e -> IIndividualHandlerItem.getLifeStage(e.getItem()) == BeeLifeStage.QUEEN).count();
-        helper.assertTrue(dronesDropped == 1, "Breaking Effect Jar must return its one visible Drone stack");
+        helper.assertTrue(dronesDropped == 1, "Breaking Effect Jar must return only its unconsumed Drone stack");
         helper.assertTrue(queensDropped == 0, "Legacy Effect Jar break rule must not return the internally running Queen");
+        helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
+    public static void effectJarBattySpawnsBatsOnlyWhileQueenCanWork(GameTestHelper helper) {
+        BlockPos inactivePos = new BlockPos(2, 2, 2);
+        helper.setBlock(inactivePos, MagicBeesBlocks.EFFECT_JAR.get());
+        EffectJarBlockEntity inactiveJar = helper.getBlockEntity(inactivePos);
+        inactiveJar.setVisibleStack(requireSpecies(helper, "batty").createStack(BeeLifeStage.DRONE));
+        EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(inactivePos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), inactiveJar);
+        int pausedTimeLeft = inactiveJar.getTicksUntilDeath();
+        for (int i = 0; i < 170; i++) {
+            EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(inactivePos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), inactiveJar);
+        }
+        helper.assertTrue(!inactiveJar.isActive(), "Effect Jar must report inactive when the Queen cannot satisfy Forestry work conditions");
+        helper.assertTrue(inactiveJar.getTicksUntilDeath() == pausedTimeLeft,
+                "Effect Jar life timer must pause instead of pretending to tick while the Queen cannot work");
+        helper.assertTrue(helper.getLevel().getEntitiesOfClass(Bat.class, new AABB(helper.absolutePos(inactivePos)).inflate(12.0D)).isEmpty(),
+                "Batty Effect Jar must not spawn bats while normal bee work conditions fail");
+        helper.setBlock(inactivePos.offset(1, -1, 0), Blocks.DIRT);
+        helper.setBlock(inactivePos.offset(1, 0, 0), Blocks.POPPY);
+        for (int i = 0; i < 10; i++) {
+            EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(inactivePos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), inactiveJar);
+        }
+        helper.assertTrue(inactiveJar.isActive(),
+                "Effect Jar active/status sync must update after valid flowers are placed near an already-paused Queen");
+        helper.assertTrue(inactiveJar.getTicksUntilDeath() < pausedTimeLeft,
+                "Effect Jar life timer must resume after valid flowers are placed near an already-paused Queen");
+
+        BlockPos activePos = new BlockPos(8, 2, 2);
+        helper.setBlock(activePos, MagicBeesBlocks.EFFECT_JAR.get());
+        helper.setBlock(activePos.offset(1, -1, 0), Blocks.DIRT);
+        helper.setBlock(activePos.offset(1, 0, 0), Blocks.POPPY);
+        EffectJarBlockEntity activeJar = helper.getBlockEntity(activePos);
+        activeJar.setVisibleStack(requireSpecies(helper, "batty").createStack(BeeLifeStage.DRONE));
+        for (int i = 0; i < 170; i++) {
+            EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(activePos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), activeJar);
+        }
+        helper.assertTrue(activeJar.isActive(), "Batty Effect Jar did not become active with a valid nearby flower");
+        helper.assertTrue(activeJar.getTicksUntilDeath() < pausedTimeLeft, "Active Effect Jar life timer did not tick down");
+        List<Bat> bats = helper.getLevel().getEntitiesOfClass(Bat.class, new AABB(helper.absolutePos(activePos)).inflate(12.0D));
+        helper.assertTrue(!bats.isEmpty(),
+                "Batty Effect Jar did not execute its Spawn Bat effect after the 150-tick legacy throttle");
+        BlockPos activeAbs = helper.absolutePos(activePos);
+        Bat bat = bats.getFirst();
+        helper.assertTrue(Math.abs(bat.getX() - (activeAbs.getX() + 0.5D)) < 0.001D
+                        && Math.abs(bat.getY() - (activeAbs.getY() + 1.0D)) < 0.001D
+                        && Math.abs(bat.getZ() - (activeAbs.getZ() + 0.5D)) < 0.001D,
+                "Flying jar spawns such as bats must appear above the jar, not at a random point in bee territory");
+        helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty", timeoutTicks = 1200)
+    public static void effectJarWispyPreservesLegacyThrottleButCapsNearbyWisps(GameTestHelper helper) {
+        if (!ModList.get().isLoaded("thaumaturge")) {
+            helper.succeed();
+            return;
+        }
+        var flower = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("thaumaturge", "shimmerleaf"));
+        if (flower.isEmpty()) {
+            helper.succeed();
+            return;
+        }
+
+        BlockPos jarPos = new BlockPos(3, 2, 3);
+        helper.setBlock(jarPos, MagicBeesBlocks.EFFECT_JAR.get());
+        helper.setBlock(jarPos.offset(1, -1, 0), Blocks.DIRT);
+        helper.setBlock(jarPos.offset(1, 0, 0), flower.get());
+        EffectJarBlockEntity jar = helper.getBlockEntity(jarPos);
+        jar.setVisibleStack(requireSpecies(helper, "tc_wispy").createStack(BeeLifeStage.DRONE));
+
+        for (int i = 0; i < 900; i++) {
+            EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(jarPos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), jar);
+        }
+
+        AABB bounds = new AABB(helper.absolutePos(jarPos)).inflate(12.0D);
+        int wisps = helper.getLevel()
+                .getEntitiesOfClass(com.leclowndu93150.thaumaturge.content.entity.WispEntity.class, bounds)
+                .size();
+        helper.assertTrue(wisps <= 2, "Wispy Effect Jar must cap nearby Wisps instead of flooding the area, found " + wisps);
         helper.succeed();
     }
 
@@ -1176,22 +1331,35 @@ public final class MagicBeesGameTests {
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
         EffectJarMenu menu = new EffectJarMenu(17, player.getInventory(), jar);
         helper.assertTrue(menu.slots.size() == 37, "Effect Jar menu must expose one jar slot plus 36 player slots");
-        helper.assertTrue(menu.slots.get(0).x == 80 && menu.slots.get(0).y == 22,
-                "Effect Jar input slot drifted from legacy (80,22)");
-        helper.assertTrue(menu.slots.get(1).x == 8 && menu.slots.get(1).y == 74,
-                "Player inventory start drifted from legacy (8,74)");
-        helper.assertTrue(menu.slots.get(28).x == 8 && menu.slots.get(28).y == 132,
-                "Hotbar start drifted from legacy (8,132)");
+        helper.assertTrue(menu.slots.get(0).x == 80 && menu.slots.get(0).y == 32,
+                "Effect Jar input slot drifted from jarscreen.png (80,32)");
+        helper.assertTrue(menu.slots.get(1).x == 8 && menu.slots.get(1).y == 84,
+                "Player inventory start drifted from jarscreen.png (8,84)");
+        helper.assertTrue(menu.slots.get(28).x == 8 && menu.slots.get(28).y == 142,
+                "Hotbar start drifted from jarscreen.png (8,142)");
         helper.assertTrue(menu.quickMoveStack(player, 0).isEmpty(),
                 "Legacy Effect Jar intentionally disables shift-click transfer");
+        IBeeSpecies timely = requireSpecies(helper, "timely");
+        helper.assertTrue(menu.slots.get(0).mayPlace(timely.createStack(BeeLifeStage.DRONE)),
+                "Effect Jar slot must accept Bee Drones");
+        helper.assertTrue(!menu.slots.get(0).mayPlace(timely.createStack(BeeLifeStage.QUEEN)),
+                "Effect Jar slot must reject direct Queen insertion");
+        helper.assertTrue(!menu.slots.get(0).mayPlace(new ItemStack(Items.HONEYCOMB)),
+                "Effect Jar slot must reject non-bee items");
 
         jar.menuData().set(0, 73);
         int colour = 0x9872FF;
         jar.menuData().set(1, colour & 0xFFFF);
         jar.menuData().set(2, (colour >>> 16) & 0xFF);
+        jar.menuData().set(3, 41);
+        jar.menuData().set(4, 1234);
+        jar.menuData().set(5, 1);
         helper.assertTrue(menu.beeHealth() == 73, "Effect Jar health menu data drifted");
         helper.assertTrue(menu.beeColour() == colour,
                 "Effect Jar must preserve the complete 24-bit species colour across 16-bit container data");
+        helper.assertTrue(menu.ageProgress() == 41, "Effect Jar age progress menu data drifted");
+        helper.assertTrue(menu.ticksUntilDeath() == 1234, "Effect Jar time-left menu data drifted");
+        helper.assertTrue(menu.isActive(), "Effect Jar active menu data drifted");
 
         double cx = jarPos.getX() + 0.5D;
         double cy = jarPos.getY() + 0.5D;
