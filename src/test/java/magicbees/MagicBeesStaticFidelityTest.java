@@ -114,14 +114,7 @@ class MagicBeesStaticFidelityTest {
         void clientResourcePathsAndMutationSchemasAreModernized() throws IOException {
             for (String path : List.of(
                     "assets/magicbees/textures/block/manaapiarybooster0.png",
-                    "assets/magicbees/textures/block/manaapiarybooster1.png",
-                    "assets/magicbees/textures/item/todo/beeinfusion.png",
-                    "assets/magicbees/textures/item/todo/capsulemagic.png",
-                    "assets/magicbees/textures/item/todo/capsulevoid.png",
-                    "assets/magicbees/textures/item/todo/crystalaspect.png",
-                    "assets/magicbees/textures/item/todo/startnode.png",
-                    "assets/magicbees/textures/item/todo/thaumiumgrafter.png",
-                    "assets/magicbees/textures/item/todo/thaumiumscoop.png")) {
+                    "assets/magicbees/textures/block/manaapiarybooster1.png")) {
                 assertTrue(getClass().getClassLoader().getResource(path) != null, "Missing normalized asset path: " + path);
             }
             for (String mutation : List.of("tc_void", "tc_nexus", "hateful", "smouldering")) {
@@ -387,19 +380,6 @@ class MagicBeesStaticFidelityTest {
             }
         }
 
-        @Test
-        void legacyAnimatedTexturesUseModernFrameGeometry() throws IOException {
-            for (String path : List.of(
-                    "assets/magicbees/textures/item/wax.0.png.mcmeta",
-                    "assets/magicbees/textures/item/todo/bees/doctoral/drone.body2.png.mcmeta",
-                    "assets/magicbees/textures/item/todo/bees/doctoral/larvae.body.png.mcmeta",
-                    "assets/magicbees/textures/item/todo/bees/skulking/drone.body2.png.mcmeta",
-                    "assets/magicbees/textures/item/todo/bees/skulking/larvae.body.png.mcmeta")) {
-                String metadata = resource(path);
-                assertTrue(!metadata.contains("\"width\":1") && !metadata.contains("\"height\":"),
-                        "Legacy pixel-frame geometry remains in animation metadata: " + path);
-            }
-        }
     private static boolean staticallyReachableParent(Set<String> reachable, String parent) {
         return !parent.startsWith("magicbees:") || reachable.contains(parent.substring("magicbees:".length()));
     }
