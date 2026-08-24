@@ -45,7 +45,7 @@ class MagicBeesStaticFidelityTest {
             "gold", "copper", "tin", "silver", "lead", "aluminium", "ardite", "cobalt", "manyullyn", "osmium",
             "electrum", "platinum", "nickel", "invar", "bronze", "diamond", "emerald", "apatite", "silicon", "certus", "fluix",
             "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
-            "te_coal", "te_destabilized", "te_lux", "te_winsome", "te_endearing",
+            "te_coal", "te_destabilized", "te_lux",
             "bot_rooted", "bot_botanic", "bot_blossom", "bot_floral", "bot_vazbee", "bot_somnolent", "bot_dreaming", "bot_alfheim",
             "ae_skystone"
         );
@@ -392,8 +392,8 @@ class MagicBeesStaticFidelityTest {
 
         @Test
         void everyCombRecipeMatchesEveryExactLegacyOutputAndChance() throws IOException {
-            assertTrue(LegacyBeeParityData.CENTRIFUGE.size() == 25,
-                    "The exhaustive legacy comb ledger must contain all 25 registered comb types");
+            assertTrue(LegacyBeeParityData.CENTRIFUGE.size() == 24,
+                    "The exhaustive legacy comb ledger must contain all 24 enabled registered comb types");
             for (Map.Entry<String, LegacyBeeParityData.Centrifuge> entry : LegacyBeeParityData.CENTRIFUGE.entrySet()) {
                 String comb = entry.getKey();
                 LegacyBeeParityData.Centrifuge expected = entry.getValue();
@@ -492,6 +492,13 @@ class MagicBeesStaticFidelityTest {
                 assertTrue(language.contains("\"magicbees.jei.description." + key + "\""),
                         "Missing legacy JEI description translation: " + key);
             }
+            String jeiPlugin = Files.readString(Path.of("src/main/java/magicbees/integration/jei/MagicBeesJeiPlugin.java"));
+            assertTrue(jeiPlugin.contains("registerVanillaCategoryExtensions")
+                            && jeiPlugin.contains("ScornfulOblivionRecipe.class")
+                            && jeiPlugin.contains("craftingGridHelper.createAndSetInputs")
+                            && jeiPlugin.contains("craftingGridHelper.createAndSetOutputs")
+                            && jeiPlugin.contains("essence_scornful_oblivion"),
+                    "Scornful Oblivion's special crafting recipe must have an explicit vanilla-style JEI crafting display");
             String jarScreen = Files.readString(Path.of("src/main/java/magicbees/client/screen/EffectJarScreen.java"));
             assertTrue(jarScreen.contains("extends GuiForestry<EffectJarMenu>")
                             && jarScreen.contains("addErrorLedger(menu.jar())")
@@ -551,12 +558,54 @@ class MagicBeesStaticFidelityTest {
 
         @Test
         void finalOptionalDependencyPackagingIsDeterministic() throws IOException {
+            Map<String, String> optionalMagicBeesRecipeReferences = Map.ofEntries(
+                    Map.entry("magicbees:bee_comb_te_", "thermal_foundation"),
+                    Map.entry("magicbees:drop_destabilized", "thermal_foundation"),
+                    Map.entry("magicbees:drop_carbon", "thermal_foundation"),
+                    Map.entry("magicbees:drop_lux", "thermal_foundation"),
+                    Map.entry("magicbees:bee_comb_tc_", "thaumaturge"),
+                    Map.entry("magicbees:propolis_air", "thaumaturge"),
+                    Map.entry("magicbees:propolis_fire", "thaumaturge"),
+                    Map.entry("magicbees:propolis_water", "thaumaturge"),
+                    Map.entry("magicbees:propolis_earth", "thaumaturge"),
+                    Map.entry("magicbees:propolis_order", "thaumaturge"),
+                    Map.entry("magicbees:propolis_entropy", "thaumaturge"),
+                    Map.entry("magicbees:resource_tc_", "thaumaturge"),
+                    Map.entry("magicbees:backpack_thaumaturge", "thaumaturge"),
+                    Map.entry("magicbees:manasteel", "botania"),
+                    Map.entry("magicbees:beegonia", "botania"),
+                    Map.entry("magicbees:hiveacynth", "botania"),
+                    Map.entry("magicbees:hibeescus", "botania")
+            );
+            try (var files = Files.walk(Path.of("src/main/resources/data/magicbees/recipe"))) {
+                for (Path file : files.filter(path -> path.toString().endsWith(".json")).toList()) {
+                    String json = Files.readString(file);
+                    for (Map.Entry<String, String> guardedReference : optionalMagicBeesRecipeReferences.entrySet()) {
+                        if (json.contains(guardedReference.getKey())) {
+                            assertTrue(hasModGuard(json, guardedReference.getValue()),
+                                    "Recipe references optional Magic Bees content without its mod guard: "
+                                            + file + " -> " + guardedReference);
+                        }
+                    }
+                }
+            }
+
             for (String species : NATIVE_SPECIES) {
                 String json = resource("data/magicbees/bee_species/" + species + ".json");
                 for (String namespace : List.of("thermal:", "ae2:", "botania:", "railcraft:", "thaumaturge:")) {
                     assertTrue(!json.contains("\"item\": \"" + namespace),
                             "Native species " + species + " bakes an optional-mod item specialty: " + namespace);
                 }
+            }
+            for (String disabled : List.of(
+                    "data/magicbees/bee_species/te_winsome.json",
+                    "data/magicbees/bee_species/te_endearing.json",
+                    "data/magicbees/recipe/bee_mutation/te_winsome.json",
+                    "data/magicbees/recipe/bee_mutation/te_endearing.json",
+                    "data/magicbees/recipe/centrifuge/te_endearing_comb.json",
+                    "data/magicbees/recipe/thermal/crucible_endearing_drop.json")) {
+                assertTrue(getClass().getClassLoader().getResource(disabled) == null,
+                        "Disabled platinum-dependent Thermal line is still packaged: " + disabled);
             }
 
             String mixins = resource("magicbees.mixins.json");
@@ -575,6 +624,10 @@ class MagicBeesStaticFidelityTest {
                 assertTrue(!commonFields.contains(dead), "Dead legacy config knob is still exposed: " + dead);
             }
         }
+
+    private static boolean hasModGuard(String json, String modId) {
+        return json.contains("\"modid\": \"" + modId + "\"") || json.contains("\"modid\":\"" + modId + "\"");
+    }
 
     private static Set<String> magicBeesFlowerTypesUsedBySpecies() throws IOException {
         Set<String> flowerTypes = new TreeSet<>();

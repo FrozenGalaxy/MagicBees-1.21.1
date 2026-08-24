@@ -1,0 +1,13 @@
+{
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "thaumaturge"}],
+  "type": "minecraft:crafting_shaped",
+  "category": "tools",
+  "pattern": ["X#X", "VYV", "X#X"],
+  "key": {
+    "#": {"tag": "minecraft:wool"},
+    "V": {"item": "thaumaturge:celestial_notes"},
+    "X": {"item": "minecraft:string"},
+    "Y": {"tag": "c:chests/wooden"}
+  },
+  "result": {"id": "magicbees:backpack_thaumaturge_t1"}
+}

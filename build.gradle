@@ -220,6 +220,7 @@ runs {
 // a dependency that will be present for runtime testing but that is
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
+    localRuntime.extendsFrom clientRuntime
     runtimeClasspath.extendsFrom localRuntime
     testRuntimeClasspath.extendsFrom localRuntime
     clientRuntime

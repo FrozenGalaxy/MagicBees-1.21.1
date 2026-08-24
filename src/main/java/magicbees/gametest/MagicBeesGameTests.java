@@ -5,8 +5,10 @@ import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryFlowerTypes;
 import forestry.api.core.HumidityType;
+import forestry.api.core.ForestryError;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
+import forestry.api.core.machines.ICarpenterRecipe;
 import forestry.api.core.machines.ICentrifugeRecipe;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBee;
@@ -45,12 +47,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ambient.Bat;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.effect.MobEffects;
@@ -66,11 +71,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /** Regression tests for registered Magic Bees content, assets, localization, and live Forestry data. */
 @GameTestHolder(MagicBees.MOD_ID)
@@ -91,7 +98,7 @@ public final class MagicBeesGameTests {
             "gold", "copper", "tin", "silver", "lead", "aluminium", "ardite", "cobalt", "manyullyn", "osmium",
             "electrum", "platinum", "nickel", "invar", "bronze", "diamond", "emerald", "apatite", "silicon", "certus", "fluix",
             "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
-            "te_coal", "te_destabilized", "te_lux", "te_winsome", "te_endearing",
+            "te_coal", "te_destabilized", "te_lux",
             "bot_rooted", "bot_botanic", "bot_blossom", "bot_floral", "bot_vazbee", "bot_somnolent", "bot_dreaming", "bot_alfheim",
             "ae_skystone"
     );
@@ -105,7 +112,7 @@ public final class MagicBeesGameTests {
     ).stream().map(MagicBees::id).collect(java.util.stream.Collectors.toUnmodifiableSet());
     private static final Set<ResourceLocation> EXPECTED_THERMAL_SPECIES = List.of(
             "te_blizzy", "te_gelid", "te_dante", "te_pyro", "te_shocking", "te_amped", "te_grounded", "te_rocking",
-            "te_coal", "te_destabilized", "te_lux", "te_winsome", "te_endearing"
+            "te_coal", "te_destabilized", "te_lux"
     ).stream().map(MagicBees::id).collect(java.util.stream.Collectors.toUnmodifiableSet());
     private static final Set<ResourceLocation> EXPECTED_BOTANIA_SPECIES = List.of(
             "bot_rooted", "bot_botanic", "bot_blossom", "bot_floral",
@@ -138,22 +145,14 @@ public final class MagicBeesGameTests {
 
     @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
     public static void registeredItemsHaveModelsAndTranslations(GameTestHelper helper) {
-        List<Item> items = new ArrayList<>();
-        items.addAll(MagicBeesItems.COMBS.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.PROPOLIS.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.POLLEN.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.WAX.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.DROPS.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.RESOURCES.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.NUGGETS.values().stream().map(deferred -> deferred.get()).toList());
-        items.addAll(MagicBeesItems.FRAMES.values().stream().map(deferred -> deferred.get()).toList());
-        items.add(MagicBeesItems.MOON_DIAL.get());
-        items.add(MagicBeesItems.JELLY_BABIES.get());
-
         String language = readResource(helper, "assets/magicbees/lang/en_us.json");
-        for (Item item : items) {
+        for (Item item : BuiltInRegistries.ITEM) {
             ResourceLocation id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item);
-            helper.assertTrue(language.contains("\"item.magicbees." + id.getPath() + "\""),
+            if (!MagicBees.MOD_ID.equals(id.getNamespace())) {
+                continue;
+            }
+            String translationPrefix = item instanceof net.minecraft.world.item.BlockItem ? "block" : "item";
+            helper.assertTrue(language.contains("\"" + translationPrefix + ".magicbees." + id.getPath() + "\""),
                     "Missing modern translation key for " + id);
             helper.assertTrue(hasResource(helper, "assets/magicbees/models/item/" + id.getPath() + ".json"),
                     "Missing item model for " + id);
@@ -275,8 +274,6 @@ public final class MagicBeesGameTests {
                 Map.entry(MagicBees.id("te_coal"), new int[]{0x2E2D2D, 0xFF7C26}),
                 Map.entry(MagicBees.id("te_destabilized"), new int[]{0x5E0203, 0xFF7C26}),
                 Map.entry(MagicBees.id("te_lux"), new int[]{0xF1FA89, 0xFF7C26}),
-                Map.entry(MagicBees.id("te_winsome"), new int[]{0x096B67, 0xFF7C26}),
-                Map.entry(MagicBees.id("te_endearing"), new int[]{0x069E97, 0xFF7C26}),
                 Map.entry(MagicBees.id("bot_rooted"), new int[]{0x00A800, 0xFFB2BB}),
                 Map.entry(MagicBees.id("bot_botanic"), new int[]{0x94C661, 0xFFB2BB}),
                 Map.entry(MagicBees.id("bot_blossom"), new int[]{0xA4C193, 0xFFB2BB}),
@@ -893,27 +890,13 @@ public final class MagicBeesGameTests {
         assertAllele(helper, amped, BeeChromosomes.SPEED, Allele.recessive(2.0f));
         assertReference(helper, amped, BeeChromosomes.EFFECT, MagicBees.id("spawn_blitz"));
 
-        boolean platinumAvailable = BeeSpeciesRuntimePatcher.resourceSpeciesAvailable("platinum");
-        if (platinumAvailable) {
-            helper.assertTrue(findSpecies(MagicBees.id("platinum")) != null,
-                    "Platinum must be active when an exact platinum nugget resource exists");
-            helper.assertTrue(findSpecies(MagicBees.id("te_winsome")) != null
-                            && findSpecies(MagicBees.id("te_endearing")) != null,
-                    "Platinum-backed Winsome and Endearing breeding line must be active together");
-        } else {
-            helper.assertTrue(findSpecies(MagicBees.id("platinum")) == null,
-                    "Platinum must remain inactive when the current loadout has no exact platinum nugget resource");
-            assertSpeciesAbsent(helper, Set.of(MagicBees.id("te_winsome"), MagicBees.id("te_endearing")),
-                    "a platinum nugget provider");
-        }
+        assertSpeciesAbsent(helper, Set.of(MagicBees.id("te_winsome"), MagicBees.id("te_endearing")),
+                "the disabled platinum-dependent Thermal line");
 
         assertSpecialty(helper, blizzy, "thermal:blizz_powder", 0.09f);
         assertSpecialty(helper, requireSpecies(helper, "te_dante"), "thermal:sulfur_dust", 0.09f);
         assertSpecialty(helper, requireSpecies(helper, "te_shocking"), "thermal:blitz_powder", 0.09f);
         assertSpecialty(helper, requireSpecies(helper, "te_grounded"), "thermal:basalz_powder", 0.09f);
-        if (platinumAvailable) {
-            assertSpecialty(helper, requireSpecies(helper, "te_endearing"), "thermal:enderium_nugget", 0.09f);
-        }
 
         SpawnMobBeeEffect blizz = new SpawnMobBeeEffect(ResourceLocation.fromNamespaceAndPath("thermal", "blizz"), 100, 80, 5);
         SpawnMobBeeEffect blitz = new SpawnMobBeeEffect(ResourceLocation.fromNamespaceAndPath("thermal", "blitz"), 100, 80, 5);
@@ -989,14 +972,14 @@ public final class MagicBeesGameTests {
     public static void baseCraftingProgressionRecipesReloadAndPreserveDragonEgg(GameTestHelper helper) {
         var manager = helper.getLevel().getRecipeManager();
         List<String> recipes = List.of(
-                "fertilizer1", "fertilizer2", "fertilizer3", "exp", "soulsand1", "soulsand2", "moondial",
+                "exp", "soulsand1", "soulsand2", "moondial",
                 "nsk", "skullfragment", "dragonchunk", "dragonegg",
                 "essence_eld1", "essence_eld2", "essence_fl1", "essence_fl2", "essence_cg1", "essence_cg2",
                 "essence_lt1", "essence_lt2", "essence_fp1", "essence_fp2", "essence_scob",
                 "magicframe", "resilientframe", "gentleframe", "necroticframe", "metabolicframe",
                 "temporal_frame", "temporalframe_essence", "oblivionframe",
                 "enchanted_earth_1", "enchanted_earth_2", "dimensionalsingularity");
-        helper.assertTrue(recipes.size() == 33, "#15B crafting regression list must contain exactly 33 routes");
+        helper.assertTrue(recipes.size() == 30, "#15B crafting regression list must contain exactly 30 routes");
         for (String name : recipes) {
             ResourceLocation id = MagicBees.id("crafting/" + name);
             helper.assertTrue(manager.byKey(id).isPresent(), "Missing live base crafting recipe after reload: " + id);
@@ -1020,6 +1003,30 @@ public final class MagicBeesGameTests {
         for (int slot = 0; slot < remaining.size(); slot++) {
             if (slot != 4) helper.assertTrue(remaining.get(slot).isEmpty(), "Unexpected crafting remainder in slot " + slot);
         }
+        helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
+    public static void everyRegisteredMagicBeesItemHasRecipeOrBeeSource(GameTestHelper helper) {
+        Set<String> magicItems = new TreeSet<>();
+        for (Item item : BuiltInRegistries.ITEM) {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
+            if (MagicBees.MOD_ID.equals(id.getNamespace()) && !isIgnoredHiveItem(item, id)) {
+                magicItems.add(id.toString());
+            }
+        }
+
+        Set<String> recipeOutputs = recipeOutputItemIds(helper.getLevel().getRecipeManager(), helper.getLevel().registryAccess());
+        recipeOutputs.addAll(beeProductItemIds());
+        Set<String> missing = new TreeSet<>(magicItems);
+        missing.removeAll(recipeOutputs);
+
+        if (!missing.isEmpty()) {
+            MagicBees.LOGGER.error("Registered Magic Bees items/blocks without any live recipe or bee-production source: {}", missing);
+        }
+        helper.assertTrue(missing.isEmpty(),
+                "Registered Magic Bees items/blocks without any live recipe or bee-production source: "
+                        + missing.size() + " missing, first entries " + missing.stream().limit(12).toList());
         helper.succeed();
     }
 
@@ -1144,6 +1151,8 @@ public final class MagicBeesGameTests {
             EffectJarBlockEntity.serverTick(helper.getLevel(), helper.absolutePos(inactivePos), MagicBeesBlocks.EFFECT_JAR.get().defaultBlockState(), inactiveJar);
         }
         helper.assertTrue(!inactiveJar.isActive(), "Effect Jar must report inactive when the Queen cannot satisfy Forestry work conditions");
+        helper.assertTrue(inactiveJar.getErrorLogic().contains(ForestryError.NO_FLOWER),
+                "Effect Jar error ledger must report missing flowers while the Queen cannot find valid flowers");
         helper.assertTrue(inactiveJar.getTicksUntilDeath() == pausedTimeLeft,
                 "Effect Jar life timer must pause instead of pretending to tick while the Queen cannot work");
         helper.assertTrue(helper.getLevel().getEntitiesOfClass(Bat.class, new AABB(helper.absolutePos(inactivePos)).inflate(12.0D)).isEmpty(),
@@ -1155,6 +1164,8 @@ public final class MagicBeesGameTests {
         }
         helper.assertTrue(inactiveJar.isActive(),
                 "Effect Jar active/status sync must update after valid flowers are placed near an already-paused Queen");
+        helper.assertTrue(!inactiveJar.getErrorLogic().contains(ForestryError.NO_FLOWER),
+                "Effect Jar error ledger must clear missing-flowers quickly after valid flowers are placed");
         helper.assertTrue(inactiveJar.getTicksUntilDeath() < pausedTimeLeft,
                 "Effect Jar life timer must resume after valid flowers are placed near an already-paused Queen");
 
@@ -1338,8 +1349,6 @@ public final class MagicBeesGameTests {
                 "Player inventory start drifted from jarscreen.png (8,84)");
         helper.assertTrue(menu.slots.get(28).x == 8 && menu.slots.get(28).y == 142,
                 "Hotbar start drifted from jarscreen.png (8,142)");
-        helper.assertTrue(menu.quickMoveStack(player, 0).isEmpty(),
-                "Legacy Effect Jar intentionally disables shift-click transfer");
         IBeeSpecies timely = requireSpecies(helper, "timely");
         helper.assertTrue(menu.slots.get(0).mayPlace(timely.createStack(BeeLifeStage.DRONE)),
                 "Effect Jar slot must accept Bee Drones");
@@ -1347,6 +1356,33 @@ public final class MagicBeesGameTests {
                 "Effect Jar slot must reject direct Queen insertion");
         helper.assertTrue(!menu.slots.get(0).mayPlace(new ItemStack(Items.HONEYCOMB)),
                 "Effect Jar slot must reject non-bee items");
+
+        ItemStack drones = timely.createStack(BeeLifeStage.DRONE);
+        drones.setCount(3);
+        player.getInventory().setItem(0, drones.copy());
+        ItemStack movedIntoJar = menu.quickMoveStack(player, 28);
+        helper.assertTrue(movedIntoJar.getCount() == 3 && EffectJarBlockEntity.isDrone(movedIntoJar),
+                "Shift-clicking player Drone stack must report the moved stack");
+        helper.assertTrue(jar.getVisibleStack().getCount() == 3 && EffectJarBlockEntity.isDrone(jar.getVisibleStack()),
+                "Shift-clicking player Drone stack must move it into the Effect Jar slot");
+        helper.assertTrue(player.getInventory().getItem(0).isEmpty(),
+                "Shift-clicking Drone stack into the Effect Jar must clear the source player slot");
+
+        ItemStack movedOutOfJar = menu.quickMoveStack(player, 0);
+        helper.assertTrue(movedOutOfJar.getCount() == 3 && EffectJarBlockEntity.isDrone(movedOutOfJar),
+                "Shift-clicking the Effect Jar slot must report the moved Drone stack");
+        helper.assertTrue(jar.getVisibleStack().isEmpty(),
+                "Shift-clicking the Effect Jar slot must move queued Drones back to the player inventory");
+        helper.assertTrue(countItem(player.getInventory(), movedOutOfJar) == 3,
+                "Shift-clicked Effect Jar Drones did not arrive in the player inventory");
+
+        player.getInventory().clearContent();
+        player.getInventory().setItem(0, new ItemStack(Items.HONEYCOMB));
+        menu.quickMoveStack(player, 28);
+        helper.assertTrue(jar.getVisibleStack().isEmpty(),
+                "Rejected non-Drone shift-click must leave the Effect Jar slot empty");
+        helper.assertTrue(countItem(player.getInventory(), new ItemStack(Items.HONEYCOMB)) == 1,
+                "Rejected non-Drone shift-click must leave the player stack in the player inventory");
 
         jar.menuData().set(0, 73);
         int colour = 0x9872FF;
@@ -1526,6 +1562,69 @@ public final class MagicBeesGameTests {
                     + "|" + product.chance());
         }
         return result;
+    }
+
+    private static int countItem(Inventory inventory, ItemStack wanted) {
+        int count = 0;
+        for (ItemStack stack : inventory.items) {
+            if (ItemStack.isSameItemSameComponents(stack, wanted)) {
+                count += stack.getCount();
+            }
+        }
+        return count;
+    }
+
+    private static Set<String> recipeOutputItemIds(RecipeManager manager, net.minecraft.core.HolderLookup.Provider registries) {
+        Set<String> outputs = new TreeSet<>();
+        for (RecipeType<?> type : BuiltInRegistries.RECIPE_TYPE) {
+            for (RecipeHolder<?> holder : recipesByType(manager, type)) {
+                addRecipeOutput(outputs, holder.value().getResultItem(registries));
+                if (holder.value() instanceof ICentrifugeRecipe centrifuge) {
+                    for (IProduct product : centrifuge.getAllProducts()) {
+                        addRecipeOutput(outputs, product.createStack());
+                    }
+                }
+                if (holder.value() instanceof ICarpenterRecipe carpenter) {
+                    addRecipeOutput(outputs, carpenter.getCraftingGridRecipe().getResultItem(registries));
+                }
+            }
+        }
+        return outputs;
+    }
+
+    private static Set<String> beeProductItemIds() {
+        Set<String> outputs = new TreeSet<>();
+        for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
+            if (!MagicBees.MOD_ID.equals(species.id().getNamespace())) {
+                continue;
+            }
+            for (IProduct product : species.getProducts()) {
+                addRecipeOutput(outputs, product.createStack());
+            }
+            for (IProduct specialty : species.getSpecialties()) {
+                addRecipeOutput(outputs, specialty.createStack());
+            }
+        }
+        return outputs;
+    }
+
+    private static boolean isIgnoredHiveItem(Item item, ResourceLocation id) {
+        return item instanceof net.minecraft.world.item.BlockItem && id.getPath().endsWith("_hive");
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static Collection<RecipeHolder<?>> recipesByType(RecipeManager manager, RecipeType<?> type) {
+        return (Collection) manager.getAllRecipesFor((RecipeType) type);
+    }
+
+    private static void addRecipeOutput(Set<String> outputs, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return;
+        }
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        if (MagicBees.MOD_ID.equals(id.getNamespace())) {
+            outputs.add(id.toString());
+        }
     }
 
     private static String canonicalGenome(IGenome genome) {
