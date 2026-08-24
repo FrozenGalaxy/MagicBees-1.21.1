@@ -58,6 +58,16 @@ jobs:
           chmod +x gradlew
           ./gradlew publishToMavenLocal --no-daemon
 
+      - name: Publish Botania NeoForge to Maven Local
+        working-directory: references/Botania
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+          botania_version="$(sed -n 's/^botania_version=//p' "$GITHUB_WORKSPACE/gradle.properties")"
+          test -n "$botania_version"
+          ./gradlew :NeoForge:publishToMavenLocal -Pbuild_number="$botania_version" --no-daemon
+
       - name: Resolve pinned addon artifacts
         run: ./gradlew dependencies --configuration clientRuntime --no-daemon
 
