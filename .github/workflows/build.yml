@@ -72,7 +72,7 @@ jobs:
           ./gradlew :NeoForge:publishToMavenLocal -Pbuild_number="$botania_version" --no-daemon
 
       - name: Resolve pinned addon artifacts
-        run: ./gradlew dependencies --configuration clientRuntime --no-daemon
+        run: ./gradlew dependencies --configuration fullAddonRuntime --no-daemon
 
       - name: Run data generators
         run: ./gradlew runData --no-daemon
