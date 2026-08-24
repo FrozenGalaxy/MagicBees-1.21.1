@@ -56,7 +56,11 @@ public final class HibeescusBlockEntity extends FunctionalFlowerBlockEntity {
         }
     }
     public ItemStack removeHeldBee(){ItemStack stack=beeSlot;beeSlot=ItemStack.EMPTY;setChanged();return stack;}
-    private void drop(ItemStack stack){BlockPos p=getEffectivePos();ItemEntity e=new ItemEntity(level,p.getX()+.5,p.getY()+1,p.getZ()+.5,stack);e.setDeltaMovement(0,0,0);level.addFreshEntity(e);}
+    private void drop(ItemStack stack){
+        BlockPos p=getEffectivePos();
+        ItemEntity e=new ItemEntity(level,p.getX()-RANGE+level.random.nextInt((int)(RANGE*2+1)),p.getY()+1,p.getZ()-RANGE+level.random.nextInt((int)(RANGE*2+1)),stack);
+        e.setDeltaMovement(0,0,0);level.addFreshEntity(e);
+    }
     private int finalCost(){return(int)(BASE_MANA*MagicBeesConfig.COMMON.hibeescusManaCostMultiplier.get());}
     private float manaPerBaseTick(){return(float)finalCost()/BASE_TICKS;}
     @Override public RadiusDescriptor getRadius(){return RadiusDescriptor.Rectangle.square(getEffectivePos(),1);}

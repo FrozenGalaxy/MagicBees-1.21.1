@@ -144,7 +144,7 @@ public final class MagicBeeSpecies {
         apiculture.registerBeeEffect(MagicBees.id("spawn_ghast"),
                 new SpawnMobBeeEffect(net.minecraft.world.entity.EntityType.GHAST, 2060, 10, 1));
         apiculture.registerBeeEffect(MagicBees.id("spawn_zombie"),
-                new SpawnMobBeeEffect(net.minecraft.world.entity.EntityType.ZOMBIE, 800, 100, 2));
+                new SpawnMobBeeEffect(net.minecraft.world.entity.EntityType.ZOMBIE, 800, 100, 2, true));
         apiculture.registerBeeEffect(MagicBees.id("spawn_wolf"),
                 new SpawnMobBeeEffect(net.minecraft.world.entity.EntityType.WOLF, 650, 40, 2));
 

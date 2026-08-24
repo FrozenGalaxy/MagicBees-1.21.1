@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#botania:small_mystical_flowers",
+      "required": false
+    },
+    {
+      "id": "#botania:tall_mystical_flowers",
+      "required": false
+    }
+  ]
+}

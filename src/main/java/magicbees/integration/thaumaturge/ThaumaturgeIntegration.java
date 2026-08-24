@@ -2,10 +2,8 @@ package magicbees.integration.thaumaturge;
 
 import com.leclowndu93150.thaumaturge.api.aura.AuraHelper;
 import com.leclowndu93150.thaumaturge.api.taint.TaintApi;
-import com.leclowndu93150.thaumaturge.registry.TCBlocks;
 import com.leclowndu93150.thaumaturge.registry.TCItems;
 import com.leclowndu93150.thaumaturge.registry.TCEntities;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.api.apiculture.ForestryFlowerTypes;
@@ -15,23 +13,22 @@ import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IGeneticRegistration;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
 import magicbees.MagicBees;
 import magicbees.registry.MagicBeesItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.bus.api.IEventBus;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 
-import java.util.List;
 import java.util.function.Predicate;
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
@@ -91,9 +88,12 @@ public final class ThaumaturgeIntegration {
     }
 
     public static void registerGenetics(IGeneticRegistration genetics) {
-        genetics.registerFlowerType(THAUMIC_FLOWERS, new BlockFlowerType(false,
-                TCBlocks.PLANT_SHIMMERLEAF, TCBlocks.PLANT_CINDERPEARL));
-        genetics.registerFlowerType(AURA_NODE_FLOWERS, new BlockFlowerType(false, TCBlocks.PLANT_VISHROOM));
+        genetics.registerFlowerType(THAUMIC_FLOWERS, new TagFlowerType(blockTag(THAUMIC_FLOWERS), false));
+        genetics.registerFlowerType(AURA_NODE_FLOWERS, new TagFlowerType(blockTag(AURA_NODE_FLOWERS), false));
+    }
+
+    private static TagKey<net.minecraft.world.level.block.Block> blockTag(ResourceLocation id) {
+        return TagKey.create(Registries.BLOCK, id);
     }
 
     public static void registerApiculture(IApicultureRegistration apiculture) {
@@ -333,33 +333,6 @@ public final class ThaumaturgeIntegration {
         return new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse(id)));
     }
 
-    private static final class BlockFlowerType implements IFlowerType {
-        private final boolean dominant;
-        private final List<DeferredBlock<? extends Block>> blocks;
-
-        @SafeVarargs
-        private BlockFlowerType(boolean dominant, DeferredBlock<? extends Block>... blocks) {
-            this.dominant = dominant;
-            this.blocks = List.of(blocks);
-        }
-
-        @Override
-        public boolean isDominant() {
-            return dominant;
-        }
-
-        @Override
-        public boolean isAcceptableFlower(Level level, BlockPos pos) {
-            BlockState state = level.getBlockState(pos);
-            return blocks.stream().anyMatch(block -> state.is(block.get()));
-        }
-
-        @Override
-        public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
-            return false;
-        }
-    }
-
     private static final class AuraEffect implements IBeeEffect {
         private enum Mode { REJUVENATE, EMPOWER, PURIFY, NEXUS, TAINT, HUNGRY }
 
@@ -424,6 +397,10 @@ public final class ThaumaturgeIntegration {
     }
 
     private static final class WispEffect implements IBeeEffect {
+        private static final int THROTTLE = 100;
+        private static final int SPAWN_CHANCE = 80;
+        private static final int MAX_NEARBY_WISPS = 2;
+
         @Override
         public boolean isDominant() {
             return false;
@@ -438,19 +415,25 @@ public final class ThaumaturgeIntegration {
         public IEffectData doEffect(IGenome genome, IEffectData storedData, forestry.api.apiculture.IBeeHousing housing) {
             int ticks = storedData.getInteger(0) + 1;
             storedData.setInteger(0, ticks);
-            if (ticks < 100 || housing.getErrorLogic().hasErrors()) {
+            if (ticks < THROTTLE || housing.getErrorLogic().hasErrors()) {
                 return storedData;
             }
             storedData.setInteger(0, 0);
             Level level = housing.getLevel();
-            if (level != null && !level.isClientSide && level.random.nextInt(100) < 80) {
+            if (level != null && !level.isClientSide && level.random.nextInt(100) < SPAWN_CHANCE) {
+                var bounds = forestry.apiculture.bees.genetics.effects.ThrottledBeeEffect.getBounding(housing, genome);
+                if (level.getEntitiesOfClass(com.leclowndu93150.thaumaturge.content.entity.WispEntity.class, bounds).size() >= MAX_NEARBY_WISPS) {
+                    return storedData;
+                }
                 com.leclowndu93150.thaumaturge.content.entity.WispEntity wisp =
                         TCEntities.WISP.get().create(level);
                 if (wisp != null) {
                     BlockPos pos = housing.getBlockPos();
                     wisp.moveTo(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
                             level.random.nextFloat() * 360.0f, 0.0f);
-                    level.addFreshEntity(wisp);
+                    if (level.noCollision(wisp)) {
+                        level.addFreshEntity(wisp);
+                    }
                 }
             }
             return storedData;

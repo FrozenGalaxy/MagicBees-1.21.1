@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "thaumaturge:shimmerleaf",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:cinderpearl",
+      "required": false
+    }
+  ]
+}

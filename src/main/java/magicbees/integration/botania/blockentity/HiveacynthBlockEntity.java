@@ -45,7 +45,7 @@ public final class HiveacynthBlockEntity extends FunctionalFlowerBlockEntity {
             if(MagicBeesConfig.COMMON.hiveacynthPristineRate.get()<level.random.nextDouble())bee.setPristine(false);
         }
         ItemStack stack=bee.createStack(stage); BlockPos p=getEffectivePos();
-        ItemEntity item=new ItemEntity(level,p.getX()-RANGE+level.random.nextInt(RANGE*2+1)+.5,p.getY()+1,p.getZ()-RANGE+level.random.nextInt(RANGE*2+1)+.5,stack);
+        ItemEntity item=new ItemEntity(level,p.getX()-RANGE+level.random.nextInt(RANGE*2+1),p.getY()+1,p.getZ()-RANGE+level.random.nextInt(RANGE*2+1),stack);
         item.setDeltaMovement(0,0,0); level.addFreshEntity(item);
     }
     private ResourceLocation selectSpecies(){double v=level.random.nextDouble()*TOTAL;for(Weighted w:SPECIES){v-=w.weight;if(v<=0)return w.id;}return SPECIES.getFirst().id;}

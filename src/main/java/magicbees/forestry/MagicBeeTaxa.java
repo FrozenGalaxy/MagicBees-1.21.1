@@ -2,7 +2,6 @@ package magicbees.forestry;
 
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryFlowerTypes;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestryTaxa;
@@ -11,6 +10,7 @@ import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.api.plugin.IGeneticRegistration;
 import forestry.api.plugin.ITaxonBuilder;
+import forestry.core.engine.genetics.flowers.TagFlowerType;
 import magicbees.MagicBees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -80,10 +80,14 @@ final class MagicBeeTaxa {
 
     static void registerInitial(IGeneticRegistration genetics) {
         ForestryTaxonomyBridge.registerBeeSpine(genetics);
-        genetics.registerFlowerType(BOOKSHELF_FLOWERS, BookshelfFlowerType.INSTANCE);
-        genetics.registerFlowerType(BOTANICAL_FLOWERS, BotanicalFlowerType.INSTANCE);
+        genetics.registerFlowerType(BOOKSHELF_FLOWERS, new TagFlowerType(blockTag(BOOKSHELF_FLOWERS), false));
+        genetics.registerFlowerType(BOTANICAL_FLOWERS, new BotanicalFlowerType());
         genetics.defineTaxon(ForestryTaxa.CLASS_INSECTS, ForestryTaxa.ORDER_HYMNOPTERA, order ->
                 order.defineSubTaxon(ForestryTaxa.FAMILY_BEES, MagicBeeTaxa::registerBranches));
+    }
+
+    private static TagKey<Block> blockTag(ResourceLocation id) {
+        return TagKey.create(Registries.BLOCK, id);
     }
 
     /**
@@ -222,16 +226,13 @@ final class MagicBeeTaxa {
     }
 
 
-    private enum BotanicalFlowerType implements IFlowerType {
-        INSTANCE;
-        private static final TagKey<Block> SMALL = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("botania", "small_mystical_flowers"));
-        private static final TagKey<Block> TALL = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("botania", "tall_mystical_flowers"));
+    private static final class BotanicalFlowerType extends TagFlowerType {
         private static final String[] COLORS = {"white","orange","magenta","light_blue","yellow","lime","pink","gray","light_gray","cyan","purple","blue","brown","green","red","black"};
-        @Override public boolean isDominant() { return false; }
-        @Override public boolean isAcceptableFlower(Level level, BlockPos pos) {
-            BlockState state = level.getBlockState(pos);
-            return state.is(SMALL) || state.is(TALL);
+
+        private BotanicalFlowerType() {
+            super(blockTag(BOTANICAL_FLOWERS), false);
         }
+
         @Override public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
             if (!level.getBlockState(pos).isAir()) return false;
             String color = COLORS[level.random.nextInt(COLORS.length)];
@@ -241,27 +242,6 @@ final class MagicBeeTaxa {
             if (block == Blocks.AIR) return false;
             BlockState state = block.defaultBlockState();
             return state.canSurvive(level, pos) && level.setBlock(pos, state, 3);
-        }
-    }
-
-    private enum BookshelfFlowerType implements IFlowerType {
-        INSTANCE;
-
-        @Override
-        public boolean isDominant() {
-            // Legacy AlleleFlowerProvider is recessive.
-            return false;
-        }
-
-        @Override
-        public boolean isAcceptableFlower(Level level, BlockPos pos) {
-            return level.getBlockState(pos).is(Blocks.BOOKSHELF);
-        }
-
-        @Override
-        public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
-            // The old provider registered Bookshelf only as an acceptable flower, never as a plantable flower.
-            return false;
         }
     }
 }
