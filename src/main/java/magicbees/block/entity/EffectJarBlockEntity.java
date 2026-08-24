@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
 public final class EffectJarBlockEntity extends BlockEntity implements Container, MenuProvider, IErrorLogicSource, IClimateProvider {
     public static final int AGE_THROTTLE = 550;
     public static final float AGE_STEP = 0.26F;
+    private static final int INACTIVE_WORK_REFRESH_INTERVAL = 10;
 
     private final EffectJarHousing housing = new EffectJarHousing(this);
     private ItemStack visibleStack = ItemStack.EMPTY;
@@ -42,6 +43,7 @@ public final class EffectJarBlockEntity extends BlockEntity implements Container
     private int currentBeeColour = 0x0FFFFFF;
     private int ageProgress;
     private int ticksUntilDeath;
+    private int inactiveWorkRefreshTicks;
     private boolean active;
     private @Nullable GameProfile owner;
 
@@ -87,6 +89,7 @@ public final class EffectJarBlockEntity extends BlockEntity implements Container
         // receives a new Queen so its normal canWork() state is initialized immediately; subsequent
         // ticks continue to use Forestry's ordinary passive cache maintenance.
         housing.refreshWorkConditions();
+        inactiveWorkRefreshTicks = 0;
         syncChanged();
     }
 
@@ -98,12 +101,16 @@ public final class EffectJarBlockEntity extends BlockEntity implements Container
             syncChanged();
             return;
         }
-        housing.refreshWorkConditions();
+        if (!active && ++inactiveWorkRefreshTicks >= INACTIVE_WORK_REFRESH_INTERVAL) {
+            inactiveWorkRefreshTicks = 0;
+            housing.refreshWorkConditions();
+        }
         active = housing.canWork();
         if (!active) {
             syncChanged();
             return;
         }
+        inactiveWorkRefreshTicks = 0;
         currentBeeColour = queen.getSpecies().getBody();
         updateAgeProgress();
         updateTicksUntilDeath(queen);
@@ -127,6 +134,7 @@ public final class EffectJarBlockEntity extends BlockEntity implements Container
         } else {
             throttle++;
             updateAgeProgress();
+            updateTicksUntilDeath(queen);
         }
     }
 

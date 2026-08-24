@@ -196,7 +196,7 @@ public final class EffectJarScreen extends GuiForestry<EffectJarMenu> {
             drawBackground(graphics, y, x);
             graphics.renderItem(new ItemStack(MagicBeesBlocks.EFFECT_JAR.get()), x + 4, y + 4);
             if (!isFullyOpened()) return;
-            drawHeader(graphics, Component.translatable("gui.magicbees.effectjar.info"), x + 8, y + 8);
+            drawHeader(graphics, Component.translatable("gui.magicbees.effectjar.info"), x + 22, y + 8);
             drawSplitText(graphics, Component.translatable("gui.magicbees.effectjar.info.text"), x + 8, y + 24, maxTextWidth);
         }
 
