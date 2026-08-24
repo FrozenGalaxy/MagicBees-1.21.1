@@ -44,6 +44,11 @@ public final class ScornfulOblivionRecipe extends CustomRecipe {
     }
 
     @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return new ItemStack(MagicBeesItems.resource("essence_scornful_oblivion").get());
+    }
+
+    @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingInput input) {
         NonNullList<ItemStack> result = NonNullList.withSize(input.size(), ItemStack.EMPTY);
         result.set(4, new ItemStack(Items.DRAGON_EGG));
