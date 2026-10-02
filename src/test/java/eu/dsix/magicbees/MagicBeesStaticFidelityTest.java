@@ -464,9 +464,26 @@ class MagicBeesStaticFidelityTest {
                             .contains("minecraft:translucent"),
                     "Effect Jar glass lost its translucent render type");
 
+            JsonObject beegoniaVariants = JsonParser.parseString(
+                    resource("assets/magicbees/blockstates/beegonia.json"))
+                    .getAsJsonObject().getAsJsonObject("variants");
+            assertTrue(beegoniaVariants.size() == 1 && beegoniaVariants.has(""),
+                    "Beegonia blockstate must only define its actual, unpowered state");
+            for (String flower : List.of("hiveacynth", "hibeescus")) {
+                JsonObject poweredVariants = JsonParser.parseString(
+                        resource("assets/magicbees/blockstates/" + flower + ".json"))
+                        .getAsJsonObject().getAsJsonObject("variants");
+                assertTrue(poweredVariants.size() == 2
+                                && poweredVariants.has("powered=false")
+                                && poweredVariants.has("powered=true"),
+                        flower + " blockstate must define each powered state exactly once");
+            }
+
             String oldJar = resource("assets/magicbees/models/block/effectjar_old.json");
             assertTrue(oldJar.contains("neoforge:composite") && oldJar.contains("neoforge:obj"),
                     "Legacy oldJarmodel path is not backed by NeoForge OBJ geometry");
+            assertTrue(oldJar.contains("\"jartexture\": \"magicbees:block/jartexture\""),
+                    "Legacy Effect Jar must declare the OBJ texture in its model texture map");
             assertTrue(oldJar.contains("jarBase") && oldJar.contains("jarLid")
                             && oldJar.contains("minecraft:translucent") && oldJar.contains("minecraft:solid"),
                     "Legacy OBJ model lost separate base/lid render passes");
@@ -474,10 +491,10 @@ class MagicBeesStaticFidelityTest {
             assertTrue(obj.contains("o jarBase") && obj.contains("o jarLid"),
                     "Legacy Effect Jar OBJ lost its named parts");
             assertTrue(resource("assets/magicbees/models/block/obj/effectjarlibstuff.txt")
-                            .contains("magicbees:model/jartexture"),
-                    "Legacy Effect Jar material lost its original texture mapping");
-            assertTrue(getClass().getClassLoader().getResource("assets/magicbees/textures/model/jartexture.png") != null,
-                    "Legacy Effect Jar OBJ texture is missing");
+                            .contains("map_Kd #jartexture"),
+                    "Legacy Effect Jar material must resolve its texture through the model texture map");
+            assertTrue(getClass().getClassLoader().getResource("assets/magicbees/textures/block/jartexture.png") != null,
+                    "Legacy Effect Jar OBJ texture is missing from the block atlas");
             assertTrue(getClass().getClassLoader().getResource("assets/magicbees/textures/inventory/jarscreen.png") != null,
                     "Legacy Effect Jar screen texture is missing");
 

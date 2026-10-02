@@ -2,7 +2,8 @@
   "parent": "minecraft:block/block",
   "loader": "neoforge:composite",
   "textures": {
-    "particle": "magicbees:model/jartexture"
+    "particle": "#jartexture",
+    "jartexture": "magicbees:block/jartexture"
   },
   "children": {
     "base": {

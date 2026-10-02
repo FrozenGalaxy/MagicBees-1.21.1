@@ -171,6 +171,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 // individual launch configs without leaking these dependencies into runClientMinimal.
 configurations {
     fullAddonRuntime
+    // Supported integrations that can be resolved without the local-only Thaumaturge or Thermal development builds.
+    boringClientRuntime
 }
 
 // Default run configurations.
@@ -208,6 +210,16 @@ runs {
         configureFromTypeWithName false
         configureFromDependencies false
         runtimeClasspath configurations.runtimeClasspath
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+
+    clientBoring {
+        runType 'client'
+        client()
+        // Forestry, Magic Bees, JEI/Patchouli, and the public Magic Bees integration targets only.
+        // This deliberately leaves out the wide compatibility client extras plus local Thaumaturge and Thermal builds.
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.boringClientRuntime
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
@@ -256,7 +268,7 @@ dependencies {
     // Specify the version of Minecraft/NeoForge to use.
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    // Required foundation. Forestry's local alpha7 POM currently publishes a number of dependencies that
+    // Required foundation. Forestry's local alpha8 POM currently publishes a number of dependencies that
     // are development/optional integrations of Forestry itself (JEI, Ponder and ModKit among them). Do not
     // inherit that graph into Magic Bees: this is the same non-transitive consumption pattern used by the
     // supplied Binnie development project.
@@ -264,6 +276,7 @@ dependencies {
         transitive = false
     }
     fullAddonRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
+    boringClientRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
 
     // Forestry requires Patchouli at runtime; keep it available for every dev run,
     // including the minimal client, without making Magic Bees compile against it.
@@ -285,6 +298,18 @@ dependencies {
     fullAddonRuntime("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_nouveau_version}") {
         // These are already present on the shared development runtime. Excluding Ars' older declarations avoids
         // loading two versions of the same mod when the client-only configuration is added to runClient.
+        exclude group: 'vazkii.patchouli'
+        exclude group: 'mezz.jei'
+        exclude group: 'top.theillusivec4.curios'
+        exclude group: 'com.github.glitchfiend'
+    }
+
+    // Public, first-class Magic Bees integrations used by runClientBoring.
+    boringClientRuntime("vazkii.botania:botania-neoforge-1.21.1:${botania_version}") { transitive = false }
+    boringClientRuntime("org.appliedenergistics:appliedenergistics2:${ae2_version}")
+    boringClientRuntime(projectEClientDependency) { transitive = false }
+    boringClientRuntime("maven.modrinth:railcraft-reborn:${railcraft_version}") { transitive = false }
+    boringClientRuntime("com.hollingsworth.ars_nouveau:ars_nouveau-1.21.1:${ars_nouveau_version}") {
         exclude group: 'vazkii.patchouli'
         exclude group: 'mezz.jei'
         exclude group: 'top.theillusivec4.curios'

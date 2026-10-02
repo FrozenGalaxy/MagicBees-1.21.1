@@ -384,7 +384,7 @@ public final class MagicBeeSpecies {
                 "studiosis", false, 0x6E0000)
                 .setGenome(genome -> genome.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_1))
                 .addProduct(stack(MagicBeesItems.comb("papery")), 0.25f);
-        // ForestryCE alpha7 cannot condition one species specialty on an optional mod; the runtime patcher restores this when safe.
+        // ForestryCE alpha8 cannot condition one species specialty on an optional mod; the runtime patcher restores this when safe.
 
         IBeeSpeciesBuilder savant = register(apiculture, SAVANT, MagicBeeTaxa.SCHOLARLY,
                 "philologus", false, 0xFFA042)
@@ -394,7 +394,7 @@ public final class MagicBeeSpecies {
                 })
                 .setGlint(true)
                 .addProduct(stack(MagicBeesItems.comb("papery")), 0.40f);
-        // ForestryCE alpha7 cannot condition one species specialty on an optional mod; the runtime patcher restores this when safe.
+        // ForestryCE alpha8 cannot condition one species specialty on an optional mod; the runtime patcher restores this when safe.
 
         // #7 - Invisible and remaining Fleshy family.
         register(apiculture, INVISIBLE, MagicBeeTaxa.VEILED, "invisible", false, 0xFFCCFF, 0xFFCCFF)
@@ -511,7 +511,7 @@ public final class MagicBeeSpecies {
                     .addProduct(stack(MagicBeesItems.comb("earthy")), 0.19f);
             // Forestry's bee_species JSON cannot condition an individual specialty on AE2 being present.
             // Include the exact legacy Sky Stone specialty when AE2 is actually in the active registry; otherwise omit it safely.
-            // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with AE2.
+            // Omitted here: ForestryCE alpha8 cannot condition an individual specialty; the runtime patcher restores it with AE2.
         }
 
         if (modLoaded("thermal_foundation")) {
@@ -522,7 +522,7 @@ public final class MagicBeeSpecies {
         applyTEEnd(blizzy);
         blizzy.setGenome(g -> { g.set(BeeChromosomes.FLOWER_TYPE, ForestryFlowerTypes.SNOW); g.set(BeeChromosomes.EFFECT, ForestryBeeEffects.GLACIAL); })
                 .addProduct(forestryComb("frozen"), 0.10f);
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
+        // Omitted here: ForestryCE alpha8 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
 
         IBeeSpeciesBuilder gelid = register(apiculture, TE_GELID, MagicBeeTaxa.ABOMINABLE, "cyro", true, 0x4AAFF7, 0xFF7C26)
                 .setTemperature(TemperatureType.COLD).setHumidity(HumidityType.NORMAL).setGlint(true);
@@ -537,7 +537,7 @@ public final class MagicBeeSpecies {
         dante.addProduct(stack(MagicBeesItems.comb("furtive")), 0.10f)
                 .addProduct(stack(MagicBeesItems.comb("molten")), 0.10f)
                 .addSpecialty(new ItemStack(net.minecraft.world.item.Items.BLAZE_POWDER), 0.05f);
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
+        // Omitted here: ForestryCE alpha8 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
 
         IBeeSpeciesBuilder pyro = register(apiculture, TE_PYRO, MagicBeeTaxa.ABOMINABLE, "pyromania", true, 0xFA930C, 0xFF7C26)
                 .setTemperature(TemperatureType.HELLISH).setHumidity(HumidityType.ARID).setGlint(true);
@@ -553,7 +553,7 @@ public final class MagicBeeSpecies {
         applyTEEnd(shocking);
         shocking.setGenome(g -> g.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FAST))
                 .addProduct(stack(MagicBeesItems.comb("airy")), 0.16f);
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
+        // Omitted here: ForestryCE alpha8 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
 
         IBeeSpeciesBuilder amped = register(apiculture, TE_AMPED, MagicBeeTaxa.ABOMINABLE, "concitatus", false, 0x8AFFFF, 0xECE670)
                 .setTemperature(TemperatureType.NORMAL).setHumidity(HumidityType.NORMAL).setGlint(true);
@@ -566,7 +566,7 @@ public final class MagicBeeSpecies {
                 .setTemperature(TemperatureType.HOT).setHumidity(HumidityType.ARID);
         applyTEEnd(grounded);
         grounded.addProduct(stack(MagicBeesItems.comb("earthy")), 0.16f);
-        // Omitted here: ForestryCE alpha7 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
+        // Omitted here: ForestryCE alpha8 cannot condition an individual specialty; the runtime patcher restores it with Thermal.
 
         IBeeSpeciesBuilder rocking = register(apiculture, TE_ROCKING, MagicBeeTaxa.ABOMINABLE, "saxsous", true, 0x980000, 0xAB9D9B)
                 .setTemperature(TemperatureType.HOT).setHumidity(HumidityType.ARID).setGlint(true);
@@ -593,7 +593,7 @@ public final class MagicBeeSpecies {
             // Endearing comb/drop would need to be item-registered before those tags exist.
         }
 
-        // #13 Botanical branch. Botania item specialties are intentionally not serialized here: ForestryCE alpha7's
+        // #13 Botanical branch. Botania item specialties are intentionally not serialized here: ForestryCE alpha8's
         // bee_species loader has no per-product NeoForge condition support, so embedding optional Botania items would
         // make the entire species definition fail when Botania is absent. The runtime patcher restores them when safe.
         if (!modLoaded("botania")) {

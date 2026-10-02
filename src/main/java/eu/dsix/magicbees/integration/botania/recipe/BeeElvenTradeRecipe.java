@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.platform.util.SpeciesUtil;
 import eu.dsix.magicbees.integration.botania.BotaniaIntegration;
@@ -31,7 +32,8 @@ public record BeeElvenTradeRecipe(ResourceLocation inputSpecies,
 
     @Override
     public List<ItemStack> getOutputs() {
-        return List.of(SpeciesUtil.getBeeSpecies(outputSpecies).createStack(BeeLifeStage.DRONE));
+        IBeeSpecies species = safeOutputSpecies();
+        return species == null ? List.of() : List.of(species.createStack(BeeLifeStage.DRONE));
     }
 
     @Override
@@ -41,8 +43,12 @@ public record BeeElvenTradeRecipe(ResourceLocation inputSpecies,
             if (IIndividualHandlerItem.getLifeStage(stack) == BeeLifeStage.DRONE
                     && IIndividualHandlerItem.getIndividual(stack) instanceof IBee bee
                     && bee.getSpecies().id().equals(inputSpecies)) {
+                IBeeSpecies species = safeOutputSpecies();
+                if (species == null) {
+                    return Optional.empty();
+                }
                 return Optional.of(new AssemblyResult(
-                        SpeciesUtil.getBeeSpecies(outputSpecies).createStack(BeeLifeStage.DRONE), slot));
+                        species.createStack(BeeLifeStage.DRONE), slot));
             }
         }
         return Optional.empty();
@@ -56,6 +62,11 @@ public record BeeElvenTradeRecipe(ResourceLocation inputSpecies,
     @Override
     public ItemStack getToastSymbol() {
         return ItemStack.EMPTY;
+    }
+
+    /** See {@link BeeManaInfusionRecipe}: optional species may be absent after datapack processing. */
+    private IBeeSpecies safeOutputSpecies() {
+        return SpeciesUtil.BEE_TYPE.get().getSpeciesSafe(outputSpecies);
     }
 
     public static final class Serializer implements RecipeSerializer<BeeElvenTradeRecipe> {

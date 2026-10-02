@@ -15,7 +15,7 @@ import forestry.apiculture.bees.genetics.BeeSpeciesManager;
 import java.util.Map;
 
 /**
- * Restores the legacy default removeUnneededBees=true registration boundary for ForestryCE alpha7's datapack
+ * Restores the legacy default removeUnneededBees=true registration boundary for ForestryCE alpha8's datapack
  * species loader. Magic Bees 1.12 did not register species whose defining integration was unavailable. ForestryCE
  * now eagerly decodes every bee_species JSON before addon callbacks, so filter only those legacy optional species
  * at the raw decode boundary. The definitions remain shipped in the jar and become live automatically when their

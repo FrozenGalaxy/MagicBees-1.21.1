@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.core.platform.util.SpeciesUtil;
@@ -44,7 +45,8 @@ public record BeeManaInfusionRecipe(ResourceLocation inputSpecies,
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return SpeciesUtil.getBeeSpecies(outputSpecies).createStack(stage);
+        IBeeSpecies species = safeOutputSpecies();
+        return species == null ? ItemStack.EMPTY : species.createStack(stage);
     }
 
     @Override
@@ -52,8 +54,20 @@ public record BeeManaInfusionRecipe(ResourceLocation inputSpecies,
         if (!(IIndividualHandlerItem.getIndividual(input) instanceof IBee bee)) {
             return ItemStack.EMPTY;
         }
+        if (safeOutputSpecies() == null) {
+            return ItemStack.EMPTY;
+        }
         var genome = bee.getGenome().copyWith(Map.of(BeeChromosomes.SPECIES, Allele.reference(outputSpecies)));
         return bee.copyWithGenome(genome).createStack(stage);
+    }
+
+    /**
+     * A datapack may deliberately remove an optional Magic Bees species after this recipe has been decoded.
+     * Recipe browsers such as KubeJS query outputs without first testing a recipe's inputs, so that must be a
+     * harmless empty result rather than Forestry's strict missing-species exception.
+     */
+    private IBeeSpecies safeOutputSpecies() {
+        return SpeciesUtil.BEE_TYPE.get().getSpeciesSafe(outputSpecies);
     }
 
     @Override

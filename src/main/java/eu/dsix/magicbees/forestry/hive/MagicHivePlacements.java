@@ -46,7 +46,7 @@ public final class MagicHivePlacements {
 
         @Override
         public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
-            return state.canBeReplaced();
+            return state.canBeReplaced() && !state.liquid();
         }
     };
 
@@ -82,7 +82,7 @@ public final class MagicHivePlacements {
 
             @Override
             public boolean canReplace(BlockState state, WorldGenLevel level, BlockPos pos) {
-                return state.canBeReplaced() || IHivePlacement.isTreeBlock(state);
+                return (state.canBeReplaced() && !state.liquid()) || IHivePlacement.isTreeBlock(state);
             }
         };
     }

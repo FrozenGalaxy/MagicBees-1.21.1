@@ -33,7 +33,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Projects Magic Bees' Java bee builders into Forestry's datapack species format.
  *
- * <p>Forestry 3.0.0-alpha7 contains an addon-oriented provider in its source tree, but excludes
+ * <p>Forestry 3.0.0-alpha8 contains an addon-oriented provider in its source tree, but excludes
  * {@code forestry.core.data} from the published jar. This local bridge mirrors only its projection step.</p>
  */
 public final class MagicBeeSpeciesProvider implements DataProvider {

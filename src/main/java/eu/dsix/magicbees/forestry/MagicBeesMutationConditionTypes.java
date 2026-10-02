@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 /**
- * ForestryCE 3.0.0-alpha7 exposes mutation condition types through a public NeoForge registry
+ * ForestryCE 3.0.0-alpha8 exposes mutation condition types through a public NeoForge registry
  * ({@code forestry:mutation_condition_type}). Custom conditions now register the same way as
  * items/blocks, through a {@link DeferredRegister} on the mod event bus, so no internal bridge
  * into Forestry's implementation package is required anymore.

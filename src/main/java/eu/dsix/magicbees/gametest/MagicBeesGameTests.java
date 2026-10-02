@@ -1328,6 +1328,12 @@ public final class MagicBeesGameTests {
         }
         helper.assertTrue(!eu.dsix.magicbees.forestry.hive.MagicHivePlacements.isLegacySandGround(Blocks.RED_SANDSTONE.defaultBlockState()),
                 "1.12 Blocks.RED_SANDSTONE was not part of the Resonant hive ground list");
+        for (var fluid : List.of(Blocks.WATER, Blocks.LAVA)) {
+            helper.assertTrue(!eu.dsix.magicbees.forestry.hive.MagicHivePlacements.TREE.canReplace(fluid.defaultBlockState(), helper.getLevel(), BlockPos.ZERO),
+                    "Curious hives must not replace " + fluid + " like the 1.12 tree generator");
+            helper.assertTrue(!eu.dsix.magicbees.forestry.hive.MagicHivePlacements.GROUND_DIRT.canReplace(fluid.defaultBlockState(), helper.getLevel(), BlockPos.ZERO),
+                    "Ground hives must not replace " + fluid + " like the 1.12 ground generator");
+        }
         helper.succeed();
     }
 

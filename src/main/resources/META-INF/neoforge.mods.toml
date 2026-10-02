@@ -33,7 +33,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="forestry"
 type="required"
-versionRange="[3.0.0-alpha7,3.0.0-alpha8)"
+versionRange="[3.0.0-alpha8,3.0.0-alpha9)"
 ordering="AFTER"
 side="BOTH"
 
