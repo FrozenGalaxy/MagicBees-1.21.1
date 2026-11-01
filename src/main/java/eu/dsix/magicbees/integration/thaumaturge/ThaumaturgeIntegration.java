@@ -2,8 +2,8 @@ package eu.dsix.magicbees.integration.thaumaturge;
 
 import com.leclowndu93150.thaumaturge.api.aura.AuraHelper;
 import com.leclowndu93150.thaumaturge.api.taint.TaintApi;
-import com.leclowndu93150.thaumaturge.registry.TCItems;
-import com.leclowndu93150.thaumaturge.registry.TCEntities;
+import com.leclowndu93150.thaumaturge.registry.TTItems;
+import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
 import forestry.api.apiculture.ForestryFlowerTypes;
@@ -113,7 +113,7 @@ public final class ThaumaturgeIntegration {
         registerElementalSpecies(apiculture);
         registerAdvancedSpecies(apiculture);
         apiculture.modifySpecies(MagicBees.id("brainy"), species ->
-            species.addSpecialty(new ItemStack(TCItems.BRAIN.get()), 0.20f));
+            species.addSpecialty(new ItemStack(TTItems.BRAIN.get()), 0.20f));
     }
 
     private static void registerElementalSpecies(IApicultureRegistration apiculture) {
@@ -299,7 +299,7 @@ public final class ThaumaturgeIntegration {
                         forestry.api.apiculture.ForestryBeeEffects.GLACIAL);
             })
             .addProduct(externalItem("forestry:honey_comb"), 0.10f)
-            .addSpecialty(new net.minecraft.world.item.ItemStack(TCItems.NUGGET_VOID.get()), 0.155f);
+            .addSpecialty(new net.minecraft.world.item.ItemStack(TTItems.NUGGET_VOID.get()), 0.155f);
 
         register(apiculture, "tc_wispy", "umbrabilis", false, 0x9CB8D5, 0xE15236)
             .setGenome(genome -> {
@@ -422,11 +422,11 @@ public final class ThaumaturgeIntegration {
             Level level = housing.getLevel();
             if (level != null && !level.isClientSide && level.random.nextInt(100) < SPAWN_CHANCE) {
                 var bounds = forestry.apiculture.bees.genetics.effects.ThrottledBeeEffect.getBounding(housing, genome);
-                if (level.getEntitiesOfClass(com.leclowndu93150.thaumaturge.content.entity.WispEntity.class, bounds).size() >= MAX_NEARBY_WISPS) {
+                if (level.getEntitiesOfClass(net.minecraft.world.entity.Entity.class, bounds,
+                        entity -> entity.getType() == TTEntities.WISP.get()).size() >= MAX_NEARBY_WISPS) {
                     return storedData;
                 }
-                com.leclowndu93150.thaumaturge.content.entity.WispEntity wisp =
-                        TCEntities.WISP.get().create(level);
+                var wisp = TTEntities.WISP.get().create(level);
                 if (wisp != null) {
                     BlockPos pos = housing.getBlockPos();
                     wisp.moveTo(pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
@@ -519,8 +519,8 @@ public final class ThaumaturgeIntegration {
                     var victim = candidates.get(level.random.nextInt(candidates.size()));
                     victim.hurt(level.damageSources().magic(), 1_000_000.0f);
                     var type = level.random.nextFloat() > 0.3f
-                            ? com.leclowndu93150.thaumaturge.registry.TCEntities.CULTIST_KNIGHT.get()
-                            : com.leclowndu93150.thaumaturge.registry.TCEntities.CULTIST_CLERIC.get();
+                            ? TTEntities.CULTIST_KNIGHT.get()
+                            : TTEntities.CULTIST_CLERIC.get();
                     var cultist = type.create(level);
                     if (cultist != null) {
                         cultist.moveTo(victim.getX(), victim.getY(), victim.getZ(), 0.0f, 0.0f);

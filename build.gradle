@@ -43,7 +43,7 @@ def localMavenArtifactExists = { String artifactGroup, String artifactName ->
     localMavenArtifactVersion(artifactGroup, artifactName) != null
 }
 def thaumaturgeAvailable = localMavenArtifactExists(
-        'com.leclowndu93150', 'thaumaturge')
+        'com.leclowndu93150', 'thaumaturge-1.21.1-neoforge')
 def thermalAvailable = [
         'cofh_core', 'thermal_core', 'thermal_foundation', 'thermal_expansion'
 ].every { artifact -> localMavenArtifactExists('com.teamcofh', artifact) }
@@ -317,12 +317,14 @@ dependencies {
     // Optional Thaumaturge integration. Its API and implementation source are omitted automatically when the
     // locally published artifact is unavailable, as on public CI runners.
     if (thaumaturgeAvailable) {
-        compileOnly("com.leclowndu93150:thaumaturge:${thaumaturge_version}") {
+        compileOnly("com.leclowndu93150:thaumaturge-1.21.1-neoforge:${thaumaturge_version}") {
             transitive = false
         }
-        fullAddonRuntime("com.leclowndu93150:thaumaturge:${thaumaturge_version}") {
+        fullAddonRuntime("com.leclowndu93150:thaumaturge-1.21.1-neoforge:${thaumaturge_version}") {
             transitive = false
         }
+        // Thaumaturge declares this as a required runtime mod; its main jar is loaded non-transitively above.
+        fullAddonRuntime("maven.modrinth:lithostitched:${lithostitched_version}")
     }
 
 	fullAddonRuntime "curse.maven:terrablender-neoforge-940057:6054947"
