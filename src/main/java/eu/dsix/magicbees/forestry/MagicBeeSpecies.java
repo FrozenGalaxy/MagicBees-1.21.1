@@ -3,6 +3,7 @@ package eu.dsix.magicbees.forestry;
 import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryFlowerTypes;
+import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.alleles.Allele;
@@ -11,7 +12,7 @@ import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import eu.dsix.magicbees.MagicBees;
-import forestry.apiculture.bees.genetics.effects.PotionBeeEffect;
+import forestry.core.platform.util.SpeciesUtil;
 import eu.dsix.magicbees.forestry.effect.SpawnMobBeeEffect;
 import eu.dsix.magicbees.forestry.effect.WorldTransformBeeEffect;
 import eu.dsix.magicbees.registry.MagicBeesItems;
@@ -21,6 +22,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
+
+import java.util.Map;
 
 /**
  * Code registrations for the first complete Magic Bees breeding families.
@@ -133,6 +136,15 @@ public final class MagicBeeSpecies {
     private MagicBeeSpecies() {
     }
 
+    public static Map<ResourceLocation, IBeeEffect> dataGenEffects() {
+        var factory = SpeciesUtil.BEE_TYPE.get().getEffectFactory();
+        return Map.of(
+                MagicBees.id("effect_invisibility"), factory.createPotion(false, MobEffects.INVISIBILITY, 10 * 20),
+                MagicBees.id("effect_slow_speed"), factory.createPotion(false, MobEffects.MOVEMENT_SLOWDOWN, 3 * 20),
+                MagicBees.id("effect_withering"), factory.createPotion(true, MobEffects.WITHER, 15 * 20)
+        );
+    }
+
     public static void registerInitial(IApicultureRegistration apiculture) {
         apiculture.registerBeeEffect(MagicBees.id("spawn_bat"),
                 new SpawnMobBeeEffect(net.minecraft.world.entity.EntityType.BAT, 150, 100, 5));
@@ -166,12 +178,7 @@ public final class MagicBeeSpecies {
                 new SpawnMobBeeEffect(ResourceLocation.fromNamespaceAndPath("thermal", "blitz"), 100, 80, 5));
         apiculture.registerBeeEffect(MagicBees.id("spawn_basalz"),
                 new SpawnMobBeeEffect(ResourceLocation.fromNamespaceAndPath("thermal", "basalz"), 100, 80, 5));
-        apiculture.registerBeeEffect(MagicBees.id("effect_invisibility"),
-                new PotionBeeEffect(false, MobEffects.INVISIBILITY, 10 * 20));
-        apiculture.registerBeeEffect(MagicBees.id("effect_slow_speed"),
-                new PotionBeeEffect(false, MobEffects.MOVEMENT_SLOWDOWN, 3 * 20));
-        apiculture.registerBeeEffect(MagicBees.id("effect_withering"),
-                new PotionBeeEffect(true, MobEffects.WITHER, 15 * 20));
+        dataGenEffects().forEach(apiculture::registerBeeEffect);
         apiculture.registerBeeEffect(MagicBees.id("effect_transmuting"),
                 new WorldTransformBeeEffect(WorldTransformBeeEffect.Mode.TRANSMUTING, 200));
         apiculture.registerBeeEffect(MagicBees.id("effect_crumbling"),

@@ -7,7 +7,8 @@ import eu.dsix.magicbees.registry.MagicBeesBlockEntities;
 import eu.dsix.magicbees.registry.MagicBeesCreativeTab;
 import eu.dsix.magicbees.registry.MagicBeesItems;
 import eu.dsix.magicbees.gametest.MagicBeesGameTests;
-import eu.dsix.magicbees.data.MagicBeeSpeciesProvider;
+import eu.dsix.magicbees.forestry.MagicBeeSpecies;
+import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -53,10 +54,13 @@ public final class MagicBees {
     }
 
     private static void gatherData(GatherDataEvent event) {
-        event.getGenerator().addProvider(
-                event.includeServer(),
-                new MagicBeeSpeciesProvider(event.getGenerator().getPackOutput(), event.getLookupProvider())
-        );
+        var output = event.getGenerator().getPackOutput();
+        var lookup = event.getLookupProvider();
+        var beeType = SpeciesUtil.BEE_TYPE.get();
+        event.getGenerator().addProvider(event.includeServer(),
+                beeType.createEffectProvider(output, lookup, MagicBeeSpecies.dataGenEffects()));
+        event.getGenerator().addProvider(event.includeServer(),
+                beeType.createSpeciesProvider(output, lookup, MagicBeeSpecies::registerInitial));
     }
 
     public static ResourceLocation id(String path) {

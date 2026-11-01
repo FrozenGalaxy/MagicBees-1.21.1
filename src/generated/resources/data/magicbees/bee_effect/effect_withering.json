@@ -1,0 +1,5 @@
+{
+  "type": "forestry:apply_potion",
+  "duration": 300,
+  "effect": "minecraft:wither"
+}

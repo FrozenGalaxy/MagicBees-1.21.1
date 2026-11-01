@@ -75,14 +75,11 @@ sourceSets.main.resources {
 }
 
 repositories {
-    // ForestryCE and the modern Thermal stack are installed into the developer's local Maven repository.
-    // Prefer their Maven POM publications over Gradle module metadata. The mod artifacts themselves are
-    // consumed non-transitively below because those locally published POMs also expose development-only
-    // dependencies (JEI, Ponder, ModKit, etc.) that are not Magic Bees dependencies.
+    // The modern Thermal stack is installed into the developer's local Maven repository.
+    // Prefer its Maven POM publications over Gradle module metadata.
 	mavenLocal {
 		name = 'Host Maven Local'
 		content {
-			includeGroup 'thedarkcolour.forestry'
 			includeGroup 'com.teamcofh'
 			includeGroup 'com.leclowndu93150'
 			includeGroup 'org.appliedenergistics'
@@ -268,15 +265,16 @@ dependencies {
     // Specify the version of Minecraft/NeoForge to use.
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    // Required foundation. Forestry's local alpha8 POM currently publishes a number of dependencies that
-    // are development/optional integrations of Forestry itself (JEI, Ponder and ModKit among them). Do not
-    // inherit that graph into Magic Bees: this is the same non-transitive consumption pattern used by the
-    // supplied Binnie development project.
-    implementation("thedarkcolour.forestry:forestry-1.21.1:${forestry_version}") {
+    // Forestry CE and its content jars are pinned to their CurseForge release files.
+    implementation("curse.maven:forestry-community-edition-1056828:9390077") {
         transitive = false
     }
-    fullAddonRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
-    boringClientRuntime("thedarkcolour.forestry:forestrybutterflies-1.21.1:${forestry_version}") { transitive = false }
+    fullAddonRuntime("curse.maven:forestry-ce-butterflies-1659042:9390078") { transitive = false }
+    boringClientRuntime("curse.maven:forestry-ce-butterflies-1659042:9390078") { transitive = false }
+    fullAddonRuntime("curse.maven:forestry-ce-mail-1657614:9390080") { transitive = false }
+    boringClientRuntime("curse.maven:forestry-ce-mail-1657614:9390080") { transitive = false }
+    fullAddonRuntime("curse.maven:forestry-ce-farms-1658912:9390079") { transitive = false }
+    boringClientRuntime("curse.maven:forestry-ce-farms-1658912:9390079") { transitive = false }
 
     // Forestry requires Patchouli at runtime; keep it available for every dev run,
     // including the minimal client, without making Magic Bees compile against it.
@@ -359,6 +357,8 @@ tasks.withType(ProcessResources).configureEach {
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
             loader_version_range   : loader_version_range,
+            forestry_version       : forestry_version,
+            thaumaturge_version    : thaumaturge_version,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
