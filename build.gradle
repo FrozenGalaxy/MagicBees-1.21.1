@@ -117,6 +117,7 @@ repositories {
         content {
             includeGroup 'vazkii.patchouli'
             includeGroup 'mezz.jei'
+            includeGroup 'net.mezzdev.config'
             includeGroup 'vazkii.botania'
             includeGroup 'com.hollingsworth.ars_nouveau'
             includeGroup 'com.hollingsworth.nuggets'
