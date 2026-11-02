@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.1.38'
+    id 'net.darkhax.curseforgegradle' version '1.3.33'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -389,6 +390,40 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
+    }
+}
+
+tasks.register('publishCurseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    group = 'publishing'
+    description = 'Publishes the Magic Bees JAR to CurseForge.'
+    def dryRun = project.providers.gradleProperty('curseforgeDryRun').map { it.toBoolean() }.getOrElse(false)
+    debugMode = dryRun
+    apiToken = dryRun ? 'dry-run-token' : project.file("${project.gradle.gradleUserHomeDir}/curseforge-token")
+
+    def projectId = project.providers.gradleProperty('curseforgeProjectId').orNull
+    if (projectId == null && !dryRun) {
+        doFirst {
+            throw new GradleException('Set -PcurseforgeProjectId=<id> to your CurseForge project ID before publishing.')
+        }
+    } else {
+        def mainFile = upload(projectId ?: '0', project.tasks.jar)
+        def versionBumps = project.providers.exec {
+            commandLine 'git', 'log', '--grep=^chore: bump version to', '-n', '2', '--format=%H'
+        }.standardOutput.asText.get().readLines()
+        if (versionBumps.isEmpty()) {
+            throw new GradleException('CurseForge changelog needs at least one "chore: bump version to" commit.')
+        }
+        mainFile.changelog = project.providers.exec {
+            commandLine 'git', 'log', '--reverse', '--invert-grep', '--grep=^chore: bump version to',
+                    '--format=- %s (%h)', "${versionBumps.last()}..HEAD"
+        }.standardOutput.asText.get().trim()
+        mainFile.changelogType = 'markdown'
+        disableVersionDetection()
+        mainFile.releaseType = 'release'
+        mainFile.addGameVersion(minecraft_version)
+        mainFile.addModLoader('NeoForge')
+        mainFile.addJavaVersion('Java 21')
+        mainFile.addEnvironment('Client', 'Server')
     }
 }
 
