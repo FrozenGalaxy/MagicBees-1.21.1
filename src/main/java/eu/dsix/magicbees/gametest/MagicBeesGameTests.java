@@ -1,6 +1,7 @@
 package eu.dsix.magicbees.gametest;
 
 import forestry.api.IForestryApi;
+import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryFlowerTypes;
@@ -22,6 +23,7 @@ import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.IMutation;
 import forestry.api.core.genetics.alleles.AllelePair;
 import forestry.apiculture.plugin.ApicultureRegistration;
+import forestry.core.features.CoreItems;
 import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.platform.util.SpeciesUtil;
 import eu.dsix.magicbees.MagicBees;
@@ -40,7 +42,9 @@ import eu.dsix.magicbees.forestry.effect.WorldTransformBeeEffect;
 import eu.dsix.magicbees.forestry.mutation.MoonPhaseMutationCondition;
 import eu.dsix.magicbees.forestry.mutation.RequiredBlockTagMutationCondition;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +66,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.GameType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
@@ -1335,6 +1344,224 @@ public final class MagicBeesGameTests {
                     "Ground hives must not replace " + fluid + " like the 1.12 ground generator");
         }
         helper.succeed();
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
+    public static void everyWildHiveDropWorksWithForestryScoopsAndFortune(GameTestHelper helper) {
+        ServerLevel level = (ServerLevel) helper.getLevel();
+        var enchantments = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        List<net.minecraft.world.level.block.Block> hives = List.of(
+                MagicBeesBlocks.CURIOUS_HIVE.get(), MagicBeesBlocks.UNUSUAL_HIVE.get(),
+                MagicBeesBlocks.RESONANT_HIVE.get(), MagicBeesBlocks.DEEP_HIVE.get(),
+                MagicBeesBlocks.INFERNAL_HIVE.get(), MagicBeesBlocks.OBLIVION_HIVE.get());
+
+        for (int hiveIndex = 0; hiveIndex < hives.size(); hiveIndex++) {
+            var block = (eu.dsix.magicbees.block.MagicBeeHiveBlock) hives.get(hiveIndex);
+            BlockPos relativePos = new BlockPos(1, 1, 1);
+            BlockPos pos = helper.absolutePos(relativePos);
+            helper.setBlock(relativePos, block);
+            var state = block.defaultBlockState();
+            List<forestry.api.apiculture.hives.IHiveDrop> hiveDrops = IForestryApi.INSTANCE.getHiveManager()
+                    .getDrops(block.getSpeciesId());
+            helper.assertTrue(!hiveDrops.isEmpty(), "Hive has no Forestry drop definitions: " + BuiltInRegistries.BLOCK.getKey(block));
+
+            Set<ResourceLocation> expectedBeeSpecies = new HashSet<>();
+            Set<ResourceLocation> expectedExtraItems = new HashSet<>();
+            for (var hiveDrop : hiveDrops) {
+                expectedBeeSpecies.add(hiveDrop.createIndividual(level, pos).getSpecies().id());
+                hiveDrop.getExtraItems(level, pos, 3).forEach(stack ->
+                        expectedExtraItems.add(BuiltInRegistries.ITEM.getKey(stack.getItem())));
+            }
+            helper.assertTrue(expectedBeeSpecies.contains(block.getSpeciesId()),
+                    "Hive drop definitions do not include its named bee " + block.getSpeciesId());
+
+            List<ItemStack> handDrops = block.getDrops(state, hiveLootParams(level, pos, new ItemStack(Items.STICK)));
+            helper.assertTrue(handDrops.isEmpty(), "Hand-breaking " + BuiltInRegistries.BLOCK.getKey(block)
+                    + " should not drop items; Forestry hives require a scoop");
+
+            ItemStack silkTouchScoop = new ItemStack(CoreItems.SCOOP.get());
+            silkTouchScoop.enchant(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1);
+            List<ItemStack> silkDrops = block.getDrops(state, hiveLootParams(level, pos, silkTouchScoop));
+            helper.assertTrue(silkDrops.size() == 1 && silkDrops.getFirst().is(block.asItem()),
+                    "Silk Touch scoop should preserve exactly the " + BuiltInRegistries.BLOCK.getKey(block));
+
+            for (Item scoopItem : List.of(CoreItems.SCOOP.get(), CoreItems.PROVEN_SCOOP.get())) {
+                ItemStack scoop = new ItemStack(scoopItem);
+                helper.assertTrue(scoop.is(ForestryTags.Items.SCOOPS), "Forestry scoop must belong to its SCOOPS tag: "
+                        + BuiltInRegistries.ITEM.getKey(scoopItem));
+                for (int fortune = 0; fortune <= 3; fortune++) {
+                    ItemStack fortuneScoop = scoop.copy();
+                    if (fortune > 0) {
+                        fortuneScoop.enchant(enchantments.getOrThrow(Enchantments.FORTUNE), fortune);
+                    }
+
+                    int maxDrones = 0;
+                    boolean sawPrincess = false;
+                    Set<ResourceLocation> observedBeeSpecies = new HashSet<>();
+                    Set<ResourceLocation> observedExtraItems = new HashSet<>();
+                    for (int trial = 0; trial < 16; trial++) {
+                        List<ItemStack> drops = block.getDrops(state, hiveLootParams(level, pos, fortuneScoop));
+                        int drones = 0;
+                        for (ItemStack drop : drops) {
+                            var stage = IIndividualHandlerItem.getLifeStage(drop);
+                            if (stage == BeeLifeStage.PRINCESS || stage == BeeLifeStage.DRONE) {
+                                IBee bee = (IBee) IIndividualHandlerItem.getIndividual(drop);
+                                ResourceLocation species = bee.getSpecies().id();
+                                helper.assertTrue(expectedBeeSpecies.contains(species),
+                                        "Wrong bee species dropped by " + BuiltInRegistries.BLOCK.getKey(block) + ": " + species);
+                                observedBeeSpecies.add(species);
+                                sawPrincess |= stage == BeeLifeStage.PRINCESS;
+                                drones += stage == BeeLifeStage.DRONE ? drop.getCount() : 0;
+                            } else {
+                                ResourceLocation item = BuiltInRegistries.ITEM.getKey(drop.getItem());
+                                helper.assertTrue(expectedExtraItems.contains(item), "Unexpected non-bee hive drop " + item
+                                        + " from " + BuiltInRegistries.BLOCK.getKey(block));
+                                observedExtraItems.add(item);
+                            }
+                        }
+                        maxDrones = Math.max(maxDrones, drones);
+                    }
+
+                    String context = BuiltInRegistries.BLOCK.getKey(block) + " using "
+                            + BuiltInRegistries.ITEM.getKey(scoopItem) + " at Fortune " + fortune;
+                    helper.assertTrue(sawPrincess, "Scoop did not yield a princess from " + context);
+                    helper.assertTrue(observedBeeSpecies.contains(block.getSpeciesId()),
+                            "Expected hive species was never dropped by " + context);
+                    helper.assertTrue(maxDrones >= fortune + 1, "Fortune did not yield the expected "
+                            + (fortune + 1) + " drone drops in one trial for " + context);
+                    helper.assertTrue(!observedExtraItems.isEmpty(), "No configured comb/bonus drop observed from " + context);
+                }
+            }
+        }
+        helper.succeed();
+    }
+
+    private static LootParams.Builder hiveLootParams(ServerLevel level, BlockPos pos, ItemStack tool) {
+        return new LootParams.Builder(level)
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
+                .withParameter(LootContextParams.TOOL, tool);
+    }
+
+    @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
+    public static void everyWildHiveUsesItsLegacySpawnPlacement(GameTestHelper helper) {
+        WorldGenLevel level = (WorldGenLevel) helper.getLevel();
+        List<forestry.api.apiculture.hives.IHive> magicHives = IForestryApi.INSTANCE.getHiveManager().getHives().stream()
+                .filter(hive -> MagicBees.MOD_ID.equals(BuiltInRegistries.BLOCK
+                        .getKey(hive.getHiveBlockState().getBlock()).getNamespace()))
+                .toList();
+        helper.assertTrue(magicHives.size() == 8,
+                "Expected all six legacy hives and the separate Infernal/Oblivion generation variants");
+
+        var curious = onlyHive(helper, magicHives, MagicBeesBlocks.CURIOUS_HIVE.get());
+        BlockPos treeBase = new BlockPos(2, 6, 2);
+        helper.setBlock(treeBase.above(), Blocks.OAK_LOG);
+        helper.setBlock(treeBase.above(2), Blocks.OAK_LOG);
+        helper.setBlock(treeBase.above(3), Blocks.OAK_LEAVES);
+        BlockPos absoluteTreeBase = helper.absolutePos(treeBase);
+        BlockPos treeCandidate = absoluteTreeBase;
+        helper.assertTrue(level.getBlockState(absoluteTreeBase.above()).is(Blocks.OAK_LOG),
+                "Curious hive fixture is missing its supporting tree trunk");
+        helper.assertTrue(curious.canReplace(level, treeCandidate) && curious.isValidLocation(level, treeCandidate),
+                "Curious hive tree candidate failed Forestry's replaceability/support validation");
+
+        var unusual = onlyHive(helper, magicHives, MagicBeesBlocks.UNUSUAL_HIVE.get());
+        BlockPos dirtGround = new BlockPos(5, 0, 2);
+        helper.setBlock(dirtGround, Blocks.GRASS_BLOCK);
+        BlockPos dirtCandidate = helper.absolutePos(dirtGround.above());
+        helper.assertTrue(level.getBlockState(dirtCandidate.below()).is(Blocks.GRASS_BLOCK),
+                "Unusual hive test site lost its legacy dirt/grass ground");
+        helper.assertTrue(unusual.canReplace(level, dirtCandidate) && unusual.isValidLocation(level, dirtCandidate),
+                "Unusual hive failed its legacy ground placement checks");
+
+        BlockPos wetGround = new BlockPos(5, 0, 6);
+        helper.setBlock(wetGround, Blocks.DIRT);
+        helper.setBlock(wetGround.above(), Blocks.WATER);
+        BlockPos wetCandidate = helper.absolutePos(wetGround.above(2));
+        helper.assertTrue(!unusual.canReplace(level, wetCandidate) || !unusual.isValidLocation(level, wetCandidate),
+                "Unusual hive must reject a water-covered candidate instead of generating underwater");
+
+        var resonant = onlyHive(helper, magicHives, MagicBeesBlocks.RESONANT_HIVE.get());
+        BlockPos sandGround = new BlockPos(8, 0, 2);
+        helper.setBlock(sandGround, Blocks.RED_SAND);
+        BlockPos sandCandidate = helper.absolutePos(sandGround.above());
+        helper.assertTrue(level.getBlockState(sandCandidate.below()).is(Blocks.RED_SAND),
+                "Resonant hive test site lost its legacy sand ground");
+        helper.assertTrue(resonant.canReplace(level, sandCandidate) && resonant.isValidLocation(level, sandCandidate),
+                "Resonant hive failed its legacy ground placement checks");
+
+        var deep = onlyHive(helper, magicHives, MagicBeesBlocks.DEEP_HIVE.get());
+        assertUndergroundHivePlacement(helper, level, deep, new BlockPos(11, 0, 2), 10, 15, 5, 11L,
+                "Deep hive");
+
+        var infernalHives = hivesForBlock(magicHives, MagicBeesBlocks.INFERNAL_HIVE.get());
+        var infernalNether = hiveWithChance(helper, infernalHives, 50.0f);
+        var infernalOverworld = hiveWithChance(helper, infernalHives, 0.95f);
+        assertNetherHivePlacement(helper, level, infernalNether, new BlockPos(14, 0, 2), 23L);
+        assertUndergroundHivePlacement(helper, level, infernalOverworld, new BlockPos(2, 0, 11), 5, 13, 6, 29L,
+                "Infernal Overworld hive");
+
+        var oblivionHives = hivesForBlock(magicHives, MagicBeesBlocks.OBLIVION_HIVE.get());
+        var oblivionEnd = hiveWithChance(helper, oblivionHives, 20.0f);
+        var oblivionOverworld = hiveWithChance(helper, oblivionHives, 0.87f);
+        assertEndHivePlacement(helper, level, oblivionEnd, new BlockPos(8, 10, 11));
+        assertUndergroundHivePlacement(helper, level, oblivionOverworld, new BlockPos(14, 0, 11), 5, 5, 5, 31L,
+                "Oblivion Overworld hive");
+
+        helper.succeed();
+    }
+
+    private static void assertUndergroundHivePlacement(GameTestHelper helper, WorldGenLevel level,
+                                                       forestry.api.apiculture.hives.IHive hive, BlockPos origin,
+                                                       int minY, int range, int surroundCount, long seed, String name) {
+        RandomSource expectedRandom = RandomSource.create(seed);
+        int expectedY = minY + expectedRandom.nextInt(range);
+        int templateOriginY = helper.absolutePos(BlockPos.ZERO).getY();
+        BlockPos expectedRelativePos = new BlockPos(origin.getX(), expectedY - templateOriginY, origin.getZ());
+        BlockPos expectedPos = helper.absolutePos(expectedRelativePos);
+        helper.setBlock(expectedRelativePos, Blocks.STONE);
+        for (Direction direction : Direction.values()) {
+            helper.setBlock(expectedRelativePos.relative(direction), Blocks.STONE);
+        }
+
+        BlockPos candidate = hive.getPosForHive(level, RandomSource.create(seed), expectedPos.getX(), expectedPos.getZ());
+        helper.assertTrue(expectedPos.equals(candidate), name + " left its legacy Y range or changed seeded placement");
+        helper.assertTrue(hive.canReplace(level, candidate), name + " candidate is not replaceable legacy stone");
+        helper.assertTrue(hive.isValidLocation(level, candidate), name + " candidate lacks its " + surroundCount
+                + " required surrounding stone blocks");
+    }
+
+    private static void assertNetherHivePlacement(GameTestHelper helper, WorldGenLevel level,
+                                                  forestry.api.apiculture.hives.IHive hive, BlockPos origin, long seed) {
+        RandomSource expectedRandom = RandomSource.create(seed);
+        int expectedY = expectedRandom.nextInt(175);
+        int templateOriginY = helper.absolutePos(BlockPos.ZERO).getY();
+        BlockPos expectedRelativePos = new BlockPos(origin.getX(), expectedY - templateOriginY, origin.getZ());
+        BlockPos expectedPos = helper.absolutePos(expectedRelativePos);
+        helper.setBlock(expectedRelativePos, Blocks.NETHERRACK);
+        for (Direction direction : Direction.values()) {
+            helper.setBlock(expectedRelativePos.relative(direction), Blocks.NETHERRACK);
+        }
+
+        BlockPos candidate = hive.getPosForHive(level, RandomSource.create(seed), expectedPos.getX(), expectedPos.getZ());
+        helper.assertTrue(expectedPos.equals(candidate), "Infernal Nether hive changed its legacy 0-174 Y placement");
+        helper.assertTrue(hive.canReplace(level, candidate) && hive.isValidLocation(level, candidate),
+                "Infernal Nether hive candidate failed netherrack host validation");
+    }
+
+    private static void assertEndHivePlacement(GameTestHelper helper, WorldGenLevel level,
+                                               forestry.api.apiculture.hives.IHive hive, BlockPos expectedPos) {
+        int templateOriginY = helper.absolutePos(BlockPos.ZERO).getY();
+        BlockPos expectedRelativePos = new BlockPos(expectedPos.getX(), 10 - templateOriginY, expectedPos.getZ());
+        BlockPos absoluteExpectedPos = helper.absolutePos(expectedRelativePos);
+        helper.setBlock(expectedRelativePos, Blocks.END_STONE);
+        for (Direction direction : Direction.values()) {
+            helper.setBlock(expectedRelativePos.relative(direction), Blocks.END_STONE);
+        }
+        helper.setBlock(expectedRelativePos.below(2), Blocks.AIR);
+        helper.setBlock(expectedRelativePos.below(3), Blocks.AIR);
+
+        helper.assertTrue(hive.canReplace(level, absoluteExpectedPos) && hive.isValidLocation(level, absoluteExpectedPos),
+                "Oblivion End hive candidate failed its End Stone surround/clearance checks");
     }
 
     @GameTest(templateNamespace = MagicBees.MOD_ID, template = "empty")
