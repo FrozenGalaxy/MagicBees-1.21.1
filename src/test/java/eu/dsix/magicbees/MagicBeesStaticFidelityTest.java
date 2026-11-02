@@ -82,6 +82,22 @@ class MagicBeesStaticFidelityTest {
     }
 
     @Test
+    void optionalManasteelScoopDoesNotBreakForestryScoopTagWithoutBotania() throws IOException {
+        JsonObject scoopTag = JsonParser.parseString(resource("data/forestry/tags/item/scoops.json")).getAsJsonObject();
+        var values = scoopTag.getAsJsonArray("values");
+        boolean manasteelScoopIsOptional = false;
+        for (var value : values) {
+            if (value.isJsonObject()
+                    && "magicbees:manasteelscoop".equals(value.getAsJsonObject().get("id").getAsString())) {
+                manasteelScoopIsOptional = value.getAsJsonObject().has("required")
+                        && !value.getAsJsonObject().get("required").getAsBoolean();
+            }
+        }
+        assertTrue(manasteelScoopIsOptional,
+                "The Botania-only Manasteel Scoop must be an optional entry in Forestry's scoop tag");
+    }
+
+    @Test
     void everyRawTranslatableKeyUsedByCodeHasEnglishTranslation() throws IOException {
         JsonObject language = JsonParser.parseString(resource("assets/magicbees/lang/en_us.json")).getAsJsonObject();
         Set<String> required = new TreeSet<>();
