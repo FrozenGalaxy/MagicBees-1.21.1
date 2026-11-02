@@ -170,6 +170,8 @@ configurations {
     fullAddonRuntime
     // Supported integrations that can be resolved without the local-only Thaumaturge or Thermal development builds.
     boringClientRuntime
+    // Client inspection extras kept separate from every optional addon integration.
+    minimalClientRuntime
 }
 
 // Default run configurations.
@@ -203,10 +205,12 @@ runs {
 
     clientMinimal {
         runType 'client'
-        // Lean client for checking Magic Bees against Forestry without optional addon integrations.
+        // Forestry + Magic Bees, with only JEI/Patchouli and Jade as development inspection tools.
         configureFromTypeWithName false
         configureFromDependencies false
         runtimeClasspath configurations.runtimeClasspath
+        runtimeClasspath configurations.localRuntime
+        runtimeClasspath configurations.minimalClientRuntime
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
@@ -280,6 +284,7 @@ dependencies {
     // including the minimal client, without making Magic Bees compile against it.
     localRuntime "vazkii.patchouli:Patchouli:${patchouli_version}"
     localRuntime "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
+    minimalClientRuntime "maven.modrinth:jade:${jade_version}"
     compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
 
